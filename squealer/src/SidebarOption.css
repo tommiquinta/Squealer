@@ -26,3 +26,29 @@
 .sidebarOption--active{
     color: var(--twitter-color);
 }
+
+
+/*da qui sono modifiche di Ari*/
+.side-option{
+    background-color: transparent;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding:10px;
+    border-radius: 25px;
+    border: 1px solid #1b263b;
+    align-items: center;
+    width: fit-content;
+  }
+  
+  .side-option:hover{
+    background-color: #415a77;
+  }
+  
+  .side-option p{
+    margin: 0px 0px 0px 5px;
+    color: white;
+    font-size: 18pt;
+    letter-spacing: 0.05em;
+  }
+

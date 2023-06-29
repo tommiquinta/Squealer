@@ -1,8 +1,116 @@
 body{
+
     --twitter-color: #50b7f5; 
-    --twitter-background: #e6ecf0;
+    /*--twitter-background: #e6ecf0;*/
+    background-color: #22223b;
 }
 
 .app{
     display: flex;
+ 
+}
+
+.main-tl{
+  display: flex;
+  flex-direction: row;
+}
+
+hr{
+  border: 0.05em solid #778da9;
+}
+
+.vl {
+  height: 100em;
+  margin: 0px;
+}
+
+.left-menu{
+  width:20%;
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  padding: 30px;
+  padding-left: 50px;
+}
+
+
+.time-line{
+  width:45%;
+}
+
+.header{
+  width:45%;
+  background-color: rgba(34, 34, 59, 0.6);
+  position: fixed;
+}
+
+#focus-page{
+  margin: 10px 0px 10px 20px; 
+  color: white;
+  font-weight: 600;
+  font-size: 18pt;
+}
+
+.btns{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.headerBtns{
+  width:50%;
+  height: 41px;
+  padding: 10px;
+  color:  #6B89B3;
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+  font-size: 10pt;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.headerBtns:hover{
+  background-color: #415a77;
+}
+
+.header hr{
+  margin:0px;
+}
+
+.selected{
+  color:white;
+}
+
+.blueBar{
+  width:15%;
+  height:5px;
+  background-color: cornflowerblue;
+  border-radius: 20px;
+  transform: translateY(11px);
+  display: none;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

@@ -15,3 +15,12 @@ A simple Twitter clone developed for educational purpose in a Web Technologies c
 1. Download or clone the repository;
 2. For the first time, in the "squealer" folder, type ```npm install``` and then ```npm start.```;
 3. For next times, just type ```npm start```.
+
+
+Nel caso in cui non si apra automaticamente il browser o segnali un errore eseguire ```npm install``` e successivamente ```npm start```
+
+
+
+** Libreria utilizzata per le icone: **
+https://mui.com/material-ui/getting-started/overview/
+

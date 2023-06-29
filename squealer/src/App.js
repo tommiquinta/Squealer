@@ -1,24 +1,33 @@
 import React from "react";
-import Sidebar from "./Sidebar";
-import Feed from "./Feed";
-import Widget from "./Widget";
 import './App.css';
+import Sidebar from './Sidebar';
+import TimeLine from './TimeLine';
+import Widget from './Widget';
+
+// sto usando questa palette qui per ora: https://coolors.co/0d1b2a-1b263b-415a77-778da9-e0e1dd
+//sto seguendo questo tutorial qui: https://www.youtube.com/watch?v=rJjaqSTzOxI 
 
 
 function App() {
   return (
-    <div className="app">
 
-      
-      {/* Sidebar */}
-      <Sidebar />
-
-      {/* Feed */}
-      <Feed />
-
-
-      {/* Widgets */}
-      <Widget />
+    <div className="App">
+      <main class="main-tl">
+      <section class="left-menu">
+        {/* Sidebar */}
+        <Sidebar/>
+      </section>
+        <hr class="vl"/>
+        <section class="time-line">
+          {/* Feed */}
+          <TimeLine/>
+        </section>
+        <hr class="vl"/>
+        <section>
+          {/* Widgets */}
+          <Widget/>
+        </section>
+      </main>
 
     </div>
   );

@@ -35,8 +35,7 @@ function Sidebar() {
 
             <SidebarOption Icon={MoreHorizIcon} text="Settings" />
 
-            <Button variant='outlined' className='sidebar__tweet' fullWidth>Tweet</Button>
-            {/* TODO sistemare il tasto tweet che fa pietà*/}
+            <Button variant='outlined' id='sidebar__tweet' fullWidth>Tweet</Button>
         </div>
     );
 }
