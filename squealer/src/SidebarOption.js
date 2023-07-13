@@ -10,14 +10,17 @@ import React from "react";
 import './SidebarOption.css';
 
 
-function SidebarOption({text, Icon}){
+function SidebarOption({active, text, Icon}){
+    if(!active)
+        active= false;
     return(
-        <button class="side-option">
-          <Icon sx={{ color:'white' }}  fontSize="large"/>
+        <button className={ `sidebarOption ${active && 'sidebarOption--active'}`} onclick="active diventa true">
+          <Icon sx={{ color:'#92a4ba' }}  fontSize="large"/>
             <p>{text}</p>
           </button>
 
     );
 }
+
 
 export default SidebarOption;

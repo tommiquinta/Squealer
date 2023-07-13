@@ -19,7 +19,7 @@ function Sidebar() {
 
             <TwitterIcon />
 
-            <SidebarOption active Icon={HomeIcon} text="Home" />
+            <SidebarOption active="true" Icon={HomeIcon} text="Home"/>
 
             <SidebarOption Icon={SearchIcon} text="Explore" />
 

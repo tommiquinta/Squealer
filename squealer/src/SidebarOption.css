@@ -2,18 +2,27 @@
     display: flex;
     align-items: center;
     cursor: pointer;
+    background-color: transparent;
+    border:none;
+    border-radius: 25px;
+    align-items: center;
+    width: fit-content;
+    color: #92a4ba;
 }
 
 .sidebarOption:hover{
-    background-color: #e8f5fe;
+    background-color: #415a77;
     border-radius: 30px;
     color: var(--twitter-color);
     transition: color 100ms ease-out;
-
+}
+.sidebarOption:hover > .MuiSvgIcon-root{
+    color: var(--twitter-color);
+    transition: color 100ms ease-out;
 }
 
 .sidebarOption > .MuiSvgIcon-root{
-    padding: 20px;
+    padding: 10px;
     border-radius: 30px;
 }
 
@@ -24,31 +33,27 @@
 }
 
 .sidebarOption--active{
-    color: var(--twitter-color);
+    color: white;
+    font-weight: bold;
+}
+.sidebarOption--active > .MuiSvgIcon-root{
+    color: white;
+}
+.sidebarOption--active:hover > .MuiSvgIcon-root{
+    color: white;
+}
+
+.sidebarOption p{
+    margin: 0px 5px 0px 0px;
+    font-size: 18pt;
+    letter-spacing: 0.05em;
+}
+
+.sidebarOption--active p{
+    color: white;
+    font-weight: bold;
 }
 
 
-/*da qui sono modifiche di Ari*/
-.side-option{
-    background-color: transparent;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    padding:10px;
-    border-radius: 25px;
-    border: 1px solid #1b263b;
-    align-items: center;
-    width: fit-content;
-  }
   
-  .side-option:hover{
-    background-color: #415a77;
-  }
-  
-  .side-option p{
-    margin: 0px 0px 0px 5px;
-    color: white;
-    font-size: 18pt;
-    letter-spacing: 0.05em;
-  }
 
