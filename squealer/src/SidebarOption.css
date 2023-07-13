@@ -1,59 +1,58 @@
-.sidebarOption{
+.sidebarOption {
     display: flex;
     align-items: center;
     cursor: pointer;
     background-color: transparent;
-    border:none;
+    border: none;
     border-radius: 25px;
     align-items: center;
     width: fit-content;
     color: #92a4ba;
 }
 
-.sidebarOption:hover{
+.sidebarOption:hover {
     background-color: #415a77;
     border-radius: 30px;
     color: var(--twitter-color);
     transition: color 100ms ease-out;
 }
-.sidebarOption:hover > .MuiSvgIcon-root{
+
+.sidebarOption:hover>.MuiSvgIcon-root {
     color: var(--twitter-color);
     transition: color 100ms ease-out;
 }
 
-.sidebarOption > .MuiSvgIcon-root{
+.sidebarOption>.MuiSvgIcon-root {
     padding: 10px;
     border-radius: 30px;
 }
 
-.sidebarOption > h2{
+.sidebarOption>h2 {
     font-weight: 800;
     font-size: 20px;
     margin-right: 20px;
 }
 
-.sidebarOption--active{
+.sidebarOption--active {
     color: white;
     font-weight: bold;
 }
-.sidebarOption--active > .MuiSvgIcon-root{
-    color: white;
-}
-.sidebarOption--active:hover > .MuiSvgIcon-root{
+
+.sidebarOption--active>.MuiSvgIcon-root {
     color: white;
 }
 
-.sidebarOption p{
+.sidebarOption--active:hover>.MuiSvgIcon-root {
+    color: white;
+}
+
+.sidebarOption p {
     margin: 0px 5px 0px 0px;
     font-size: 18pt;
     letter-spacing: 0.05em;
 }
 
-.sidebarOption--active p{
+.sidebarOption--active p {
     color: white;
     font-weight: bold;
 }
-
-
-  
-
