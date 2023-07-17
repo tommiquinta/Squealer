@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Post from './Post';
 function TimeLine() {
 
   function select(idBtn) {
@@ -30,10 +30,10 @@ function TimeLine() {
             <div class="blueBar"></div>
           </button>
         </div>
-        <hr />
       </div>
+      {/* TweetBox */}
       <div class="tweet">
-
+        <Post />
       </div>
     </div>
   );
