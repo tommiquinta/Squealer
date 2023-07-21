@@ -17,9 +17,9 @@ function Post({ username, img, text, avatar }) {
         <div className="post">
             <div className="avatar-container">
                 <div className="avatar">
-                    <Avatar src="https://w7.pngwing.com/pngs/819/779/png-transparent-green-and-white-egg-illustration-mario-yoshi-super-mario-world-super-mario-bros-yoshi-super-mario-bros-nintendo-video-game.png" alt="Avatar"></Avatar>
+                    <Avatar src="https://download.seaicons.com/icons/ph03nyx/super-mario/256/Yoshis-Egg-icon.png" alt="Avatar"></Avatar>
                 </div>
-                <div className="avatar-username">username</div>
+                <div className="avatar-username">Yoshi</div>
                 {/* <div className="avatar-username">{username}</div> */}
             </div>
             <div className="tweet-content">

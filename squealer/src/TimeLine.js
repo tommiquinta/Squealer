@@ -1,5 +1,6 @@
 import React from 'react';
 import Post from './Post';
+import Tweetbox from './Tweetbox';
 import './TimeLine.css';
 
 function TimeLine() {
@@ -33,9 +34,14 @@ function TimeLine() {
           </button>
         </div>
       </div>
-      {/* TweetBox */}
-      <div class="TweetBox">
-        <Post />
+      {/* Per aggiungere un tweet */}
+      <div className='Tweetbox'>
+        <Tweetbox></Tweetbox>
+
+      </div>
+
+      {/* Il vero Feed */}
+      <div className="post-container">
         <Post />
         <Post />
       </div>

@@ -5,12 +5,14 @@
     border: 0.1px solid #415a77;
     padding: 12px;
     background-color: #22223b;
-    font-size: 14px;   
-    color: white;        
+    font-size: 14px;
+    color: white;
 }
 
-.post img {
-    max-width: fit-content;
+/* non mi piacciono molto gli hover in cui cambia il background color ma ok */
+.post:hover {
+    background-color: #415a77;
+    cursor: pointer;
 }
 
 /* container per allineare Avatar e Username */
@@ -42,17 +44,20 @@
     max-height: 2160px;
     object-fit: fill;
     border-radius: 4px;
+    max-width: fit-content;
 }
 
-/* Footer icons styling */
+/* Footer icone */
 .footer {
     margin-top: auto;
     display: flex;
     justify-content: space-between;
 }
 
-.footer:hover{
-    /* TODO */
+.footer:hover {
+    /*TODO* 
+        aggiungere i colori per le varie icone, come il rosso per il cuore e il verde per il retweet 
+    */
 }
 
 
@@ -62,10 +67,4 @@
 
 .icon {
     margin-right: 12px;
-}
-
-/* Optional: Add hover effect */
-.post:hover {
-    background-color: #415a77;
-    cursor: pointer;
 }
