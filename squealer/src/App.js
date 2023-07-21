@@ -3,7 +3,6 @@ import './App.css';
 import Sidebar from './Sidebar';
 import TimeLine from './TimeLine';
 import Widgets from './Widgets';
-import Post from './Post';
 
 
 // sto usando questa palette qui per ora: https://coolors.co/0d1b2a-1b263b-415a77-778da9-e0e1dd

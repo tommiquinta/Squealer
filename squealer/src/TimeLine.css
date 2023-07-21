@@ -1,1 +1,11 @@
 /* TODO */
+
+.headerTL {
+    -webkit-box-align: start;
+    align-items: flex-start;
+}
+
+.TweetBox {
+    margin-top: 2.5%;
+    position: relative;
+}

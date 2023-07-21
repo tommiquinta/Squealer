@@ -1,5 +1,7 @@
 import React from 'react';
 import Post from './Post';
+import './TimeLine.css';
+
 function TimeLine() {
 
   function select(idBtn) {
@@ -20,7 +22,7 @@ function TimeLine() {
 
   return (
     <div>
-      <div class="header">
+      <div className="headerTL">
         <p id="focus-page">Home</p>
         <div class="btns">
           <button id="forYouBtn" onClick={() => select('forYouBtn')} class="headerBtns selected">For you
@@ -32,7 +34,9 @@ function TimeLine() {
         </div>
       </div>
       {/* TweetBox */}
-      <div class="tweet">
+      <div class="TweetBox">
+        <Post />
+        <Post />
         <Post />
       </div>
     </div>
