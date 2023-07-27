@@ -1,5 +1,5 @@
 import React from "react";
-import './Post.css';
+import './/CSS/Squeal.css';
 
 import { Avatar } from "@mui/material";
 
@@ -11,26 +11,27 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 
 // il Post è una componente che avrà un nome e/o username, avatar, immagine, campo di testo e le reazioni come like, commento e retweet 
 
-// function Post({ props }) {
-function Post({ username, img, text, avatar }) {
+// function Post({ squeal }) {
+function Squeal({ username, img, text, avatar }) {
     return (
         <div className="post">
             <div className="avatar-container">
                 <div className="avatar">
-                    <Avatar src="https://download.seaicons.com/icons/ph03nyx/super-mario/256/Yoshis-Egg-icon.png" alt="Avatar"></Avatar>
+                    <Avatar src={avatar} alt="Avatar" />
+                    {/* <Avatar src="https://download.seaicons.com/icons/ph03nyx/super-mario/256/Yoshis-Egg-icon.png" alt="Avatar"></Avatar> */}
                 </div>
-                <div className="avatar-username">Yoshi</div>
-                {/* <div className="avatar-username">{username}</div> */}
+                {/* <div className="avatar-username">Yoshi</div> */}
+                <div className="avatar-username">{username}</div>
             </div>
-            <div className="tweet-content">
-                SONO UN POST CARINISSIMO
-            </div>
-            {/* <div className="tweet-content">{text}</div> */}
-            
+            {/* <div className="tweet-content">
+                    SONO UN POST CARINISSIMO
+                </div> */}
+            <div className="tweet-content">{text}</div>
+
             <div className="body">
-                {/* <div className="img">{img}</div> */}
                 <div className="img">
-                    <img src="https://i.pinimg.com/originals/5a/3e/b0/5a3eb00df5875bd66cd2e9bc9abfd083.jpg" alt="Post Image"></img>
+                    <img className="img" src={img} />
+                    {/* <img src="https://i.pinimg.com/originals/5a/3e/b0/5a3eb00df5875bd66cd2e9bc9abfd083.jpg" alt="Post Image"></img> */}
                 </div>
             </div>
             <div className="footer">
@@ -44,4 +45,4 @@ function Post({ username, img, text, avatar }) {
     )
 };
 
-export default Post;
+export default Squeal;

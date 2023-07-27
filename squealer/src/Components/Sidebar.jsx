@@ -10,8 +10,8 @@ import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 import Button from '@mui/material-next/Button';
-import SidebarOption from './SidebarOption';
-import "./Sidebar.css";
+import SidebarOption from './/SidebarOption';
+import ".//CSS/Sidebar.css";
 
 function Sidebar() {
     return (

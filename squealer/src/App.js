@@ -1,9 +1,9 @@
 import React from "react";
 import './App.css';
 
-import Sidebar from './Sidebar';
-import TimeLine from './TimeLine';
-import Widgets from './Widgets';
+import Sidebar from './/Components/Sidebar.jsx';
+import TimeLine from './/Components/TimeLine.jsx';
+import Widgets from './/Components/Widgets.jsx';
 
 
 // sto usando questa palette qui per ora: https://coolors.co/0d1b2a-1b263b-415a77-778da9-e0e1dd
@@ -15,15 +15,18 @@ function App() {
 
     <div className="App">
       <main class="main-tl">
+
         <section class="left-menu">
           {/* Sidebar */}
           <Sidebar />
         </section>
+
         <hr class="vl" />
         <section class="timeline">
           {/* TL */}
           <TimeLine />
         </section>
+
         <hr class="vl" />
         <section>
           {/* Widgets */}

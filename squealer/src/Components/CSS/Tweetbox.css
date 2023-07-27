@@ -1,7 +1,3 @@
-/*  TODO
-    Sistemare il problema della poca flessibilità del bottone, ovvero che quando la pagina cambia dimensione
-    il bottone impazzisce e diventa incoerente con la pagina
-*/
 .TweetBox {
     padding-bottom: 5%;
     border-bottom: 5%;
@@ -28,9 +24,8 @@
 
 /* UIverse */
 .bottone {
-    position: absolute;
-    left: 63%;
-    top: 25%;
+    position: sticky;
+    left: 84%;
     padding: 10px 22px;
     border-radius: 6px;
     border: none;
@@ -40,7 +35,7 @@
     transition: all 0.2s ease;
 }
 
-.bottone:active {
+.bottone:active {   
     transform: scale(0.96);
 }
 

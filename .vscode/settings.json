@@ -1,3 +1,23 @@
 {
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "README.md": true,
+        "**/README.md": true,
+        ".gitignore": true,
+        "**/.gitignore": true,
+        "**/package.json": true,
+        "package.json": true,
+        "package-lock.json": true,
+        "**/package-lock.json": true,
+        ".vscode/**": true,
+        "**/node_modules": true,
+        "**/.vscode": true
+    },
+    "explorerExclude.backup": {}
 }

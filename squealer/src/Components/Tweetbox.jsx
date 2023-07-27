@@ -2,7 +2,7 @@ import React from 'react';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
 import { styled } from '@mui/system';
 import { Avatar } from '@mui/material';
-import './Tweetbox.css';
+import './CSS/Tweetbox.css';
 
 
 // Queste enità servono per creare la StyledTextarea, ovvero una componente che si estende da sola qunado raggiunge la dimensione massima
