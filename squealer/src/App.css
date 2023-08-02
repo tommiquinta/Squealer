@@ -38,10 +38,12 @@ hr {
   width: 45%;
 }
 
-.header {
+#header {
   width: 45%;
   background-color: rgba(34, 34, 59, 0.6);
   position: fixed;
+  z-index: 10;
+  top:0px;
 }
 
 #focus-page {
