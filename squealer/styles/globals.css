@@ -19,6 +19,7 @@
 body {
   background-color: #f5f7fb;
   color: #333;
+  bg-socialBlue: rgb(54, 164, 238);
   /* color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
