@@ -1,12 +1,16 @@
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import Avatar from './Avatar'
 import Card from './Card'
+import { SyncLoader } from 'react-spinners'
 import { useEffect, useState } from 'react'
 import { useSession } from '@supabase/auth-helpers-react'
+import Preloader from './Preloader'
 
-export default function PostFormCard ({ onPost }) {
+export default function PostFormCard({ onPost }) {
   const [profile, setProfile] = useState(null)
   const [daily_quota, setDaily_quota] = useState()
+  const [uploads, setUploads] = useState([])
+  const [isUploading, setIsUploading] = useState(false)
   const [content, setContent] = useState()
   const supabase = useSupabaseClient()
   const session = useSession()
@@ -35,14 +39,15 @@ export default function PostFormCard ({ onPost }) {
 
   // console.log(profile)
 
-  function createPost () {
+  function createPost() {
     if (content && content.trim() !== '') {
       // cheack if the post is not empty
       supabase
         .from('posts')
         .insert({
           author: session.user.id, // in the database rules we have a check to control who actually clicks on "share"
-          content
+          content,
+          photos: uploads,
         })
         .then(response => {
           if (!response.error) {
@@ -64,6 +69,7 @@ export default function PostFormCard ({ onPost }) {
                 }
               })
 
+            setUploads([]);
             if (onPost) {
               onPost() // function to fill home with posts in index.js
             }
@@ -71,6 +77,30 @@ export default function PostFormCard ({ onPost }) {
         })
     }
   }
+
+  //https://fzhzqznaucvfclbaadpa.supabase.co/storage/v1/object/public/photos/1691597003355ChallengingMario.jpeg?t=2023-08-09T16%3A03%3A50.136Z
+  async function addPhotos(ev) {
+    const files = ev.target.files;
+    if (files.length > 0) {
+      setIsUploading(true)
+      for (const file of files) {
+        const newName = Date.now() + file.name;
+        const result = await supabase
+          .storage
+          .from('photos')
+          .upload(newName, file)
+
+        if (result.data) {
+          const url = process.env.NEXT_PUBLIC_SUPABASE_URL + '/storage/v1/object/public/photos/' + result.data.path
+          setUploads(prevUploads => [...prevUploads, url])
+        } else {
+          console.log(result);
+        }
+      }
+      setIsUploading(false);
+    }
+  }
+
 
   return (
     <div className='mb-5'>
@@ -87,9 +117,69 @@ export default function PostFormCard ({ onPost }) {
             placeholder={`What's on your mind, ${profile && profile.name}?`}
           />
         </div>
+
+        {/* <div>
+          {uploads.length > 0 && (
+            <div className='flex gap-2.5 mt-4'>
+              {uploads.map(upload => (
+                <div className=''>
+                  <img src={upload} className="w-auto h-40 rounded-md" alt="" />
+                </div>
+              ))}
+            </div>
+          )}
+        </div> */}
+
+        <div className=''>
+          {uploads.length > 0 && (
+            <div className='mt-4'>
+              {uploads.length === 4 ? (
+                <table className="w-full">
+                  <tbody>
+                    <tr>
+                      <td className="p-2">
+                        <img src={uploads[0]} className="w-full h-auto rounded-md object-cover" alt="" />
+                      </td>
+                      <td className="p-2">
+                        <img src={uploads[1]} className="w-full h-auto rounded-md object-cover" alt="" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="p-2">
+                        <img src={uploads[2]} className="w-full h-auto rounded-md object-cover" alt="" />
+                      </td>
+                      <td className="p-2">
+                        <img src={uploads[3]} className="w-full h-auto rounded-md object-cover" alt="" />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              ) : (
+                <div className='flex gap-2.5'>
+                  {uploads.map(upload => (
+                    <div className='' key={upload}>
+                      <img src={upload} className="w-auto h-40 rounded-md object-cover" alt="" />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+
+
+        {isUploading && (
+          <div className=''>
+            <Preloader />
+          </div>
+        )}
+
+
         <div className=' flex gap-6 items-center mt-2'>
           <div>
-            <button className='flex gap-1'>
+            <label className='flex gap-1'>
+              <input type='file' className='hidden' multiple onChange={addPhotos} />
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
@@ -105,7 +195,7 @@ export default function PostFormCard ({ onPost }) {
                 />
               </svg>
               Image
-            </button>
+            </label>
           </div>
           <div>
             <button className='flex gap-1'>

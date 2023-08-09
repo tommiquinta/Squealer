@@ -10,6 +10,7 @@ export default function NavigationBar () {
   }
 
   return (
+    
     <Card>
       <div className='px-4 py-2'>
         <h2 className='text-gray-400 mb-3 text-center text-3xl'>Squealer</h2>
