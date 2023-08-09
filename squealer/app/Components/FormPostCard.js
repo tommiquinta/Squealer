@@ -6,6 +6,7 @@ import { useSession } from '@supabase/auth-helpers-react'
 
 export default function PostFormCard ({ onPost }) {
   const [profile, setProfile] = useState(null)
+  const [daily_quota, setDaily_quota] = useState(profile?.daily_quota)
   const [content, setContent] = useState()
   const supabase = useSupabaseClient()
   const session = useSession()
@@ -45,22 +46,52 @@ export default function PostFormCard ({ onPost }) {
         .then(response => {
           if (!response.error) {
             setContent('')
+            const newDailyQuota = profile.daily_quota - content.length
+            console.log(newDailyQuota)
+
+            supabase
+              .from('profiles')
+              .update({
+                daily_quota: newDailyQuota
+              })
+              .eq('id', session.user.id)
+              .then(response => {
+                if (!response.error) {
+                  setDaily_quota(newDailyQuota) // update local dailyQuota
+                } else {
+                  console.error(
+                    "daily quota update error.",
+                    response.error
+                  )
+                }
+              })
+
             if (onPost) {
-              onPost()
+              onPost() // function to fill home with posts in index.js
             }
           }
         })
     }
   }
 
+  function updateDailyQuota () {
+    supabase
+      .from('profiles')
+      .update({ daily_quota: 2000 })
+      .eq('id', session.user.id)
+  }
+
   return (
-    <div className='mb-10'>
+    <div className='mb-5'>
       <Card>
         <div className='flex gap-3'>
           {profile && <Avatar url={profile.avatar} />}
           <textarea
             value={content}
-            onChange={e => setContent(e.target.value)}
+            onChange={e => {
+              setContent(e.target.value)
+              setDaily_quota(profile.daily_quota - e.target.value.length)
+            }}
             className='grow p-3 h-18'
             placeholder={`What's on your mind, ${profile && profile.name}?`}
           />
@@ -70,14 +101,16 @@ export default function PostFormCard ({ onPost }) {
             <button className='flex gap-1'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
-                height='1em'
-                viewBox='0 0 512 512'
-                className='w-6 h-6 mr-1'
+                fill='none'
+                viewBox='0 0 24 24'
+                stroke-width='1.5'
+                stroke='currentColor'
+                class='w-6 h-6'
               >
                 <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M448 80c8.8 0 16 7.2 16 16V415.8l-5-6.5-136-176c-4.5-5.9-11.6-9.3-19-9.3s-14.4 3.4-19 9.3L202 340.7l-30.5-42.7C167 291.7 159.8 288 152 288s-15 3.7-19.5 10.1l-80 112L48 416.3l0-.3V96c0-8.8 7.2-16 16-16H448zM64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm80 192a48 48 0 1 0 0-96 48 48 0 1 0 0 96z'
+                  stroke-linecap='round'
+                  stroke-linejoin='round'
+                  d='M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z'
                 />
               </svg>
               Image
@@ -87,11 +120,16 @@ export default function PostFormCard ({ onPost }) {
             <button className='flex gap-1'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
-                height='1em'
-                viewBox='0 0 576 512'
-                className='w-6 h-6 mr-1'
+                fill='none'
+                viewBox='0 0 24 24'
+                stroke-width='1.5'
+                stroke='currentColor'
+                class='w-6 h-6'
               >
-                <path d='M0 128C0 92.7 28.7 64 64 64H320c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128zM559.1 99.8c10.4 5.6 16.9 16.4 16.9 28.2V384c0 11.8-6.5 22.6-16.9 28.2s-23 5-32.9-1.6l-96-64L416 337.1V320 192 174.9l14.2-9.5 96-64c9.8-6.5 22.4-7.2 32.9-1.6z' />
+                <path
+                  stroke-linecap='round'
+                  d='M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z'
+                />
               </svg>
               Video
             </button>
@@ -100,14 +138,31 @@ export default function PostFormCard ({ onPost }) {
             <button className='flex gap-1'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
-                height='1em'
-                viewBox='0 0 384 512'
-                className='w-6 h-6 mr-1'
+                fill='none'
+                viewBox='0 0 24 24'
+                stroke-width='1.5'
+                stroke='currentColor'
+                class='w-6 h-6'
               >
-                <path d='M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z' />
+                <path
+                  stroke-linecap='round'
+                  stroke-linejoin='round'
+                  d='M15 10.5a3 3 0 11-6 0 3 3 0 016 0z'
+                />
+                <path
+                  stroke-linecap='round'
+                  stroke-linejoin='round'
+                  d='M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z'
+                />
               </svg>
               Location
             </button>
+          </div>
+
+          <div>
+            <a className='flex gap-1 ml-8 text-gray-400'>
+              Daily Quota: {profile && daily_quota}
+            </a>
           </div>
           <div className='grow text-right'>
             <button
@@ -119,6 +174,7 @@ export default function PostFormCard ({ onPost }) {
           </div>
         </div>
       </Card>
+      <hr></hr>
     </div>
   )
 }
