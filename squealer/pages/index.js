@@ -34,6 +34,7 @@ export default function Home () {
   if (!session) {
     return <LoginPage />
   }
+
   return (
     <Layout>
       <PostFormCard onPost={fetchPosts}/>
@@ -44,7 +45,6 @@ export default function Home () {
           <PostCard key={post.id} {...post} />
         )
       )}
-      <PostCard />
     </Layout>
   )
 }

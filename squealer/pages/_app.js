@@ -7,7 +7,7 @@ import { SessionContextProvider } from '@supabase/auth-helpers-react'
 import TimeAgo from 'javascript-time-ago'
 import { useState } from 'react'
 import it from 'javascript-time-ago/locale/it' 
-import en from 'javascript-time-ago/locale/en' 
+
 
 TimeAgo.addDefaultLocale(it);
 TimeAgo.addLocale(it);
