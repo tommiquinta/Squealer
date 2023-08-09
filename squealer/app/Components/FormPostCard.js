@@ -6,7 +6,7 @@ import { useSession } from '@supabase/auth-helpers-react'
 
 export default function PostFormCard ({ onPost }) {
   const [profile, setProfile] = useState(null)
-  const [daily_quota, setDaily_quota] = useState(profile?.daily_quota)
+  const [daily_quota, setDaily_quota] = useState()
   const [content, setContent] = useState()
   const supabase = useSupabaseClient()
   const session = useSession()
@@ -20,6 +20,7 @@ export default function PostFormCard ({ onPost }) {
         .then(result => {
           if (result.data.length) {
             setProfile(result.data[0])
+            setDaily_quota(result.data[0].daily_quota)
           }
         })
         .catch(error => {
@@ -59,10 +60,7 @@ export default function PostFormCard ({ onPost }) {
                 if (!response.error) {
                   setDaily_quota(newDailyQuota) // update local dailyQuota
                 } else {
-                  console.error(
-                    "daily quota update error.",
-                    response.error
-                  )
+                  console.error('daily quota update error.', response.error)
                 }
               })
 
@@ -72,13 +70,6 @@ export default function PostFormCard ({ onPost }) {
           }
         })
     }
-  }
-
-  function updateDailyQuota () {
-    supabase
-      .from('profiles')
-      .update({ daily_quota: 2000 })
-      .eq('id', session.user.id)
   }
 
   return (
@@ -161,9 +152,10 @@ export default function PostFormCard ({ onPost }) {
 
           <div>
             <a className='flex gap-1 ml-8 text-gray-400'>
-              Daily Quota: {profile && daily_quota}
+              Daily Quota: {daily_quota}
             </a>
           </div>
+
           <div className='grow text-right'>
             <button
               onClick={createPost}
