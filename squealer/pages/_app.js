@@ -9,7 +9,7 @@ import { useState } from 'react'
 import it from 'javascript-time-ago/locale/it' 
 import en from 'javascript-time-ago/locale/en' 
 
-TimeAgo.addDefaultLocale(en);
+TimeAgo.addDefaultLocale(it);
 TimeAgo.addLocale(it);
 
 export default function App ({ Component, pageProps }) {
