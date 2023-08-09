@@ -48,6 +48,7 @@ export default function PostFormCard ({ onPost }) {
           if (!response.error) {
             setContent('')
             const newDailyQuota = profile.daily_quota - content.length
+
             console.log(newDailyQuota)
 
             supabase
@@ -83,7 +84,7 @@ export default function PostFormCard ({ onPost }) {
               setContent(e.target.value)
               setDaily_quota(profile.daily_quota - e.target.value.length)
             }}
-            className='grow p-3 h-18'
+            className='grow p-3 h-18 resize-none'
             placeholder={`What's on your mind, ${profile && profile.name}?`}
           />
         </div>
@@ -151,7 +152,11 @@ export default function PostFormCard ({ onPost }) {
           </div>
 
           <div>
-            <a className='flex gap-1 ml-8 text-gray-400'>
+            <a
+              className={`flex gap-1 ml-8 ${
+                daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'
+              }`}
+            >
               Daily Quota: {daily_quota}
             </a>
           </div>
@@ -160,6 +165,7 @@ export default function PostFormCard ({ onPost }) {
             <button
               onClick={createPost}
               className='bg-blue-500 text-white px-6 py-1 rounded-md'
+              disabled={daily_quota < 0}
             >
               Squeal
             </button>
