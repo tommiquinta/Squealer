@@ -32,10 +32,8 @@ export default function LoginPage () {
     })
 
     if (!error) {
-      // L'operazione è andata a buon fine, invia l'alert
-      alert('A confirm link has been sent to your email!')
+      alert('A confirmation link has been sent to your email!')
     } else {
-      // L'operazione ha generato un errore, invia un alert di errore
       alert('An error occured during registration.')
       console.error('Errore durante la registrazione:', error)
     }

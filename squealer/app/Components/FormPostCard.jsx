@@ -41,6 +41,7 @@ export default function PostFormCard ({ onPost }) {
   // console.log(profile)
 
   function createPost () {
+    console.log(session.user.id)
     if (content && content.trim() !== '') {
       // cheack if the post is not empty
       supabase

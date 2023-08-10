@@ -14,7 +14,7 @@ export default function NavigationBar () {
     <Card>
       <div className='px-4 py-2'>
         <h2 className='text-gray-400 mb-3 text-center text-3xl'>Squealer</h2>
-        <a href='' className='flex gap-2 py-3'>
+        <Link href='/' className='flex gap-2 py-3'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
@@ -30,8 +30,8 @@ export default function NavigationBar () {
             />
           </svg>
           Home
-        </a>
-        <a href='' className='flex gap-2 py-3'>
+        </Link>
+        <Link href='/usersList' className='flex gap-2 py-3'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
@@ -47,7 +47,7 @@ export default function NavigationBar () {
             />
           </svg>
           Users
-        </a>
+        </Link>
         <a href='' className='flex gap-2 py-3'>
           Saved posts
         </a>
