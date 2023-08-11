@@ -5,7 +5,7 @@ import ReactTimeAgo from 'react-time-ago'
 import React from 'react'
 import moment from 'moment';
 
-export default function PostCard({
+export default function PrivateMessage({
   content,
   created_at,
   photos,

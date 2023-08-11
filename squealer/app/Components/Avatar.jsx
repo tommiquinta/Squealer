@@ -1,18 +1,20 @@
 export default function Avatar ({ url }) {
+
   return (
-    <div className={`{width} relative rounded-full overflow-hidden`}>
+    <div className='relative rounded-full overflow-hidden'>
       <div
         style={{
-          maxWidth: '75px', // Imposta la larghezza massima del contenitore
-          maxHeight: '75px', // Imposta l'altezza massima del contenitore
+          width: '75px',
+          height: '75px',
           borderRadius: '50%',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          margin: '0 auto' // Centra orizzontalmente
         }}
       >
         <img
           src={url}
           alt=''
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          style={{ width: '100%', height: '100%', objectFit: 'contain' }}
         />
       </div>
     </div>

@@ -22,10 +22,20 @@ export default function UsersListPage () {
   function fetchProfiles () {
     supabase
       .from('profiles')
-      .select('id, name, avatar)')
+      .select('id, name, avatar, username)')
       .neq('id', session.user.id)
       .then(result => {
         setProfiles(result.data)
+      })
+  }
+
+   function fetchPosts() {
+    supabase
+      .from('posts')
+      .select('id, content, created_at,photos, profiles(id, avatar, name)')
+      .order('created_at', { ascending: false })
+      .then(result => {
+        setPosts(result.data)
       })
   }
 
