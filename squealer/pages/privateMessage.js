@@ -5,50 +5,42 @@ import PrivateMessageForm from '@/app/Components/PrivateMessageForm'
 import PrivateMessage from '@/app/Components/PrivateMessage'
 import LoginPage from './login'
 import Layout from '@/app/Components/Layout'
-
-export default function PrivateMessagePage() {
+export default function PrivateMessagePage () {
   const session = useSession()
   const router = useRouter()
   const { username } = router.query
-  const [receiver_id, setreceiver_id] = useState()
-  const [messages, setMessages] = useState([])
+  const [receiver_id, setReceiver_id] = useState()
   const supabase = useSupabaseClient()
+  const [messages, setMessages] = useState([])
 
   useEffect(() => {
-    fetchreceiver_id()
-    fetchMessages()
-  }, [username]) // Fetch messages when username changes
+    fetchData()
+  }, [username]) // Fetch data when username changes
 
-  function fetchreceiver_id() {
-    supabase
-      .from('profiles')
-      .select('id')
-      .eq('username', username)
-      .then(result => {
-        if (result.data.length) {
-          setreceiver_id(result.data[0].id)
+  async function fetchData () {
+    try {
+      const receiverIdResponse = await supabase
+        .from('profiles')
+        .select()
+        .eq('username', username)
+
+      if (receiverIdResponse.data.length > 0) {
+        const receiverId = receiverIdResponse.data[0].id
+        setReceiver_id(receiverId)
+
+        // here we get the private message from the db --> the function is listed in the db f
+
+        const { data, error } = await supabase.rpc('get_private_messages', {
+          author_uuid: session?.user.id,
+          receiver_uuid: receiverId
+        })
+        if (data.length > 0) {
+          setMessages(data)
+          console.log(messages[1])
         }
-      })
-      .catch(error => {
-        console.error('Error fetching profile data:', error)
-      })
-  }
-
-  function fetchMessages() {
-    if (session && receiver_id) {
-      supabase
-        .from('direct_messages')
-        .select('id, content, created_at, author, receiver')
-        .eq('author', session.user.id)
-        .eq('receiver', receiver_id)
-        .order('created_at', { ascending: false })
-        .then(result => {
-          //console.log('Message result:', result)
-          setMessages(result.data)
-        })
-        .catch(error => {
-          console.error('Error fetching messages:', error)
-        })
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error)
     }
   }
 
@@ -58,10 +50,19 @@ export default function PrivateMessagePage() {
 
   return (
     <Layout>
-      <PrivateMessageForm onPost={fetchMessages} receiver={username} />
-      {/* {messages.length > 0 && messages.map(message => (
-        <PrivateMessage key={message.id} {...message} />
-      ))} */}
+      <PrivateMessageForm onPost={fetchData} receiver={username} />
+      {messages.length > 0 &&
+        messages.map(message => (
+          <PrivateMessage
+            key={message?.id}
+            {...message}
+            author={{
+              id: message?.author.id,
+              avatar: message?.author.avatar,
+              username: message?.author.username
+            }}
+          />
+        ))}
     </Layout>
   )
 }

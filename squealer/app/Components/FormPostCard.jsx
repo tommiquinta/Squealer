@@ -124,18 +124,6 @@ export default function PostFormCard ({ onPost }) {
           />
         </div>
 
-        {/* <div>
-          {uploads.length > 0 && (
-            <div className='flex gap-2.5 mt-4'>
-              {uploads.map(upload => (
-                <div className=''>
-                  <img src={upload} className="w-auto h-40 rounded-md" alt="" />
-                </div>
-              ))}
-            </div>
-          )}
-        </div> */}
-
         <div className=''>
           {uploads.length > 0 && (
             <div className='mt-4'>
