@@ -21,7 +21,9 @@ export default function LoginPage () {
   }
 
   async function signUpWithEmail () {
-    const { data, error } = await supabase.auth.signUp({
+
+
+     const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -38,7 +40,7 @@ export default function LoginPage () {
     } else {
       alert('An error occured during registration.')
       console.error('Errore durante la registrazione:', error)
-    }
+    } 
   }
 
   async function signInWithEmail () {
