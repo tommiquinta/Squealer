@@ -13,6 +13,8 @@ export default function PrivateMessage ({
   photos,
   author
 }) {
+
+  console.log(photos)
   return (
     <Card>
       <div className='flex gap-3'>
@@ -29,7 +31,6 @@ export default function PrivateMessage ({
           </p>
           <p>{content}</p>
           <br></br>
-
         </div>
       </div>
 

@@ -12,6 +12,7 @@ export default function LoginPage () {
   const [showSignUp, setShowSignUp] = useState(false)
   const [name, setName] = useState()
   const [avatar, setAvatar] = useState()
+  const [username, setUsername] = useState()
 
   async function loginWithGoogle () {
     await supabase.auth.signInWithOAuth({
@@ -26,7 +27,8 @@ export default function LoginPage () {
       options: {
         data: {
           full_name: name,
-          avatar_url: avatar
+          avatar_url: avatar,
+          username: username
         }
       }
     })
@@ -119,6 +121,13 @@ export default function LoginPage () {
                 placeholder='Name'
                 value={name}
                 onChange={e => setName(e.target.value)}
+                className='mb-4 p-2 rounded border w-full'
+              />
+              <input
+                type='text'
+                placeholder='@username'
+                value={username}
+                onChange={e => setUsername(e.target.value)}
                 className='mb-4 p-2 rounded border w-full'
               />
               <input

@@ -57,6 +57,7 @@ export default function PrivateMessageForm ({ onPost, receiver }) {
             .then(response => {
               if (!response.error) {
                 setContent('')
+                setUploads([])
                 if (onPost) {
                   onPost() // function to fill home with posts in index.js
                 }
@@ -97,7 +98,7 @@ export default function PrivateMessageForm ({ onPost, receiver }) {
   }
 
   return (
-     <div className='mb-5'>
+    <div className='mb-5'>
       <Card>
         <div className='flex gap-3'>
           {profile && <Avatar url={profile.avatar} />}

@@ -9,7 +9,7 @@ import LoginPage from './login'
 import { useEffect, useState } from 'react'
 import { Result } from 'postcss'
 
-export default function Home() {
+export default function Home () {
   const session = useSession()
 
   // to fill the homepage with posts:
@@ -17,10 +17,10 @@ export default function Home() {
   const supabase = useSupabaseClient()
 
   useEffect(() => {
-    fetchPosts();
-  }, []);
+    fetchPosts()
+  }, [])
 
-  function fetchPosts() {
+  function fetchPosts () {
     supabase
       .from('posts')
       .select('id, content, created_at,photos, profiles(id, avatar, name)')
@@ -38,13 +38,12 @@ export default function Home() {
   return (
     <Layout>
       <PostFormCard onPost={fetchPosts} />
-      {posts?.length > 0 && posts.map(
-        (
-          post // this is like a foreach to loop through the posts.
-        ) => (
-          <PostCard key={post.id} {...post} />
-        )
-      )}
+      {posts?.length > 0 &&
+        posts.map(
+          (
+            post // this is like a foreach to loop through the posts.
+          ) => <PostCard key={post.id} {...post} />
+        )}
     </Layout>
   )
 }
