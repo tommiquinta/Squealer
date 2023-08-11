@@ -1,11 +1,13 @@
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useSession } from '@supabase/auth-helpers-react'
+import { useEffect, useState } from 'react'
+import { SyncLoader } from 'react-spinners'
+
 import Avatar from './Avatar'
 import Card from './Card'
-import { SyncLoader } from 'react-spinners'
-import { useEffect, useState } from 'react'
-import { useSession } from '@supabase/auth-helpers-react'
 import Preloader from './Preloader'
 import LikeButton from './LikeButton'
+
 
 //https://fzhzqznaucvfclbaadpa.supabase.co/storage/v1/object/public/photos/1691597003355ChallengingMario.jpeg?t=2023-08-09T16%3A03%3A50.136Z
 
