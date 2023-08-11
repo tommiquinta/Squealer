@@ -29,7 +29,7 @@ export default function PrivateMessage ({
           <p className='text-gray-500 text-sm'>
             @{author?.username} - {moment(created_at).fromNow()}
           </p>
-          <p>{content}</p>
+          <p className='mt-1'>{content}</p>
           <br></br>
         </div>
       </div>
