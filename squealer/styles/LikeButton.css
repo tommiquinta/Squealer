@@ -1,0 +1,13 @@
+.heart-icon {
+    font-size: 20px;
+    margin-right: 8px;
+    color: #999;
+    /* Colore di default */
+    transition: color 0.3s ease;
+}
+
+.like-button.liked .heart-icon {
+    color: #ff6b6b;
+    /* Colore quando è "liked" */
+    animation: fillHeart 0.3s ease;
+}

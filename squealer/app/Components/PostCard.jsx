@@ -4,6 +4,7 @@ import Link from 'next/link'
 import ReactTimeAgo from 'react-time-ago'
 import React from 'react'
 import moment from 'moment';
+import LikeButton from './LikeButton'
 
 export default function PostCard({
   content,
@@ -35,8 +36,6 @@ export default function PostCard({
         </div>
       </div>
 
-
-
       {/* Quando ho una sola foto */}
       {/* {photos?.length === 1 && (
           <div className='flex'>
@@ -63,7 +62,7 @@ export default function PostCard({
         <p className='my-3 text-md'>
           {content}
         </p>
-        
+
         <div className=''>
           {photos.length > 0 && (
             <div className='mt-4'>
@@ -100,7 +99,10 @@ export default function PostCard({
             </div>
           )}
         </div>
+      </div>
 
+      <div className=''>
+        <LikeButton />
       </div>
 
     </Card>

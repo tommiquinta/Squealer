@@ -5,8 +5,11 @@ import { SyncLoader } from 'react-spinners'
 import { useEffect, useState } from 'react'
 import { useSession } from '@supabase/auth-helpers-react'
 import Preloader from './Preloader'
+import LikeButton from './LikeButton'
 
-export default function PostFormCard ({ onPost }) {
+//https://fzhzqznaucvfclbaadpa.supabase.co/storage/v1/object/public/photos/1691597003355ChallengingMario.jpeg?t=2023-08-09T16%3A03%3A50.136Z
+
+export default function PostFormCard({ onPost }) {
   const [profile, setProfile] = useState(null)
   const [daily_quota, setDaily_quota] = useState()
   const [uploads, setUploads] = useState([])
@@ -40,7 +43,7 @@ export default function PostFormCard ({ onPost }) {
 
   // console.log(profile)
 
-  function createPost () {
+  function createPost() {
     console.log(session.user.id)
     if (content && content.trim() !== '') {
       // cheack if the post is not empty
@@ -81,8 +84,7 @@ export default function PostFormCard ({ onPost }) {
     }
   }
 
-  //https://fzhzqznaucvfclbaadpa.supabase.co/storage/v1/object/public/photos/1691597003355ChallengingMario.jpeg?t=2023-08-09T16%3A03%3A50.136Z
-  async function addPhotos (ev) {
+  async function addPhotos(ev) {
     const files = ev.target.files
     if (files.length > 0) {
       setIsUploading(true)
@@ -97,9 +99,9 @@ export default function PostFormCard ({ onPost }) {
             process.env.NEXT_PUBLIC_SUPABASE_URL +
             '/storage/v1/object/public/photos/' +
             result.data.path
-            
+
           setUploads(prevUploads => [...prevUploads, url])
-          setDaily_quota(daily_quota-125)
+          setDaily_quota(daily_quota - 125)
         } else {
           console.log(result)
         }
@@ -270,9 +272,8 @@ export default function PostFormCard ({ onPost }) {
 
           <div>
             <a
-              className={`flex gap-1 ml-8 ${
-                daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'
-              }`}
+              className={`flex gap-1 ml-8 ${daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'
+                }`}
             >
               Daily Quota: {daily_quota}
             </a>
