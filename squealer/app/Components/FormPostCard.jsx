@@ -5,8 +5,7 @@ import { useEffect, useState } from 'react'
 import Avatar from './Avatar'
 import Card from './Card'
 import Preloader from './Preloader'
-import LikeButton from './LikeButton'
-import handler from '@/pages/api/hello'
+
 
 //https://fzhzqznaucvfclbaadpa.supabase.co/storage/v1/object/public/photos/1691597003355ChallengingMario.jpeg?t=2023-08-09T16%3A03%3A50.136Z
 
