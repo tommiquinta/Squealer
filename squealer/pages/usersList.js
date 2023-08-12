@@ -32,7 +32,7 @@ export default function UsersListPage () {
   return (
     <Layout hidenavigation={false}>
       <div className='flex flex-col items-center px-4 py-2'>
-        {profiles?.length > 0 && profiles.map(
+        {profiles.map(
         (
           profile 
         ) => (
