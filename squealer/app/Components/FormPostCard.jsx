@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react'
 import Avatar from './Avatar'
 import Card from './Card'
 import Preloader from './Preloader'
+import LikeButton from './LikeButton'
+import handler from '@/pages/api/hello'
 
 //https://fzhzqznaucvfclbaadpa.supabase.co/storage/v1/object/public/photos/1691597003355ChallengingMario.jpeg?t=2023-08-09T16%3A03%3A50.136Z
 
@@ -16,7 +18,7 @@ export default function PostFormCard({ onPost }) {
   const [content, setContent] = useState()
   const supabase = useSupabaseClient()
   const session = useSession()
-  const [imageSpaceUsed, setImageSpaceUsed] = useState(0)
+  const [handlerInfo, setHandlerInfo] = useState()
 
   useEffect(() => {
     if (session?.user) {
@@ -40,15 +42,41 @@ export default function PostFormCard({ onPost }) {
     return <loadingPage />
   }
 
-  function createPost() {
-    console.log(session.user.id)
+  // console.log(profile)
+
+  async function createPost () {
     if (content.includes('@')) {
       const regex = /@(\w+)/
 
       const match = regex.exec(content)
       if (match) {
         const receiverHandle = match[1]
-        console.log(receiverHandle)
+        supabase
+          .from('profiles')
+          .select()
+          .eq('username', receiverHandle)
+          .then(response => {
+            if (!response.error) {
+              setHandlerInfo(response.data[0].id)
+              if (handlerInfo) {
+                console.log(handlerInfo)
+                supabase
+                  .from('direct_messages')
+                  .insert({
+                    author: session.user.id,
+                    receiver: handlerInfo,
+                    content: content,
+                    photos: uploads
+                  })
+                  .then(response => {
+                    if (!response.error) {
+                      setContent('')
+                      setUploads([])
+                    }
+                  })
+              }
+            }
+          })
       }
     } else {
       if (content && content.trim() !== '') {

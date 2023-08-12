@@ -18,12 +18,30 @@ export default function LoginPage () {
     await supabase.auth.signInWithOAuth({
       provider: 'google'
     })
+    const { user, error } = await supabase.auth.update({
+      data: { username: 'temp' }
+    })
   }
 
   async function signUpWithEmail () {
+    if (!email) {
+      alert('You can not sign in without an eamil!')
+      return
+    }
+    if (!email.includes('@') || !email.includes('.com')) {
+      alert('Please insert a valid email adress.')
+      return
+    }
+    if (!username) {
+      alert('You must choose an handler for your profile.')
+      return
+    }
+    if (username.length < 4) {
+      alert('Please insert an at least 4 carachters username long.')
+      return
+    }
 
-
-     const { data, error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -40,7 +58,7 @@ export default function LoginPage () {
     } else {
       alert('An error occured during registration.')
       console.error('Errore durante la registrazione:', error)
-    } 
+    }
   }
 
   async function signInWithEmail () {
@@ -169,7 +187,7 @@ export default function LoginPage () {
           <Card>
             <button
               onClick={loginWithGoogle}
-              className='flex gap-5 items-center justify-center'
+              className='flex gap-5 items-center text-center'
             >
               <svg
                 className='h-8'
@@ -179,7 +197,7 @@ export default function LoginPage () {
               >
                 <path d='M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z' />
               </svg>
-              Login with Google
+              Continue with Google
             </button>
           </Card>
           {/* end login with Google */}
