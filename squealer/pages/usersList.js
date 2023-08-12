@@ -29,16 +29,6 @@ export default function UsersListPage () {
       })
   }
 
-   function fetchPosts() {
-    supabase
-      .from('posts')
-      .select('id, content, created_at,photos, profiles(id, avatar, name)')
-      .order('created_at', { ascending: false })
-      .then(result => {
-        setPosts(result.data)
-      })
-  }
-
   return (
     <Layout hidenavigation={false}>
       <div className='flex flex-col items-center px-4 py-2'>

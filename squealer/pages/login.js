@@ -101,7 +101,7 @@ export default function LoginPage () {
 
               <div className='mt-3 text-center text-gray-500'>
                 <p>
-                  Don't have an account? Click{' '}
+                  Don't have an account? Click
                   <span
                     className='underline cursor-pointer'
                     onClick={() => {
