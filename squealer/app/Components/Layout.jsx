@@ -7,12 +7,12 @@ export default function Layout({ children, hidenavigation }) {
     <div className='flex mt-4 max-w-4xl mx-auto gap-6'>
       {!hidenavigation && (
         
-          <div className='w-3/12'>
+          <div className='fixed'>
             <NavigationBar />
           </div>
         
       )}
-      <div className={hidenavigation ? 'w-full' : 'w-9/12'}>{children}</div>
+      <div className={hidenavigation ? 'w-full relative left-25%' : 'w-9/12 relative left-1/4'}>{children}</div>
     </div>
   )
 }
