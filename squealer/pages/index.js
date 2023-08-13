@@ -1,13 +1,10 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import PostCard from '@/app/Components/PostCard'
-import NavigationBar from '@/app/Components/NavigationBar'
 import PostFormCard from '@/app/Components/FormPostCard'
 import Layout from '@/app/Components/Layout'
+import PostCard from '@/app/Components/PostCard'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
-import LoginPage from './login'
 import { useEffect, useState } from 'react'
-import { Result } from 'postcss'
+import LoginPage from './login'
+import PublicChannelsList from '@/app/Components/PublicChannelsList'
 
 export default function Home () {
   const session = useSession()
@@ -19,12 +16,14 @@ export default function Home () {
   // to fill the homepage with posts:
   const [posts, setPosts] = useState([])
   const [userName, setUsername] = useState(null)
+  const [publicChannels, setPublicChannels] = useState([])
 
   const supabase = useSupabaseClient()
 
   useEffect(() => {
     fetchPosts()
     checkUsername()
+    fetchPublicChannels()
   }, [])
 
   function fetchPosts () {
@@ -44,7 +43,16 @@ export default function Home () {
       .eq('id', session.user.id)
       .then(result => {
         setUsername(result.data[0].username)
-        console.log(userName)
+      })
+  }
+
+  function fetchPublicChannels () {
+    supabase
+      .from('public_channels')
+      .select('id, name, banner, description, avatar, handle')
+      .then(result => {
+        setPublicChannels(result.data)
+        console.log(publicChannels)
       })
   }
 
@@ -70,23 +78,27 @@ export default function Home () {
 
   if (userName) {
     return (
-      <Layout>
-        <PostFormCard onPost={fetchPosts} />
-        {posts?.length > 0 &&
-          posts.map(
-            (
-              post // this is like a foreach to loop through the posts.
-            ) => <PostCard key={post.id} {...post} />
-          )}
-      </Layout>
+      <div className='flex'>
+        <Layout>
+          {' '}
+          <PostFormCard onPost={fetchPosts} />
+          {posts?.length > 0 &&
+            posts.map(
+              (
+                post // this is like a foreach to loop through the posts.
+              ) => <PostCard key={post.id} {...post} />
+            )}
+        </Layout>
+        <div className='mt-2 px-4 py-2 relative'>
+          <PublicChannelsList publicChannels={publicChannels} />
+        </div>
+      </div>
     )
   } else {
     return (
       <Layout hidenavigation={true}>
         <form onSubmit={handleUsernameSubmit}>
-           <label>
-            this must be fixed using css: it's pretty ugly.
-          </label>
+          <label>this must be fixed using css: it's pretty ugly.</label>
           <br></br>
           <label>
             Insert your username:
