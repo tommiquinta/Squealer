@@ -25,7 +25,12 @@ function UsernameForm ({ onSubmit }) {
 
 // Componente principale
 export default function Home () {
+  const supabase = useSupabaseClient()
   const session = useSession()
+  if (!session) {
+    return <LoginPage />
+  }
+
   const [posts, setPosts] = useState([])
   const [userName, setUsername] = useState(null)
 

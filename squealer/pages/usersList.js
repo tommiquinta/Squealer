@@ -9,6 +9,9 @@ import LoginPage from './login'
 export default function UsersListPage () {
   const supabase = useSupabaseClient()
   const session = useSession()
+  if (!session) {
+    return <LoginPage />
+  }
 
   const [profiles, setProfiles] = useState([])
 
@@ -28,18 +31,12 @@ export default function UsersListPage () {
       })
   }
 
-  if (!session) {
-    return <LoginPage />
-  }
-
   return (
     <Layout hidenavigation={false}>
       <div className='flex flex-col items-center px-4 py-2'>
-        {profiles.map(
-          profile => (
-            <UsersCard key={profile.id} {...profile} />
-          )
-        )}
+        {profiles.map(profile => (
+          <UsersCard key={profile.id} {...profile} />
+        ))}
       </div>
     </Layout>
   )

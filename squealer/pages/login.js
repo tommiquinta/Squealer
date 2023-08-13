@@ -31,7 +31,7 @@ export default function LoginPage () {
       alert('You can not sign in without an eamil!')
       return
     }
-    if (!email.includes('@')) {
+    if (!email.includes('@') || (!email.includes('.com') && !email.includes('.it') )) {
       alert('Please insert a valid email adress.')
       return
     }
