@@ -7,102 +7,61 @@ import Avatar from './Avatar';
 import Link from 'next/link';
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
-export default function PostCard({
-  id,
-  content,
-  created_at,
-  photos,
-  profiles: authorProfiles
-}) {
-  const [likes, setLikes] = useState([]);
-  const [dislikes, setDisLikes] = useState([]);
-  const [isLiked, setIsLiked] = useState(false);
-  const [isDisLiked, setIsDisliked] = useState(false);
 
+export default function PostCard(
+  {
+    id,
+    content,
+    created_at,
+    photos,
+    profiles: authorProfiles
+  }
+) {
   const session = useSession();
   const supabase = useSupabaseClient();
 
+  const [likes, setLikes] = useState([]);
+  const [dislikes, setDisLikes] = useState([]);
+  const profile = {
+    id,
+    content,
+    created_at,
+    photos,
+    profiles: authorProfiles
+  };
+
+
+
   useEffect(() => {
-    if (isLiked && isDisLiked) {
-      setIsDisliked(false);
-    } else if (isDisLiked && isLiked) {
-      setIsLiked(false);
+    fetchData();
+  }, []);
+
+  async function fetchData() {
+    try {
+      await checkUpdate()
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
-    checkUpdate()
-    // console.log(session);
-  }, [isLiked, isDisLiked]);
+  }
 
-
-  // setInterval(checkUpdate, 50000); // Esegui checkUpdate ogni 5000 millisecondi (5 secondi)
-
+  // setInterval(checkUpdate, 5000); // Esegui checkUpdate ogni 5000 millisecondi (5 secondi)
 
   /** Aggiorna il numero di like e dislike */
-  function checkUpdate() {
-    // console.log(session.id);
-    supabase
-      .from('likes')
-      .select()
-      .eq('post_id', id)
-      .then(result => setLikes(result.data))
-
-    supabase
-      .from('dislikes')
-      .select()
-      .eq('post_id', id)
-      .then(result => setDisLikes(result.data))
-  }
-
-  function onLikeClick() {
-
-    if (isLiked) {
-      supabase
+  async function checkUpdate() {
+    try {
+      const likesResponse = await supabase
         .from('likes')
-        .delete()
+        .select()
         .eq('post_id', id)
-        .eq('user_id', session.user.id)
-        .then(() => {
-          checkUpdate();
-        });
-      return; 
-    }
+      setLikes(likesResponse.data)
 
-    if (!isLiked) {
-      supabase
-        .from('likes')
-        .insert({
-          post_id: id,
-          user_id: session.user.id,
-        })
-        .then(result => {
-          checkUpdate();
-        })
-    }
-
-  }
-
-function onDisLikeClick() {
-    if (isDisLiked) {
-      supabase
+      const disLikeResponse = await supabase
         .from('dislikes')
-        .delete()
+        .select()
         .eq('post_id', id)
-        .eq('user_id', session.user.id)
-        .then(() => {
-          checkUpdate();
-        });
-      return;
-    }
-
-    if (!isDisLiked) {
-      supabase
-        .from('dislikes')
-        .insert({
-          post_id: id,
-          user_id: session.user.id,
-        })
-        .then(
-          checkUpdate()
-        )
+      setDisLikes(disLikeResponse.data)
+    } catch (error) {
+      console.error("Errore nel prendere i like e i dislike", error);
     }
   }
 
@@ -174,38 +133,33 @@ function onDisLikeClick() {
       </div>
 
       <div className='flex inline gap-2.5'>
-
         <div className='flex inline gap-1.5'>
+          <div className=''>
 
-          <div className='' onClick={onLikeClick}>
             <LikeButton
-              liked={isLiked}
-              onLikeClick={() => setIsLiked(!isLiked)}
-              onDisLikeClick={setIsDisliked}
+              supabase={supabase}
+              session={session}
+              profile={profile.id}
             />
           </div>
+
           <span className=''>
             {likes?.length}
           </span>
         </div>
 
         <div className='flex inline gap-1.5'>
+          <DisLikeButton
+            supabase={supabase}
+            session={session}
+            profile={profile.id}
+          />
 
-          <div className='' onClick={onDisLikeClick}>
-            <DisLikeButton
-              disliked={isDisLiked}
-              onDisLikeClick={() => setIsDisliked(!isDisLiked)}
-              onLikeClick={setIsLiked}
-            />
-
-          </div>
           <span className=''>
             {dislikes?.length}
           </span>
         </div>
-
       </div>
-
     </Card>
   );
 } 
