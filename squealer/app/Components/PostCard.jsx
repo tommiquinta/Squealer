@@ -137,9 +137,7 @@ export default function PostCard(
           <div className=''>
 
             <LikeButton
-              supabase={supabase}
-              session={session}
-              profile={profile.id}
+              id={id}
             />
           </div>
 
