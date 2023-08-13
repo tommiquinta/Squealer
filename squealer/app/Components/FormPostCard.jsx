@@ -153,7 +153,7 @@ export default function PostFormCard ({ onPost }) {
               setDaily_quota(profile.daily_quota - e.target.value.length)
             }}
             className='grow p-3 h-18 resize-none'
-            placeholder={`What's on your mind, ${profile && profile.name}?`}
+            placeholder={`What's on your mind, ${profile && profile.username}?`}
           />
         </div>
 

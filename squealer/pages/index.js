@@ -9,23 +9,33 @@ import LoginPage from './login'
 import { useEffect, useState } from 'react'
 import { Result } from 'postcss'
 
+function UsernameForm ({ onSubmit }) {
+  return (
+    <form onSubmit={onSubmit}>
+      <label>this must be fixed using css: its pretty ugly.</label>
+      <br></br>
+      <label>
+        Insert your username:
+        <input type='text' name='username' />
+      </label>
+      <button type='submit'>Submit</button>
+    </form>
+  )
+}
+
+// Componente principale
 export default function Home () {
   const session = useSession()
-
-  if (!session) {
-    return <LoginPage />
-  }
-
-  // to fill the homepage with posts:
   const [posts, setPosts] = useState([])
   const [userName, setUsername] = useState(null)
 
-  const supabase = useSupabaseClient()
-
   useEffect(() => {
+    if (!session) {
+      return
+    }
     fetchPosts()
     checkUsername()
-  }, [])
+  }, [session])
 
   function fetchPosts () {
     supabase
@@ -83,17 +93,7 @@ export default function Home () {
   } else {
     return (
       <Layout hidenavigation={true}>
-        <form onSubmit={handleUsernameSubmit}>
-           <label>
-            this must be fixed using css: it's pretty ugly.
-          </label>
-          <br></br>
-          <label>
-            Insert your username:
-            <input type='text' name='username' />
-          </label>
-          <button type='submit'>Submit</button>
-        </form>
+        <UsernameForm onSubmit={handleUsernameSubmit} />
       </Layout>
     )
   }
