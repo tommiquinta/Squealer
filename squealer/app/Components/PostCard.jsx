@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import moment from 'moment';
-import LikeButton from './Reaction/LikeButton';
-import DisLikeButton from './Reaction/DisLikeButton';
+import Reaction from './Reaction/Reaction';
 import Card from './Card';
 import Avatar from './Avatar';
 import Link from 'next/link';
-import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-
 
 export default function PostCard(
   {
@@ -17,53 +14,6 @@ export default function PostCard(
     profiles: authorProfiles
   }
 ) {
-  const session = useSession();
-  const supabase = useSupabaseClient();
-
-  const [likes, setLikes] = useState([]);
-  const [dislikes, setDisLikes] = useState([]);
-  const profile = {
-    id,
-    content,
-    created_at,
-    photos,
-    profiles: authorProfiles
-  };
-
-
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  async function fetchData() {
-    try {
-      await checkUpdate()
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
-
-  // setInterval(checkUpdate, 5000); // Esegui checkUpdate ogni 5000 millisecondi (5 secondi)
-
-  /** Aggiorna il numero di like e dislike */
-  async function checkUpdate() {
-    try {
-      const likesResponse = await supabase
-        .from('likes')
-        .select()
-        .eq('post_id', id)
-      setLikes(likesResponse.data)
-
-      const disLikeResponse = await supabase
-        .from('dislikes')
-        .select()
-        .eq('post_id', id)
-      setDisLikes(disLikeResponse.data)
-    } catch (error) {
-      console.error("Errore nel prendere i like e i dislike", error);
-    }
-  }
 
   return (
     <Card>
@@ -132,34 +82,12 @@ export default function PostCard(
 
       </div>
 
-      <div className='flex inline gap-2.5'>
-        <div className='flex inline gap-1.5'>
-          <div className=''>
-
-            <LikeButton
-              supabase={supabase}
-              session={session}
-              profile={profile.id}
-            />
-          </div>
-
-          <span className=''>
-            {likes?.length}
-          </span>
-        </div>
-
-        <div className='flex inline gap-1.5'>
-          <DisLikeButton
-            supabase={supabase}
-            session={session}
-            profile={profile.id}
-          />
-
-          <span className=''>
-            {dislikes?.length}
-          </span>
-        </div>
+      <div className=''>
+        <Reaction
+          id={id}
+        />
       </div>
-    </Card>
+
+    </Card >
   );
 } 
