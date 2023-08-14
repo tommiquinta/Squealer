@@ -20,10 +20,10 @@ function LikeButton({ id, onClick, active }) {
         onClick();
     }
 
-    const thumbAnimation = useSpring({
-        transform: isAlreadyLiked ? 'scale(1.2)' : 'scale(1)',
-        color: isAlreadyLiked ? 'green' : 'gray',
-    });
+  const thumbAnimation = useSpring({
+    transform: isAlreadyLiked ? 'scale(1.2)' : 'scale(1)',
+    color: isAlreadyLiked ? 'green' : 'gray',
+  });
 
     async function handleClick() {
         try {
