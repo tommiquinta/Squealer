@@ -1,7 +1,6 @@
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import Card from './Card'
 import Link from 'next/link'
-import loginPage from '@/pages/login'
 
 export default function NavigationBar () {
   const supabase = useSupabaseClient()

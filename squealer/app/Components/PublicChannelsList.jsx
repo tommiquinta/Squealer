@@ -9,7 +9,10 @@ export default function PublicChannelsList ({ publicChannels }) {
         {publicChannels.map(channel => (
           <li key={channel.id}>
             <div className='items-center'>
-              <Link href='' className='flex gap-2 py-3 h-15 rounded-sm shadow-sm'>
+              <Link
+                href={`/Channel?channelId=${channel.id}`}
+                className='flex gap-2 py-3 h-15 rounded-sm shadow-sm'
+              >
                 {channel.name}
               </Link>
             </div>
