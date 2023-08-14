@@ -7,7 +7,7 @@ import { faDoorClosed } from '@fortawesome/free-solid-svg-icons';
 const Reaction = ({ id }) => {
 
     useEffect(() => {
-        Promise.all([checkUpdate()]);
+        checkUpdate()
     }, []);
 
     const [likeStatus, setLikeStatus] = useState(false);
@@ -55,6 +55,7 @@ const Reaction = ({ id }) => {
                 onClick={handleLikeClick}
                 active={likeStatus} />
             {likes?.length}
+
             <DisLikeButton
                 id={id}
                 onClick={handleDislikeClick}

@@ -34,13 +34,13 @@ function LikeButton({ id, onClick, active }) {
                 }
                 // myClick(likes?.length);
             } else {
-                await removeDisLike();
+                await removeLike();
             }
-            setIsAlreadyDisLiked(!isAlreadyDisLiked);
+            setIsAlreadyLiked(!isAlreadyLiked);
 
             // Aggiungi questa parte per deselezionare automaticamente Like
-            if (isAlreadyLiked) {
-                await removeLike();
+            if (isAlreadyDisLiked) {
+                await removeDisLike();
                 setIsAlreadyLiked(false);
             }
         } catch (error) {
@@ -60,7 +60,6 @@ function LikeButton({ id, onClick, active }) {
                 })
 
             setIsAlreadyLiked(likes?.length > 0);
-
         } catch (error) {
             console.error("Errore nel prendere i like", error);
         }
@@ -86,7 +85,6 @@ function LikeButton({ id, onClick, active }) {
                     post_id: id,
                     user_id: session.user.id,
                 });
-
         } catch (error) {
             console.error("Errore nella function di aggiunta dei like " + error)
         }
