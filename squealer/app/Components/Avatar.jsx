@@ -1,10 +1,14 @@
-export default function Avatar ({ url }) {
+export default function Avatar ({ url, size}) {
 
+  let sizeWidth = '75px';
+  if(size === 'big'){
+    width = '100px';
+  }
   return (
     <div className='relative rounded-full overflow-hidden'>
       <div
         style={{
-          width: '75px',
+          width: sizeWidth,
           height: '75px',
           borderRadius: '50%',
           overflow: 'hidden',

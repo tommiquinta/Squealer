@@ -103,7 +103,7 @@ export default function LoginPage () {
                 <p>
                   Do not have an account? Click
                   <span
-                    className='underline cursor-pointer'
+                    className='underline cursor-pointer ml-1'
                     onClick={() => {
                       setShowSignUp(true),
                         setShowLogIn(false),
