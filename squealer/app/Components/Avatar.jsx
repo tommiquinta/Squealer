@@ -1,23 +1,20 @@
 export default function Avatar ({ url, size}) {
 
-  let sizeWidth = '75px';
+  let sizeWidth = 'w-12 h-12';
   if(size === 'big'){
-    width = '100px';
+    sizeWidth = 'w-24 h-24';
   }
   return (
-    <div className='relative rounded-full overflow-hidden'>
+    <div className={`${sizeWidth} relative rounded-full overflow-hidden`}>
       <div
         style={{
-          width: sizeWidth,
-          height: '75px',
-          borderRadius: '50%',
           overflow: 'hidden',
           margin: '0 auto' // Centra orizzontalmente
         }}
       >
         <img
           src={url}
-          alt=''
+          alt='profile pic'
           style={{ width: '100%', height: '100%', objectFit: 'contain' }}
         />
       </div>
