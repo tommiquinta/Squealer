@@ -19,15 +19,24 @@ export default function UsersCard (profile) {
       <Card>
         <div className='grow'>
           <div className='mb-5 '>
-            <Avatar url={profile?.avatar} />
+            <Link href={`/profile/${profile?.id}`} >
+              <Avatar url={profile?.avatar} />
+            </Link>
+            
           </div>
           <hr />
+          
           <div className='text-center mt-3 mb-3 font-semibold'>
-            <a>{profile?.name}</a>
+            <Link href={`/profile/${profile?.id}`} >
+              {profile?.name}
+            </Link>
           </div>
+          
           <hr />
           <div className='text-center mt-3 mb-10 text-gray-400 text-sm'>
-            <a>@{profile?.username}</a>
+            <Link href={`/profile/${profile?.id}`} >
+             @{profile?.username}
+            </Link>
           </div>
           <div className='mt-2 items-center text-center'>
             <Link

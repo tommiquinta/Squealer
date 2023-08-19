@@ -1,9 +1,9 @@
-import { useSupabaseClient } from '@supabase/auth-helpers-react'
+
 import Card from './Card'
 import Link from 'next/link'
 import loginPage from '@/pages/login'
 import {useRouter} from "next/router"
-import { useSession } from '@supabase/auth-helpers-react'
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 
 
 export default function NavigationBar () {
@@ -12,7 +12,10 @@ export default function NavigationBar () {
   const {pathname} = router;
   const {asPath} = router;
   console.log(asPath);
-  const userpage = '/profile/' + session.user.id;
+  var userpage = '';
+  if(session){
+    userpage = '/profile/' + session.user.id;
+  }
   console.log(userpage);
   const supabase = useSupabaseClient()
   function logout () {
@@ -44,7 +47,7 @@ export default function NavigationBar () {
           </svg>
           Home
         </Link>
-        <Link href='/usersList' className={nonActivePage}>
+        <Link href='/usersList' className={pathname === '/usersList' ? activePage : nonActivePage}>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'

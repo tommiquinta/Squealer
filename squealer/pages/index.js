@@ -36,7 +36,7 @@ export default function Home () {
   }
 
   return (
-    <Layout>
+    <Layout hidenavigation={false}>
       <PostFormCard onPost={fetchPosts} />
       {posts?.length > 0 &&
         posts.map(
