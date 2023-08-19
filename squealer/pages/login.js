@@ -72,7 +72,7 @@ export default function LoginPage () {
     <Layout hidenavigation={true}>
       <div className='h-screen flex items-center'>
         <div className='max-w-md mx-auto grow'>
-          <h1 className='text-6xl mb-4 text-gray-300 text-center'>
+          <h1 className='text-4xl mb-4 text-gray-300 text-center font-sans'>
             Login or Signup
           </h1>
           {showLogIn && (

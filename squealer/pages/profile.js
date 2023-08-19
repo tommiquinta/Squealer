@@ -7,6 +7,8 @@ import Link from 'next/link'
 
 export default function ProfilePage() {
   const session = useSession();
+  //const user = ;
+  const selected = "border-b-4 rounded-sm border-socialBlue text-sky-600 w-4";
 
  return(
   <Layout>
@@ -18,16 +20,23 @@ export default function ProfilePage() {
         <div className="absolute top-28 left-4">
           <Avatar url={"https:images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80"} size={'big'}/>
         </div>
-        <div className="p-4 pb-24">
+        <div className="p-4 pb-2 items-left">
           <div className="ml-28">
             <h1 className="font-bold text-2xl"> 
               Nome Cognome </h1>
             <div className="text-gray-500 leading-4"> Stockholm, Sweden</div>
           </div>
-          <div className="mt-10 flex gap-5"> 
-            <Link href={"/"} className="">
-              Posts
+          <div className="mt-10 flex flex-col gap-0 items-center"> 
+            <Link href={"/"} className={`flex gap-1 px-4 py-1 items-center`}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" 
+            viewBox="0 0 14 14">
+              <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="9" height="4" x="1.5" y="1" rx="1"/>
+                <rect width="9" height="4" x="4.5" y="8.5" rx="1"/></g>
+                </svg>
+              Squeals
             </Link>
+            <div className={`${selected}`}></div>
           </div>
         </div>
       </div>

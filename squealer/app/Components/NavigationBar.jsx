@@ -105,7 +105,7 @@ export default function NavigationBar () {
           Notifications
         </Link>
 
-        <button onClick={logout} className={`${nonActivePage} pl-16 pr-20`}>
+        <button onClick={logout} className={`${nonActivePage} pr-40 w-14`}>
           <Link href='#'className='flex gap-2'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
