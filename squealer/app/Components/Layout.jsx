@@ -9,14 +9,14 @@ export default function Layout({ children, hidenavigation }) {
   if(hidenavigation){
       rightColumnClasses += 'w-full relative left-25% ';
   } else{
-    rightColumnClasses += 'mx-2 relative top-10 md:top-0 md:left-1/4 md:mx-0 md:w-9/12';
+    rightColumnClasses += 'mx-2 relative top-36 md:top-0 md:left-1/4 md:mx-0 md:w-9/12';
   }
 
   return (
-    <div className='md:flex mt-4 max-w-4xl mx-auto gap-6'>
+    <div className='md:flex mt-4 max-w-4xl mx-auto gap-6 '>
       {!hidenavigation && (
         
-          <div className='fixed'>
+          <div className='fixed '>
             <NavigationBar />
           </div>
 

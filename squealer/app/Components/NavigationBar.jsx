@@ -26,8 +26,12 @@ export default function NavigationBar () {
   return (
     
     <Card>
-      <div className='px-4 py-2 w-screen md:w-fit'>
-        <h2 className='text-gray-400 mb-3 text-center text-3xl'>Squealer</h2>
+      <div className='px-4 py-2 w-screen md:w-fit '>
+        <div className='flex gap-2 leading-9 justify-center mb-3'>
+          <img src=".../public/yoshi-logo-empty.png" alt="logo" className='w-6 h-6'></img>
+          <h2 className='text-gray-400 text-center text-3xl'>Squealer</h2>
+        </div>
+        
         <div className='flex gap-4 place-content-center place-items-center md:block '>
         <Link href='/' className={pathname === '/' ? activePage : nonActivePage}>
           <svg
