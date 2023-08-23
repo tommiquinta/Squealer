@@ -67,7 +67,7 @@ export default function NavigationBar () {
           </svg>
           <p className='hidden md:block'>Users</p>
         </Link>
-        <Link href={userpage} className={asPath === userpage ? activePage : nonActivePage}>
+        <Link href={userpage} onClick={() => asPath === userpage ? fetchUser() : null} className={asPath === userpage ? activePage : nonActivePage}>
           <svg xmlns="http://www.w3.org/2000/svg" 
               fill="none" 
               viewBox="0 0 24 24" 

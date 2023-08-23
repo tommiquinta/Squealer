@@ -20,11 +20,14 @@ export default function ProfilePage() {
   //const user = ;
   const selected = "border-b-4 rounded-sm border-socialBlue text-sky-600 w-4";
 
-  useEffect(() => {
-    fetchUser()
-  }, [])
+  const isMyUser = (query.id === session.user?.id);
+  if(isMyUser){
+    fetchUser();
+    fetchPosts();
+  } 
 
   useEffect(() => {
+    fetchUser()
     fetchPosts()
   }, [])
 
@@ -44,9 +47,8 @@ export default function ProfilePage() {
       .then(result => setPosts(result.data))
   }
 
-  const isMyUser = query.id === session?.user?.id;
+  
   console.log(profileUser);
-  console.log(isMyUser);
  return(
   <Layout>
     <Card noPadding={true}>
