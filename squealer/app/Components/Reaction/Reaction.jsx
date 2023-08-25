@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import LikeButton from './LikeButton';
 import DisLikeButton from './DisLikeButton';
-import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { faDoorClosed } from '@fortawesome/free-solid-svg-icons';
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 const Reaction = ({ id }) => {
 
     useEffect(() => {
-        checkUpdate()
+        checkUpdate();
     }, []);
 
     const [likeStatus, setLikeStatus] = useState(false);
@@ -32,9 +31,8 @@ const Reaction = ({ id }) => {
             .select()
             .eq('post_id', id)
             .then((res) => {
-                if (res.data.length > 0) {
-                    setLikes(res.data.length);
-                }
+                setLikes(res.data.length);
+                console.log(res.data.length + " siamo qui");
             })
         await supabase
             .from('dislikes')
@@ -53,13 +51,17 @@ const Reaction = ({ id }) => {
             <LikeButton
                 id={id}
                 onClick={handleLikeClick}
-                active={likeStatus} />
+                active={likeStatus}
+                updateReaction={checkUpdate}
+            />
             {likes?.length}
 
             <DisLikeButton
                 id={id}
                 onClick={handleDislikeClick}
-                active={dislikeStatus} />
+                active={dislikeStatus}
+                updateReaction={checkUpdate}
+            />
             {dislikes?.length}
         </div>
     );

@@ -13,17 +13,17 @@ function LikeButton({ id, onClick, active }) {
 
     useEffect(() => {
         checkIfIsAlreadyLiked();
-        myClick();
+        myClick(); u
     }, []);
 
     function myClick() {
         onClick();
     }
 
-  const thumbAnimation = useSpring({
-    transform: isAlreadyLiked ? 'scale(1.2)' : 'scale(1)',
-    color: isAlreadyLiked ? 'green' : 'gray',
-  });
+    const thumbAnimation = useSpring({
+        transform: isAlreadyLiked ? 'scale(1.2)' : 'scale(1)',
+        color: isAlreadyLiked ? 'green' : 'gray',
+    });
 
     async function handleClick() {
         try {
@@ -32,12 +32,10 @@ function LikeButton({ id, onClick, active }) {
                 if (isAlreadyLiked) {
                     setIsAlreadyLiked(false);
                 }
-                // myClick(likes?.length);
             } else {
                 await removeLike();
             }
             setIsAlreadyLiked(!isAlreadyLiked);
-
             // Aggiungi questa parte per deselezionare automaticamente Like
             if (isAlreadyDisLiked) {
                 await removeDisLike();
@@ -58,7 +56,6 @@ function LikeButton({ id, onClick, active }) {
                 .then((res) => {
                     setLikes(res);
                 })
-
             setIsAlreadyLiked(likes?.length > 0);
         } catch (error) {
             console.error("Errore nel prendere i like", error);
@@ -66,6 +63,7 @@ function LikeButton({ id, onClick, active }) {
     }
 
     async function removeDisLike() {
+        console.log("Sono dentro removeDislike");
         try {
             await supabase
                 .from('dislikes')

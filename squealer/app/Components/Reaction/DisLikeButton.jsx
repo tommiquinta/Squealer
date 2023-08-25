@@ -4,7 +4,7 @@ import { FaThumbsDown } from 'react-icons/fa';
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import "/styles/DisLikeButton.css";
 
-function DisLikeButton({ id, onClick, active }) {
+function DisLikeButton({ id, onClick, updateReaction }) {
   const [isAlreadyDisLiked, setIsAlreadyDisLiked] = useState(false);
   const [isAlreadyLiked, setIsAlreadyLiked] = useState(false);
   const [dislikes, setDislikes] = useState([]);
@@ -14,10 +14,16 @@ function DisLikeButton({ id, onClick, active }) {
   useEffect(() => {
     checkIfIsAlreadyDisLiked();
     myClick();
+    update();
   }, []);
+
 
   function myClick() {
     onClick();
+  }
+
+  function update() {
+    updateReaction();
   }
 
   const thumbAnimation = useSpring({
@@ -55,9 +61,9 @@ function DisLikeButton({ id, onClick, active }) {
         .select()
         .eq('post_id', id)
         .eq('user_id', session.user.id)
-        .then((res) => {
-          setDislikes(res);
-        });
+          .then((res) => {
+            setDislikes(res);
+          });
 
       setIsAlreadyDisLiked(dislikes?.length > 0);
     } catch (error) {
@@ -85,9 +91,7 @@ function DisLikeButton({ id, onClick, active }) {
           post_id: id,
           user_id: session.user.id,
         });
-
     } catch (error) {
-
       console.error("Errore nella function di aggiunta dei dislike " + error)
     }
   }
