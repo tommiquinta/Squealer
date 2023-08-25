@@ -30,7 +30,7 @@ export default function Home () {
       })
   }
 
-  console.log('session ' + session)
+  // console.log('session ' + session)
   if (!session) {
     return <LoginPage />
   }
