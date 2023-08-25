@@ -3,7 +3,7 @@ import Layout from '@/app/Components/Layout'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useState } from 'react'
 
-export default function LoginPage () {
+export default function LoginPage() {
   const supabase = useSupabaseClient()
 
   const [email, setEmail] = useState()
@@ -14,7 +14,7 @@ export default function LoginPage () {
   const [avatar, setAvatar] = useState()
   const [username, setUsername] = useState()
 
-  async function loginWithGoogle () {
+  async function loginWithGoogle() {
     await supabase.auth.signInWithOAuth({
       provider: 'google'
     })
@@ -23,7 +23,7 @@ export default function LoginPage () {
     })
   }
 
-  async function signUpWithEmail () {
+  async function signUpWithEmail() {
     if (!email) {
       alert('You can not sign in without an eamil!')
       return
@@ -61,7 +61,7 @@ export default function LoginPage () {
     }
   }
 
-  async function signInWithEmail () {
+  async function signInWithEmail() {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password

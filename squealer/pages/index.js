@@ -1,15 +1,12 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useEffect, useState } from 'react'
+
 import PostCard from '@/app/Components/PostCard'
-import NavigationBar from '@/app/Components/NavigationBar'
 import PostFormCard from '@/app/Components/FormPostCard'
 import Layout from '@/app/Components/Layout'
-import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import LoginPage from './login'
-import { useEffect, useState } from 'react'
-import { Result } from 'postcss'
 
-export default function Home () {
+export default function Home() {
   const session = useSession()
 
   // to fill the homepage with posts:
@@ -20,7 +17,7 @@ export default function Home () {
     fetchPosts()
   }, [])
 
-  function fetchPosts () {
+  function fetchPosts() {
     supabase
       .from('posts')
       .select('id, content, created_at,photos, profiles(id, avatar, name)')

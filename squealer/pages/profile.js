@@ -19,8 +19,8 @@ export default function ProfilePage() {
   const selected = "border-b-4 rounded-sm border-socialBlue text-sky-600 w-4"
 
   useEffect(() => {
-    if (!userId){
-      <LoginPage/>
+    if (!userId) {
+      <LoginPage />
     }
     fetchAll()
   }, [])
