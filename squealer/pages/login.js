@@ -68,6 +68,14 @@ export default function LoginPage () {
     })
   }
 
+  async function withoutLoginMode(){
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email : "guest@squeal.it",
+      password : "guest"
+    })
+    sessionStorage.guest = true;
+  }
+
   return (
     <Layout hidenavigation={true}>
       <div className='h-screen flex items-center'>
@@ -111,7 +119,7 @@ export default function LoginPage () {
                         setPassword('')
                     }}
                   >
-                    here
+                     here
                   </span>
                   .
                 </p>
@@ -201,6 +209,8 @@ export default function LoginPage () {
             </button>
           </Card>
           {/* end login with Google */}
+
+          <p className='text-socialBlue hover:underline cursor-pointer text-center' onClick={(withoutLoginMode)}>Continue without logging...</p>
         </div>
       </div>
     </Layout>

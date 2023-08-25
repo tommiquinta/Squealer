@@ -12,6 +12,8 @@ import { Result } from 'postcss'
 export default function Home () {
   const session = useSession()
 
+  const isGuest = session.guest == null ? false : true;
+
   // to fill the homepage with posts:
   const [posts, setPosts] = useState([])
   const supabase = useSupabaseClient()
@@ -21,6 +23,9 @@ export default function Home () {
   }, [])
 
   function fetchPosts () {
+    if(isGuest){
+      //deve filtrare i post e mettere solo quelli dei canali ufficiali
+    }
     supabase
       .from('posts')
       .select('id, content, created_at,photos, profiles(id, avatar, name)')
