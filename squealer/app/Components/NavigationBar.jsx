@@ -111,8 +111,8 @@ export default function NavigationBar () {
         <p className='hidden md:block'>Notifications</p>
         </Link>
 
-        <button onClick={logout} className={`${nonActivePage} md:pr-40 md:w-14`}>
-          <Link href='#'className='flex gap-2'>
+        <button onClick={logout} className={`${nonActivePage} `}>
+          <Link href='#'className='flex gap-2 md:w-32 md:pr-36'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
