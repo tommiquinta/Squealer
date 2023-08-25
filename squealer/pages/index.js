@@ -12,7 +12,7 @@ import { Result } from 'postcss'
 export default function Home () {
   const session = useSession()
 
-  const isGuest = session.guest == null ? false : true;
+  const isGuest = session?.guest == null ? false : true;
 
   // to fill the homepage with posts:
   const [posts, setPosts] = useState([])

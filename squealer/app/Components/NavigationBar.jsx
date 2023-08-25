@@ -23,6 +23,8 @@ export default function NavigationBar () {
   const activePage = 'text-white flex gap-2 py-1 px-2 mx-1 md:gap-2 md:py-3 bg-socialBlue md:-mx-10 md:px-10 rounded-md shadow-md shadow-gray-300 '
   const nonActivePage = 'flex gap-2 mx-2 py-1 px-2 md:py-3 hover:bg-socialBlue hover:bg-opacity-20 md:-mx-10 md:px-10 rounded-md hover:shadow-md shadow-gray-300 transition-all hover:scale-110'
 
+  const isGuest = session.guest === null ? false : true;
+
   return (
     
     <Card>
@@ -50,6 +52,8 @@ export default function NavigationBar () {
           </svg>
           <p className='hidden md:block'>Home</p>
         </Link>
+        {(!isGuest && 
+          <div>
         <Link href='/usersList' className={pathname === '/usersList' ? activePage : nonActivePage}>
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -110,7 +114,7 @@ export default function NavigationBar () {
         </svg>
         <p className='hidden md:block'>Notifications</p>
         </Link>
-
+         </div> )}
         <button onClick={logout} className={`${nonActivePage} `}>
           <Link href='#'className='flex gap-2 md:w-32 md:pr-36'>
             <svg
