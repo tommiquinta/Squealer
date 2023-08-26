@@ -16,7 +16,6 @@ export default function PostFormCard ({ onPost }) {
   const [content, setContent] = useState()
   const supabase = useSupabaseClient()
   const session = useSession()
-  const [handlerInfo, setHandlerInfo] = useState()
 
   useEffect(() => {
     if (session?.user) {
@@ -43,39 +42,75 @@ export default function PostFormCard ({ onPost }) {
   // console.log(profile)
 
   async function createPost () {
-    if (content.includes('@')) {
-      const regex = /@(\w+)/
+    if (content && content.trim() !== '') {
+      if (content.includes('@')) {
+        const regex = /@(\w+)/
 
-      const match = regex.exec(content)
-      if (match) {
-        const receiverHandle = match[1]
-        supabase
-          .from('profiles')
-          .select()
-          .eq('username', receiverHandle)
-          .then(response => {
-            if (!response.error) {
-              supabase
-                .from('direct_messages')
-                .insert({
-                  author: session.user.id,
-                  receiver: response.data[0].id,
-                  content: content,
-                  photos: uploads
-                })
-                .then(response => {
-                  if (!response.error) {
-                    setContent('')
-                    setUploads([])
-                  }
-                })
-            } else{
-              console.log(response.error) // TO-DO: handle error
-            }
-          })
+        const match = regex.exec(content)
+        if (match) {
+          const receiverHandle = match[1]
+          supabase
+            .from('profiles')
+            .select()
+            .eq('username', receiverHandle)
+            .then(response => {
+              if (!response.error) {
+                supabase
+                  .from('direct_messages')
+                  .insert({
+                    author: session.user.id,
+                    receiver: response.data[0].id,
+                    content: content,
+                    photos: uploads
+                  })
+                  .then(response => {
+                    if (!response.error) {
+                      setContent('')
+                      setUploads([])
+                    }
+                  })
+              } else {
+                console.log(response.error) // TO-DO: handle error
+              }
+            })
+        }
       }
-    } else {
-      if (content && content.trim() !== '') {
+
+      if (content.includes('§')) {
+        const regex = /§(\w+)/
+
+        const match = regex.exec(content)
+
+        if (match) {
+          const receiverHandle = match[1]
+
+          supabase
+            .from('public_channels')
+            .select()
+            .eq('handle', receiverHandle)
+            .then(response => {
+              if (!response.error) {
+                supabase
+                  .from('posts')
+                  .insert({
+                    author: session.user.id,
+                    public_channel: response.data[0].id,
+                    content: content,
+                    photos: uploads
+                  })
+                  .then(response => {
+                    if (!response.error) {
+                      setContent('')
+                      setUploads([])
+
+                    }
+                  })
+              } else {
+                console.log(response.error) // TO-DO: handle error
+              }
+            })
+        }
+      } else {
         // cheack if the post is not empty
         supabase
           .from('posts')
@@ -112,6 +147,8 @@ export default function PostFormCard ({ onPost }) {
             }
           })
       }
+    } else {
+      alert("A squeal with no content is a little useless, isn't it?")
     }
   }
 

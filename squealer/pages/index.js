@@ -1,29 +1,29 @@
-import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
-import { useEffect, useState } from 'react'
-
-import PostCard from '@/app/Components/PostCard'
 import PostFormCard from '@/app/Components/FormPostCard'
 import Layout from '@/app/Components/Layout'
+import PostCard from '@/app/Components/PostCard'
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useEffect, useState } from 'react'
 import LoginPage from './login'
-
-
-// Componente principale
+import PublicChannelsList from '@/app/Components/PublicChannelsList'
 export default function Home () {
-  const supabase = useSupabaseClient()
   const session = useSession()
-  if (!session) {
+
+  if(!session){
     return <LoginPage />
   }
 
+  const supabase = useSupabaseClient()
+
   const [posts, setPosts] = useState([])
   const [userName, setUsername] = useState(null)
+  const [publicChannels, setPublicChannels] = useState([])
 
   useEffect(() => {
-    if (!session) {
-      return
+    if (session) {
+      fetchPosts()
+      checkUsername()
+      fetchPublicChannels()
     }
-    fetchPosts()
-    checkUsername()
   }, [session])
 
   function fetchPosts() {
@@ -37,13 +37,22 @@ export default function Home () {
   }
 
   async function checkUsername () {
-    await supabase
-      .from('profiles')
-      .select()
-      .eq('id', session.user.id)
+    if (session) {
+      const result = await supabase
+        .from('profiles')
+        .select()
+        .eq('id', session.user.id)
+
+      setUsername(result.data[0].username)
+    }
+  }
+
+  function fetchPublicChannels () {
+    supabase
+      .from('public_channels')
+      .select('id, name, banner, description, avatar, handle')
       .then(result => {
-        setUsername(result.data[0].username)
-        console.log(userName)
+        setPublicChannels(result.data)
       })
   }
 
@@ -52,15 +61,12 @@ export default function Home () {
 
     const newUsername = e.target.username.value
 
-    if (newUsername) {
+    if (newUsername && session) {
       // Update the username in the database
       await supabase
         .from('profiles')
         .update({ username: newUsername })
         .eq('id', session.user.id)
-        .then(result => {
-          return <Home />
-        })
 
       // Update the local state
       setUsername(newUsername)
@@ -70,25 +76,32 @@ export default function Home () {
     return <LoginPage />
   }
 
-  if (userName) {
-    return (
-      <Layout>
-        <PostFormCard onPost={fetchPosts} />
-        {posts?.length > 0 &&
-          posts.map(
-            (
-              post // this is like a foreach to loop through the posts.
-            ) => <PostCard key={post.id} {...post} />
-          )}
-      </Layout>
-    )
-  } else {
-    return (
-      <Layout hidenavigation={true}>
-        <UsernameForm onSubmit={handleUsernameSubmit} />
-      </Layout>
-    )
-  }
-  
-
+  return (
+    <div className='flex'>
+      {userName ? (
+        <Layout>
+          <PostFormCard onPost={fetchPosts} />
+          {posts?.length > 0 &&
+            posts.map(post => <PostCard key={post.id} {...post} />)}
+        </Layout>
+      ) : (
+        <Layout hidenavigation={true}>
+          <form onSubmit={handleUsernameSubmit}>
+            <label>this must be fixed using css: its pretty ugly.</label>
+            <br />
+            <label>
+              Insert your username:
+              <input type='text' name='username' />
+            </label>
+            <button type='submit'>Submit</button>
+          </form>
+        </Layout>
+      )}
+      {userName && (
+        <div className='mt-2 px-4 py-2 relative'>
+          <PublicChannelsList publicChannels={publicChannels} />
+        </div>
+      )}
+    </div>
+  )
 }

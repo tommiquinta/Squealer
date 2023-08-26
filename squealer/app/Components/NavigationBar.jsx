@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { useRouter } from "next/router"
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 
-
 export default function NavigationBar() {
   const session = useSession();
   const router = useRouter();

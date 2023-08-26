@@ -4,8 +4,6 @@ export default function Card ({ children, noPadding }) {
       classes += 'p-0';
   }
   return (
-    <div className={classes}>
-      {children}
-      </  div>
+    <div className='bg-white shadow-md rounded-lg p-4 mb-5'>{children}</  div>
   )
 }

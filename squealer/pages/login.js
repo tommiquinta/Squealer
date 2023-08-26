@@ -20,7 +20,7 @@ export default function LoginPage() {
     })
   }
 
-  async function signUpWithEmail() {
+  async function signUpWithEmail () {
     if (!email) {
       alert('You can not sign in without an eamil!')
       return
@@ -98,7 +98,7 @@ export default function LoginPage() {
 
               <div className='mt-3 text-center text-gray-500'>
                 <p>
-                  Do not have an account? Click
+                  Do not have an account? Click{' '}
                   <span
                     className='underline cursor-pointer ml-1'
                     onClick={() => {
@@ -199,8 +199,8 @@ export default function LoginPage() {
           </Card>
           {/* end login with Google */}
 
-{/* Login and signup with GitHub */}
-         {/*  <Card>
+          {/* Login and signup with GitHub */}
+          {/*  <Card>
             <button
               onClick={loginWithGithub}
               className='flex gap-5 items-center text-center'
