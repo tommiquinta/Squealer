@@ -27,36 +27,55 @@ export default function channel () {
   const supabase = useSupabaseClient()
 
   useEffect(() => {
-    fetchData()
-    fetchChannelPosts()
-  }, [channelId, session]) // Fetch data when username changes
+    if (channelId && session) {
+      fetchData()
+      fetchChannelPosts()
+    }
+  }, [channelId, session])
 
   async function fetchData () {
-    const result = await supabase
-      .from('public_channels')
-      .select()
-      .eq('id', channelId)
+    try {
+      const { data, error } = await supabase
+        .from('public_channels')
+        .select()
+        .eq('id', channelId)
+        .single()
 
-    if (result.data) {
-      setChannelName(result.data[0].name)
-      setChannelHandle(result.data[0].handle)
-      setChannelAvatar(result.data[0].avatar)
-      setChannelBanner(result.data[0].banner)
-      setChannelDescription(result.data[0].description)
+      if (data) {
+        setChannelName(data.name)
+        setChannelAvatar(data.avatar)
+        setChannelBanner(data.banner)
+        setChannelDescription(data.description)
+      }
+
+      if (error) {
+        console.error('Error fetching channel data:', error)
+      }
+    } catch (error) {
+      console.error('Error fetching channel data:', error)
     }
   }
 
   async function fetchChannelPosts () {
-    supabase
-      .from('posts')
-      .select(
-        'id, content, created_at,photos, profiles(id, avatar, name), public_channel'
-      )
-      .eq('public_channel', channelId)
-      .order('created_at', { ascending: false })
-      .then(result => {
-        setPosts(result.data)
-      })
+    try {
+      const { data, error } = await supabase
+        .from('posts')
+        .select(
+          'id, content, created_at,photos, profiles(id, avatar, name), public_channel'
+        )
+        .eq('public_channel', channelId)
+        .order('created_at', { ascending: false })
+
+      if (data) {
+        setPosts(data)
+      }
+
+      if (error) {
+        console.error('Error fetching channel posts:', error)
+      }
+    } catch (error) {
+      console.error('Error fetching channel posts:', error)
+    }
   }
 
   return (
