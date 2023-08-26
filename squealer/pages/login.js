@@ -25,7 +25,7 @@ export default function LoginPage () {
 
   async function signUpWithEmail () {
     if (!email) {
-      alert('You can not sign in without an eamil!')
+      alert('You can not sign in without an email!')
       return
     }
     if (!email.includes('@') && (!email.includes('.com') || !email.includes('.it'))) {
