@@ -43,6 +43,7 @@ export default function channel () {
 
       if (data) {
         setChannelName(data.name)
+        setChannelHandle(data.handle)
         setChannelAvatar(data.avatar)
         setChannelBanner(data.banner)
         setChannelDescription(data.description)
@@ -99,7 +100,7 @@ export default function channel () {
             2k iscritti - still to handle
           </div>
           <hr />
-          <div className='pt-2 font-sans text-lg text-center text-gray-400'>
+          <div className='pt-2 pb-2 font-sans text-md text-center text-gray-400'>
             {channelDescription}
           </div>
         </Card>

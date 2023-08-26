@@ -185,7 +185,7 @@ export default function PostFormCard({ onPost }) {
     <div className='mb-5'>
       <Card>
         <div className='flex gap-3'>
-          {profile && <Avatar url={profile.avatar} />}
+          {profile && <Avatar size={'medium'} url={profile.avatar} />}
           <textarea
             value={content}
             onChange={e => {
