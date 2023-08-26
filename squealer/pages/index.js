@@ -3,7 +3,6 @@ import Layout from '@/app/Components/Layout'
 import PostCard from '@/app/Components/PostCard'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
-import PublicChannelsList from '@/app/Components/PublicChannelsList'
 import { useRouter } from 'next/router'
 
 export default function Home() {
@@ -14,13 +13,11 @@ export default function Home() {
 
   const [posts, setPosts] = useState([])
   const [userName, setUsername] = useState(null)
-  const [publicChannels, setPublicChannels] = useState([])
 
   useEffect(() => {
     if (session) {
       fetchPosts()
       checkUsername()
-      fetchPublicChannels()
     }
   }, [session])
 
@@ -45,14 +42,7 @@ export default function Home() {
     }
   }
 
-  function fetchPublicChannels() {
-    supabase
-      .from('public_channels')
-      .select('id, name, banner, description, avatar, handle')
-      .then(result => {
-        setPublicChannels(result.data)
-      })
-  }
+  
 
   const handleUsernameSubmit = async e => {
     e.preventDefault()
@@ -78,6 +68,7 @@ export default function Home() {
           <PostFormCard onPost={fetchPosts} />
           {posts?.length > 0 &&
             posts.map(post => <PostCard key={post.id} {...post} />)}
+          
         </Layout>
       ) : (
         <Layout hidenavigation={true}>
@@ -92,11 +83,7 @@ export default function Home() {
           </form>
         </Layout>
       )}
-      {userName && (
-        <div className='mt-2 px-4 py-2 relative'>
-          <PublicChannelsList publicChannels={publicChannels} />
-        </div>
-      )}
+      
     </div>
   )
 }
