@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import PostCard from '@/app/Components/PostCard'
 import LoginPage from './login'
+import PostFormCard from '@/app/Components/FormPostCard'
 
 export default function channel () {
   const session = useSession()
@@ -69,7 +70,7 @@ export default function channel () {
           <div className='absolute top-28 left-1/2 transform -translate-x-1/2 rounded-full bg-white border-8 border-white'>
             <Avatar size={'big'} url={channelAvatar} />
           </div>
-          <div className='pt-16 pb-2 font-sans text-4xl font-semibold text-center text-gray-600'>
+          <div className='pt-16 pb-2 font-sans text-4xl font-semibold text-center text-gray-800'>
             {channelName}
           </div>
           <div className='pb-1 font-sans text-xl text-center text-gray-500'>
@@ -83,7 +84,8 @@ export default function channel () {
             {channelDescription}
           </div>
         </Card>
-        <hr className='pb-2' />
+        <PostFormCard />
+
         <div className='pb-2 font-sans text-sm text-center text-gray-400'>
           Here below are gonna be listed all squeals shared to this channel.
         </div>

@@ -102,9 +102,7 @@ export default function PostFormCard ({ onPost }) {
                     if (!response.error) {
                       setContent('')
                       setUploads([])
-                      if (onPost) {
-                        onPost() // function to fill home with posts in index.js
-                      }
+
                     }
                   })
               } else {
