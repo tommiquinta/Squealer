@@ -28,7 +28,7 @@ export default function Layout ({ children, hidenavigation }) {
   return (
     <div className='md:flex mt-4 max-w-4xl mx-auto gap-6 '>
       {!hidenavigation && (
-        <div className='fixed'>
+        <div className='relative'>
           <NavigationBar />
         </div>
         
@@ -37,7 +37,7 @@ export default function Layout ({ children, hidenavigation }) {
         className={
           hidenavigation
             ? 'w-full relative left-25%'
-            : 'mx-2 relative top-36 md:top-0 md:left-1/4 md:mx-0 md:w-9/12'
+            : 'mx-2 relative top-36 md:top-0  md:mx-0 md:w-9/12 md:left-1/4'
         }
       >
         {children}

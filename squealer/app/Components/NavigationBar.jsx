@@ -30,13 +30,13 @@ export default function NavigationBar() {
 
   return (
 
-    <Card>
+    <Card isNavbar={true}>
       <div className='px-4 py-2 w-screen md:w-fit '>
         <div className='flex gap-2 leading-9 justify-center mb-3'>
           <img
             src="yoshi-logo-empty.png"
             alt="logo"
-            className='w-6 h-6'
+            className='w-8 h-8'
             onClick={handleClick}
           />
           <h2 className='text-gray-400 text-center text-3xl'>Squealer</h2>

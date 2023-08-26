@@ -42,9 +42,9 @@ export default function Avatar({
   }
 
   return (
-    <div className="h-30 overflow-hidden flex justify-center items-center relative">
+    <div className="h-30 flex justify-center items-center relative">
       <div className={`${sizeWidth} relative rounded-full overflow-hidden`}>
-        <div
+        <div className="items-center justify-center"
           style={{
             overflow: 'hidden',
             margin: '0 auto' // Centra orizzontalmente
@@ -53,7 +53,7 @@ export default function Avatar({
           <img
             src={url}
             alt="aggiungi una foto profilo"
-            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
 
           {isUploading && (
