@@ -9,16 +9,38 @@ import LoginPage from './login'
 import { useEffect, useState } from 'react'
 import { Result } from 'postcss'
 
-export default function Home () {
-  const session = useSession()
+function UsernameForm ({ onSubmit }) {
+  return (
+    <form onSubmit={onSubmit}>
+      <label>this must be fixed using css: its pretty ugly.</label>
+      <br></br>
+      <label>
+        Insert your username:
+        <input type='text' name='username' />
+      </label>
+      <button type='submit'>Submit</button>
+    </form>
+  )
+}
 
-  // to fill the homepage with posts:
-  const [posts, setPosts] = useState([])
+// Componente principale
+export default function Home () {
   const supabase = useSupabaseClient()
+  const session = useSession()
+  if (!session) {
+    return <LoginPage />
+  }
+
+  const [posts, setPosts] = useState([])
+  const [userName, setUsername] = useState(null)
 
   useEffect(() => {
+    if (!session) {
+      return
+    }
     fetchPosts()
-  }, [])
+    checkUsername()
+  }, [session])
 
   function fetchPosts () {
     supabase
@@ -30,20 +52,54 @@ export default function Home () {
       })
   }
 
-  // console.log('session ' + session) simo l'ha commentato
-  if (!session) {
-    return <LoginPage />
+  async function checkUsername () {
+    await supabase
+      .from('profiles')
+      .select()
+      .eq('id', session.user.id)
+      .then(result => {
+        setUsername(result.data[0].username)
+        console.log(userName)
+      })
   }
 
-  return (
-    <Layout>
-      <PostFormCard onPost={fetchPosts} />
-      {posts?.length > 0 &&
-        posts.map(
-          (
-            post // this is like a foreach to loop through the posts.
-          ) => <PostCard key={post.id} {...post} />
-        )}
-    </Layout>
-  )
+  const handleUsernameSubmit = async e => {
+    e.preventDefault()
+
+    const newUsername = e.target.username.value
+
+    if (newUsername) {
+      // Update the username in the database
+      await supabase
+        .from('profiles')
+        .update({ username: newUsername })
+        .eq('id', session.user.id)
+        .then(result => {
+          return <Home />
+        })
+
+      // Update the local state
+      setUsername(newUsername)
+    }
+  }
+
+  if (userName) {
+    return (
+      <Layout>
+        <PostFormCard onPost={fetchPosts} />
+        {posts?.length > 0 &&
+          posts.map(
+            (
+              post // this is like a foreach to loop through the posts.
+            ) => <PostCard key={post.id} {...post} />
+          )}
+      </Layout>
+    )
+  } else {
+    return (
+      <Layout hidenavigation={true}>
+        <UsernameForm onSubmit={handleUsernameSubmit} />
+      </Layout>
+    )
+  }
 }

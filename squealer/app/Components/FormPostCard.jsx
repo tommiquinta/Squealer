@@ -6,10 +6,9 @@ import Avatar from './Avatar'
 import Card from './Card'
 import Preloader from './Preloader'
 
-
 //https://fzhzqznaucvfclbaadpa.supabase.co/storage/v1/object/public/photos/1691597003355ChallengingMario.jpeg?t=2023-08-09T16%3A03%3A50.136Z
 
-export default function PostFormCard({ onPost }) {
+export default function PostFormCard ({ onPost }) {
   const [profile, setProfile] = useState(null)
   const [daily_quota, setDaily_quota] = useState()
   const [uploads, setUploads] = useState([])
@@ -56,24 +55,22 @@ export default function PostFormCard({ onPost }) {
           .eq('username', receiverHandle)
           .then(response => {
             if (!response.error) {
-              setHandlerInfo(response.data[0].id)
-              if (handlerInfo) {
-                console.log(handlerInfo)
-                supabase
-                  .from('direct_messages')
-                  .insert({
-                    author: session.user.id,
-                    receiver: handlerInfo,
-                    content: content,
-                    photos: uploads
-                  })
-                  .then(response => {
-                    if (!response.error) {
-                      setContent('')
-                      setUploads([])
-                    }
-                  })
-              }
+              supabase
+                .from('direct_messages')
+                .insert({
+                  author: session.user.id,
+                  receiver: response.data[0].id,
+                  content: content,
+                  photos: uploads
+                })
+                .then(response => {
+                  if (!response.error) {
+                    setContent('')
+                    setUploads([])
+                  }
+                })
+            } else{
+              console.log(response.error) // TO-DO: handle error
             }
           })
       }
@@ -118,7 +115,7 @@ export default function PostFormCard({ onPost }) {
     }
   }
 
-  async function addPhotos(ev) {
+  async function addPhotos (ev) {
     const files = ev.target.files
     if (files.length > 0) {
       setIsUploading(true)
@@ -156,7 +153,7 @@ export default function PostFormCard({ onPost }) {
               setDaily_quota(profile.daily_quota - e.target.value.length)
             }}
             className='grow p-3 h-18 resize-none'
-            placeholder={`What's on your mind, ${profile && profile.name}?`}
+            placeholder={`What's on your mind, ${profile && profile.username}?`}
           />
         </div>
 
@@ -294,8 +291,9 @@ export default function PostFormCard({ onPost }) {
 
           <div>
             <a
-              className={`flex gap-1 ml-8 ${daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'
-                }`}
+              className={`flex gap-1 ml-8 ${
+                daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'
+              }`}
             >
               Daily Quota: {daily_quota}
             </a>
