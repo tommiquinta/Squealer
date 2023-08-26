@@ -3,7 +3,7 @@ import Layout from '@/app/Components/Layout'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useState } from 'react'
 
-export default function LoginPage () {
+export default function LoginPage() {
   const supabase = useSupabaseClient()
 
   const [email, setEmail] = useState()
@@ -14,24 +14,18 @@ export default function LoginPage () {
   const [avatar, setAvatar] = useState()
   const [username, setUsername] = useState()
 
-  async function loginWithGoogle () {
+  async function loginWithGoogle() {
     await supabase.auth.signInWithOAuth({
       provider: 'google'
     })
   }
 
-/*   async function loginWithGithub () {
-    await supabase.auth.signInWithOAuth({
-      provider: 'github'
-    })
-  } */
-
-  async function signUpWithEmail () {
+  async function signUpWithEmail() {
     if (!email) {
       alert('You can not sign in without an eamil!')
       return
     }
-    if (!email.includes('@') || (!email.includes('.com') && !email.includes('.it') )) {
+    if (!email.includes('@') && (!email.includes('.com') || !email.includes('.it'))) {
       alert('Please insert a valid email adress.')
       return
     }
@@ -64,7 +58,7 @@ export default function LoginPage () {
     }
   }
 
-  async function signInWithEmail () {
+  async function signInWithEmail() {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password
@@ -75,7 +69,7 @@ export default function LoginPage () {
     <Layout hidenavigation={true}>
       <div className='h-screen flex items-center'>
         <div className='max-w-md mx-auto grow'>
-          <h1 className='text-6xl mb-4 text-gray-300 text-center'>
+          <h1 className='text-4xl mb-4 text-gray-300 text-center font-sans'>
             Login or Signup
           </h1>
           {showLogIn && (
@@ -106,7 +100,7 @@ export default function LoginPage () {
                 <p>
                   Do not have an account? Click
                   <span
-                    className='underline cursor-pointer'
+                    className='underline cursor-pointer ml-1'
                     onClick={() => {
                       setShowSignUp(true),
                         setShowLogIn(false),

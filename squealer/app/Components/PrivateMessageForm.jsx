@@ -13,7 +13,6 @@ export default function PrivateMessageForm ({ onPost, receiver }) {
   const [content, setContent] = useState()
   const supabase = useSupabaseClient()
   const session = useSession()
-
   useEffect(() => {
     if (session?.user) {
       supabase

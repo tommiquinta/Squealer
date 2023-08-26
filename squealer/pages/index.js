@@ -1,27 +1,11 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useEffect, useState } from 'react'
+
 import PostCard from '@/app/Components/PostCard'
-import NavigationBar from '@/app/Components/NavigationBar'
 import PostFormCard from '@/app/Components/FormPostCard'
 import Layout from '@/app/Components/Layout'
-import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import LoginPage from './login'
-import { useEffect, useState } from 'react'
-import { Result } from 'postcss'
 
-function UsernameForm ({ onSubmit }) {
-  return (
-    <form onSubmit={onSubmit}>
-      <label>this must be fixed using css: its pretty ugly.</label>
-      <br></br>
-      <label>
-        Insert your username:
-        <input type='text' name='username' />
-      </label>
-      <button type='submit'>Submit</button>
-    </form>
-  )
-}
 
 // Componente principale
 export default function Home () {
@@ -42,7 +26,7 @@ export default function Home () {
     checkUsername()
   }, [session])
 
-  function fetchPosts () {
+  function fetchPosts() {
     supabase
       .from('posts')
       .select('id, content, created_at,photos, profiles(id, avatar, name)')
@@ -82,6 +66,9 @@ export default function Home () {
       setUsername(newUsername)
     }
   }
+  if (!session) {
+    return <LoginPage />
+  }
 
   if (userName) {
     return (
@@ -102,4 +89,6 @@ export default function Home () {
       </Layout>
     )
   }
+  
+
 }
