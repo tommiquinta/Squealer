@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import LikeButton from './LikeButton';
 import DisLikeButton from './DisLikeButton';
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 const Reaction = ({ id }) => {
 

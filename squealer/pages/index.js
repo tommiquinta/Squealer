@@ -3,15 +3,13 @@ import Layout from '@/app/Components/Layout'
 import PostCard from '@/app/Components/PostCard'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
-import LoginPage from './login'
 import PublicChannelsList from '@/app/Components/PublicChannelsList'
-export default function Home () {
+import { useRouter } from 'next/router'
+
+export default function Home() {
+
   const session = useSession()
-
-  if(!session){
-    return <LoginPage />
-  }
-
+  const router = useRouter();
   const supabase = useSupabaseClient()
 
   const [posts, setPosts] = useState([])
@@ -36,7 +34,7 @@ export default function Home () {
       })
   }
 
-  async function checkUsername () {
+  async function checkUsername() {
     if (session) {
       const result = await supabase
         .from('profiles')
@@ -47,7 +45,7 @@ export default function Home () {
     }
   }
 
-  function fetchPublicChannels () {
+  function fetchPublicChannels() {
     supabase
       .from('public_channels')
       .select('id, name, banner, description, avatar, handle')
@@ -71,9 +69,6 @@ export default function Home () {
       // Update the local state
       setUsername(newUsername)
     }
-  }
-  if (!session) {
-    return <LoginPage />
   }
 
   return (

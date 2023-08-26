@@ -1,13 +1,10 @@
+import React from 'react'
+import Link from 'next/link'
 import Card from './Card'
 import Avatar from './Avatar'
-import Link from 'next/link'
-import ReactTimeAgo from 'react-time-ago'
-import React, { useState } from 'react'
 import moment from 'moment'
-import { useEffect } from 'react'
-import { useSupabaseClient } from '@supabase/auth-helpers-react'
 
-export default function PrivateMessage ({
+export default function PrivateMessage({
   content,
   created_at,
   photos,

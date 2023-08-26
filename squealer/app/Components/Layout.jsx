@@ -1,11 +1,6 @@
-import { Children } from 'react'
 import NavigationBar from './NavigationBar'
-import postcssConfig from '@/postcss.config'
-import PublicChannelsList from './PublicChannelsList'
 
-
-
-export default function Layout ({ children, hidenavigation }) {
+export default function Layout({ children, hidenavigation }) {
   return (
     <div className='md:flex mt-4 max-w-4xl mx-auto gap-6 '>
       {!hidenavigation && (

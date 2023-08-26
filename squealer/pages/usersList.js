@@ -1,23 +1,21 @@
-import Card from '@/app/Components/Card'
-import PostFormCard from '@/app/Components/FormPostCard'
-import Layout from '@/app/Components/Layout'
-import UsersCard from '@/app/Components/UserCard'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useState, useEffect } from 'react'
-import LoginPage from './login'
+import { useRouter } from 'next/router'
+import Layout from '@/app/Components/Layout'
+import UsersCard from '@/app/Components/UserCard'
 
 export default function UsersListPage() {
   const supabase = useSupabaseClient()
   const session = useSession()
-  if (!session) {
-    return <LoginPage />
-  }
-
   const [profiles, setProfiles] = useState([])
+  const router = useRouter()
+
 
   useEffect(() => {
     if (session) {
       fetchProfiles()
+    } else {
+      router.push('/login')
     }
   }, [session])
 
@@ -40,7 +38,6 @@ export default function UsersListPage() {
           )
         )}
       </div>
-
     </Layout>
   )
 }

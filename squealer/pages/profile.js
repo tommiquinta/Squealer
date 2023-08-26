@@ -7,9 +7,9 @@ import Link from 'next/link'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
 import { useRouter } from "next/router"
-import LoginPage from "./login"
 
 export default function ProfilePage() {
+
   const router = useRouter()
   const session = useSession()
   const supabase = useSupabaseClient()
@@ -18,9 +18,13 @@ export default function ProfilePage() {
   const userId = router.query.id
   const selected = "border-b-4 rounded-sm border-socialBlue text-sky-600 w-4"
 
+
   useEffect(() => {
+    if (!session) {
+      router.push('/login')
+    }
     if (!userId) {
-      <LoginPage />
+      router.push('/login')
     }
     fetchAll()
   }, [])

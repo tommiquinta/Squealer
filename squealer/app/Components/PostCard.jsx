@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React from 'react';
 import moment from 'moment';
+import Link from 'next/link';
 import Reaction from './Reaction/Reaction';
 import Card from './Card';
 import Avatar from './Avatar';
-import Link from 'next/link';
 
 export default function PostCard(
   {
@@ -19,7 +19,7 @@ export default function PostCard(
     <Card>
       <div className='flex gap-3'>
         <div>
-          <Link href={'/profile/'+ authorProfiles?.id}>
+          <Link href={'/profile/' + authorProfiles?.id}>
             <span className='cursor-pointer'>
               <Avatar url={authorProfiles?.avatar} />
             </span>
@@ -27,7 +27,7 @@ export default function PostCard(
         </div>
         <div className='flex flex-col'>
           <p>
-            <Link href={'/profile/'+ authorProfiles?.id}>
+            <Link href={'/profile/' + authorProfiles?.id}>
               <span className='font-semibold hover:underline cursor-pointer '>
                 {authorProfiles?.name}
               </span>{' '}

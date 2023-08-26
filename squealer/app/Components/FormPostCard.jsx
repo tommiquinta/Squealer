@@ -1,6 +1,7 @@
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useSession } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
 import Avatar from './Avatar'
 import Card from './Card'
@@ -8,7 +9,7 @@ import Preloader from './Preloader'
 
 //https://fzhzqznaucvfclbaadpa.supabase.co/storage/v1/object/public/photos/1691597003355ChallengingMario.jpeg?t=2023-08-09T16%3A03%3A50.136Z
 
-export default function PostFormCard ({ onPost }) {
+export default function PostFormCard({ onPost }) {
   const [profile, setProfile] = useState(null)
   const [daily_quota, setDaily_quota] = useState()
   const [uploads, setUploads] = useState([])
@@ -16,8 +17,12 @@ export default function PostFormCard ({ onPost }) {
   const [content, setContent] = useState()
   const supabase = useSupabaseClient()
   const session = useSession()
+  const router = useRouter()
 
   useEffect(() => {
+    if (!session) {
+      router.push('/login')
+    }
     if (session?.user) {
       supabase
         .from('profiles')
@@ -35,13 +40,11 @@ export default function PostFormCard ({ onPost }) {
     }
   }, [session])
 
-  if (!session) {
-    return <loadingPage />
-  }
+
 
   // console.log(profile)
 
-  async function createPost () {
+  async function createPost() {
     if (content && content.trim() !== '') {
       if (content.includes('@')) {
         const regex = /@(\w+)/
@@ -152,7 +155,7 @@ export default function PostFormCard ({ onPost }) {
     }
   }
 
-  async function addPhotos (ev) {
+  async function addPhotos(ev) {
     const files = ev.target.files
     if (files.length > 0) {
       setIsUploading(true)
@@ -328,9 +331,8 @@ export default function PostFormCard ({ onPost }) {
 
           <div>
             <a
-              className={`flex gap-1 ml-8 ${
-                daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'
-              }`}
+              className={`flex gap-1 ml-8 ${daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'
+                }`}
             >
               Daily Quota: {daily_quota}
             </a>
