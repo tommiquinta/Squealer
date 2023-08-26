@@ -13,7 +13,7 @@ function LikeButton({ id, onClick, active }) {
 
     useEffect(() => {
         checkIfIsAlreadyLiked();
-        myClick(); u
+        myClick();
     }, []);
 
     function myClick() {
