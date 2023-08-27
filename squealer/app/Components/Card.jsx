@@ -4,7 +4,7 @@ export default function Card ({ children, noPadding, isNavbar, styles}) {
       classes += ' p-4';
   }
   if(isNavbar){
-    classes += ' fixed';
+    classes += ' fixed rounded-t-md rounded-b-none md:rounded-md';
 }
   return (
     <div className={`${classes} ${styles}`}>{children}</  div>

@@ -25,7 +25,7 @@ export default function Header() {
   console.log(activeButton);
 
 return(
-    <div id="header" className=' md:my-0 md:w-[38%] md:fixed bg-white/[0.8] shadow shadow-gray-300 p-4"'>
+    <div id="header" className=' mb-4 -mt-4 bg-white md:my-0 md:w-[38%] md:fixed md:bg-white/[0.8] shadow shadow-gray-300 p-4"'>
       <p id="focus-page" className='text-gray-500 mt-2 mb-0 mx-3 text-xl hidden md:block'>Home</p>
       <div>
         <div className='flex flex-row items-center'>

@@ -28,7 +28,7 @@ export default function Layout ({ children, hidenavigation }) {
   return (
     <div className='md:flex mt-4 md:w-8/12 mx-auto gap-6 '>
       {!hidenavigation && (
-        <div className='relative'>
+        <div className='relative mx-2'>
           <NavigationBar />
         </div>
         
