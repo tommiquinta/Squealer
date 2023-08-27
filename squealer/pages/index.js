@@ -1,6 +1,7 @@
 import PostFormCard from '@/app/Components/FormPostCard'
 import Layout from '@/app/Components/Layout'
 import PostCard from '@/app/Components/PostCard'
+import Header from '@/app/Components/Header'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
@@ -65,6 +66,7 @@ export default function Home() {
     <div className='flex'>
       {userName ? (
         <Layout>
+          <Header />
           <PostFormCard onPost={fetchPosts} />
           {posts?.length > 0 &&
             posts.map(post => <PostCard key={post.id} {...post} />)}

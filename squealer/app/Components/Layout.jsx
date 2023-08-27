@@ -26,7 +26,7 @@ export default function Layout ({ children, hidenavigation }) {
   }
 
   return (
-    <div className='md:flex mt-4 max-w-4xl mx-auto gap-6 '>
+    <div className='md:flex mt-4 md:w-8/12 mx-auto gap-6 '>
       {!hidenavigation && (
         <div className='relative'>
           <NavigationBar />
@@ -37,13 +37,13 @@ export default function Layout ({ children, hidenavigation }) {
         className={
           hidenavigation
             ? 'w-full relative left-25%'
-            : 'mx-2 relative top-36 md:top-0  md:mx-0 md:w-9/12 md:left-1/4'
+            : 'mx-2 relative top-36 md:top-0  md:mx-0 md:w-[57%] md:left-[23%] 2xl:left-[20%]'
         }
       >
         {children}
       </div>
       {!hidenavigation && (
-          <div className='px-4 relative md:left-1/4'>
+          <div className='px-4 relative md:left-[23%] 2xl:left-[21%]'>
                 <PublicChannelsList publicChannels={publicChannels} />
           </div>
        )}
