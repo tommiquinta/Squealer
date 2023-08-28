@@ -69,9 +69,7 @@ export default function Home() {
     setChannels(showChannel);
   }
 
-  
-  var following = false;
-  console.log(following)
+
   return (
     <div className='flex'>
       {userName ? (
