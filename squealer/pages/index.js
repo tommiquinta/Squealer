@@ -3,58 +3,66 @@ import Layout from '@/app/Components/Layout'
 import PostCard from '@/app/Components/PostCard'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
 
 export default function Home() {
 
   const session = useSession()
-  const router = useRouter();
   const supabase = useSupabaseClient()
 
   const [posts, setPosts] = useState([])
-  const [userName, setUsername] = useState(null)
+  const [username, setUsername] = useState('')
 
   useEffect(() => {
-    if (session) {
-      fetchPosts()
-      checkUsername()
-    }
-  }, [session])
+    checkUsername()
+    fetchPosts()
+    console.log(sessionStorage, "sessionStorage in useEffect");
+  }, [])
 
-  function fetchPosts() {
-    supabase
-      .from('posts')
-      .select('id, content, created_at,photos, profiles(id, avatar, name)')
-      .order('created_at', { ascending: false })
-      .then(result => {
-        setPosts(result.data)
-      })
+  async function fetchPosts() {
+    try {
+      await supabase
+        .from('posts')
+        .select('id, content, created_at,photos, profiles(id, avatar, name)')
+        .order('created_at', { ascending: false })
+        .then(result => {
+          setPosts(result.data)
+        })
+
+    } catch (error) {
+      console.error('Error fetching posts:', error)
+    }
   }
 
   async function checkUsername() {
-    if (session) {
-      const result = await supabase
-        .from('profiles')
-        .select()
-        .eq('id', session.user.id)
-
-      setUsername(result.data[0].username)
+    try {
+      if (sessionStorage.getItem('isLogged') === 'true') {
+        await supabase
+          .from('profiles')
+          .select()
+          .eq('id', sessionStorage.getItem('userId'))
+          .single()
+          .then(result => {
+            setUsername(result.data.username)
+            sessionStorage.setItem('username', username)
+            sessionStorage.setItem('userId', session.user.id)
+          })
+      }
+    } catch (error) {
+      console.log('Error fetching user data: ', error)
     }
   }
 
-  
 
   const handleUsernameSubmit = async e => {
     e.preventDefault()
-
     const newUsername = e.target.username.value
 
-    if (newUsername && session) {
+    if (newUsername && sessionStorage.getItem('isLogged') === 'true') {
       // Update the username in the database
       await supabase
         .from('profiles')
         .update({ username: newUsername })
-        .eq('id', session.user.id)
+        .eq('id', sessionStorage.getItem('userId'))
 
       // Update the local state
       setUsername(newUsername)
@@ -63,12 +71,12 @@ export default function Home() {
 
   return (
     <div className='flex'>
-      {userName ? (
+      {username ? (
         <Layout>
           <PostFormCard onPost={fetchPosts} />
           {posts?.length > 0 &&
             posts.map(post => <PostCard key={post.id} {...post} />)}
-          
+
         </Layout>
       ) : (
         <Layout hidenavigation={true}>
@@ -83,7 +91,7 @@ export default function Home() {
           </form>
         </Layout>
       )}
-      
+
     </div>
   )
 }

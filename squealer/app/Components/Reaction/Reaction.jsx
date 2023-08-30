@@ -32,7 +32,6 @@ const Reaction = ({ id }) => {
             .eq('post_id', id)
             .then((res) => {
                 setLikes(res.data.length);
-                console.log(res.data.length + " siamo qui");
             })
         await supabase
             .from('dislikes')
@@ -44,7 +43,6 @@ const Reaction = ({ id }) => {
                 }
             })
     }
-
 
     return (
         <div className='flex inline gap-1.5'>

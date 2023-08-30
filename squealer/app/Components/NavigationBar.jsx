@@ -2,9 +2,11 @@ import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useRouter } from "next/router"
 import Card from './Card'
 import Link from 'next/link'
+import { useEffect } from 'react';
 
 export default function NavigationBar() {
 
+  const supabase = useSupabaseClient()
   const session = useSession();
   const router = useRouter();
   const { pathname } = router;
@@ -13,12 +15,37 @@ export default function NavigationBar() {
   const nonActivePage = 'flex gap-2 mx-2 py-1 px-2 md:py-3 hover:bg-socialBlue hover:bg-opacity-20 md:-mx-10 md:px-10 rounded-md hover:shadow-md shadow-gray-300 transition-all hover:scale-110'
 
   var userpage = '';
-  if (session) {
-    userpage = '/profile/' + session.user.id;
+
+  useEffect(() => {
+    checkSessionStorage()
+  }, [])
+
+  async function checkSessionStorage() {
+    try {
+      if (sessionStorage.getItem('username') === '') {
+        await supabase
+          .from('profiles')
+          .select('username')
+          .eq('id', sessionStorage.getItem('userId'))
+          .single()
+          .then(result => {
+            sessionStorage.setItem('username', result.data.username)
+            console.log(sessionStorage)
+            if (sessionStorage.getItem('isLogged') === 'true') {
+              userpage = '/profile/' + sessionStorage.getItem('username');
+            }
+          })
+      }
+    } catch (error) {
+      console.log('Error fetching user data: ', error)
+    }
   }
-  const supabase = useSupabaseClient()
+
   function logout() {
     supabase.auth.signOut()
+    console.log('logged out, dovrei cancellare il session storage');
+    // Svuota completamente il sessionStorage
+    // sessionStorage.clear();
     router.push('/login')
   }
 
@@ -43,6 +70,7 @@ export default function NavigationBar() {
         </div>
 
         <div className='flex gap-4 place-content-center place-items-center md:block '>
+
           <Link href='/' className={pathname === '/' ? activePage : nonActivePage}>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -60,6 +88,7 @@ export default function NavigationBar() {
             </svg>
             <p className='hidden md:block'>Home</p>
           </Link>
+
           <Link href='/usersList' className={pathname === '/usersList' ? activePage : nonActivePage}>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -77,7 +106,8 @@ export default function NavigationBar() {
             </svg>
             <p className='hidden md:block'>Users</p>
           </Link>
-          <Link href={userpage} onClick={() => asPath === userpage ? fetchUser() : null} className={asPath === userpage ? activePage : nonActivePage}>
+
+          <Link href={`/profile/${sessionStorage.getItem('username')}`} className={router.asPath === `/profile/${sessionStorage.getItem('username')}` ? activePage : nonActivePage}>
             <svg xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -91,6 +121,7 @@ export default function NavigationBar() {
             </svg>
             <p className='hidden md:block'>Your Profile</p>
           </Link>
+
           <Link href='/' className={nonActivePage}>
             <svg xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -105,6 +136,7 @@ export default function NavigationBar() {
             </svg>
             <p className='hidden md:block'>Explore</p>
           </Link>
+
           <Link href='/' className={nonActivePage}>
             <svg
               xmlns="http://www.w3.org/2000/svg"

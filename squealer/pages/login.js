@@ -2,9 +2,13 @@ import Card from '@/app/Components/Card'
 import Layout from '@/app/Components/Layout'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 
 export default function LoginPage() {
   const supabase = useSupabaseClient()
+  const session = useSession()
+  const router = useRouter()
+
 
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
@@ -14,13 +18,32 @@ export default function LoginPage() {
   const [avatar, setAvatar] = useState()
   const [username, setUsername] = useState()
 
+
   async function loginWithGoogle() {
     await supabase.auth.signInWithOAuth({
       provider: 'google'
     })
+    sessionStorage.setItem('userId', session.user.id)
+    checkSessionStorage()
+    console.log(sessionStorage)
   }
 
-  async function signUpWithEmail () {
+  async function checkSessionStorage() {
+    if (session?.user.id) {
+      await supabase
+        .from('profiles')
+        .select()
+        .eq('id', sessionStorage.getItem('userId'))
+        .single()
+        .then(result => {
+          setUsername(result.data.username)
+          sessionStorage.setItem('username', username)
+          sessionStorage.setItem('isLogged', true)
+        })
+    }
+  }
+
+  async function signUpWithEmail() {
     if (!email) {
       alert('You can not sign in without an eamil!')
       return
@@ -63,6 +86,9 @@ export default function LoginPage() {
       email,
       password
     })
+    sessionStorage.setItem('username', username)
+    sessionStorage.setItem('userId', session.user.id)
+    router.push('/userlist')
   }
 
   return (

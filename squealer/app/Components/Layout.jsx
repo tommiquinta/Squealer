@@ -1,20 +1,19 @@
 import NavigationBar from './NavigationBar'
-import postcssConfig from '@/postcss.config'
 import PublicChannelsList from './PublicChannelsList'
 import { useEffect, useState } from 'react'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 
 
-export default function Layout ({ children, hidenavigation }) {
+export default function Layout({ children, hidenavigation }) {
   const session = useSession()
   const supabase = useSupabaseClient()
   const [publicChannels, setPublicChannels] = useState([])
 
   useEffect(() => {
-    if (session) {
+    if (sessionStorage.getItem('isLogged') === 'true') {
       fetchPublicChannels()
     }
-  }, [session])
+  }, [])
 
   function fetchPublicChannels() {
     supabase
@@ -31,7 +30,7 @@ export default function Layout ({ children, hidenavigation }) {
         <div className='relative'>
           <NavigationBar />
         </div>
-        
+
       )}
       <div
         className={
@@ -43,10 +42,10 @@ export default function Layout ({ children, hidenavigation }) {
         {children}
       </div>
       {!hidenavigation && (
-          <div className='px-4 relative md:left-1/4'>
-                <PublicChannelsList publicChannels={publicChannels} />
-          </div>
-       )}
+        <div className='px-4 relative md:left-1/4'>
+          <PublicChannelsList publicChannels={publicChannels} />
+        </div>
+      )}
     </div>
   )
 }

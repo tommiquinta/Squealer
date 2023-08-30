@@ -12,10 +12,8 @@ export default function UsersListPage() {
 
 
   useEffect(() => {
-    if (session) {
+    if (sessionStorage.getItem('isLogged') === 'true') {
       fetchProfiles()
-    } else {
-      router.push('/login')
     }
   }, [session])
 
@@ -23,7 +21,7 @@ export default function UsersListPage() {
     supabase
       .from('profiles')
       .select('id, name, avatar, username')
-      .neq('id', session.user.id)
+      .neq('id', sessionStorage.getItem('userId'))
       .then(result => {
         setProfiles(result.data)
       })

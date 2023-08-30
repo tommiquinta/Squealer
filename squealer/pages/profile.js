@@ -8,73 +8,97 @@ import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
-export default function ProfilePage () {
+export default function ProfilePage() {
   const router = useRouter()
-  const session = useSession()
   const supabase = useSupabaseClient()
   const [profileUser, setProfile] = useState([])
   const [posts, setPosts] = useState([])
+  const [isAuthor, setIsAuthor] = useState(false)
   const userId = router.query.id
   const selected = 'border-b-4 rounded-sm border-socialBlue text-sky-600 w-4'
 
-  async function fetchAll () {
+  useEffect(() => {
+    checkSessionStorage()
+    try {
+      if (sessionStorage.getItem('isLogged') === 'false') {
+        router.push('/login')
+      }
+      fetchAll()
+    } catch (error) {
+      console.error('Error fetching data:', error)
+    }
+  }, []) // Include userId e session come dipendenze
+
+  async function fetchAll() {
     try {
       await fetchUser()
       await fetchPosts()
+      checkIfIsAuthor()
     } catch (error) {
       console.error('Error fetching data:', error)
     }
   }
-  useEffect(() => {
-    if (!session) {
-      router.push('/login')
-    }
-    fetchAll()
-  }, [userId, session]) // Include userId e session come dipendenze
 
-  async function fetchUser () {
+  async function fetchUser() {
     try {
-      const { data, error } = await supabase
+      await supabase
         .from('profiles')
         .select()
-        .eq('id', userId)
+        .eq('id', sessionStorage.getItem('userId'))
         .single()
-
-      if (data) {
-        setProfile(data)
-      }
-
-      if (error) {
-        throw error
-      }
+        .then(result => {
+          setProfile(result.data)
+        })
     } catch (error) {
       console.error('Error fetching user data:', error)
     }
   }
 
-  async function fetchPosts () {
+
+  async function checkSessionStorage() {
     try {
-      const { data, error } = await supabase
-        .from('posts')
-        .select(
-          'id, content, created_at, photos, profiles(id, avatar, name, cover)'
-        )
-        .eq('author', userId)
-
-      if (data) {
-        setPosts(data)
-      }
-
-      if (error) {
-        throw error
+      if (sessionStorage.getItem('username') === null) {
+        await supabase
+          .from('profiles')
+          .select('username')
+          .eq('id', sessionStorage.getItem('userId'))
+          .single()
+          .then(result => {
+            console.log(result)
+            sessionStorage.setItem('username', result.data.username)
+            // console.log(sessionStorage)
+          })
       }
     } catch (error) {
-      console.error('Error fetching user posts:', error)
+      console.log('Error fetching user data: ', error)
     }
   }
 
-  // console.log(profileUser)
-  const isMyUser = userId === session?.user?.id
+  async function fetchPosts() {
+    try {
+      await supabase
+        .from('posts')
+        .select('id, content, created_at, photos, profiles(id, avatar, name, cover)')
+        .eq('author', userId)
+        .then(data => {
+          setIsAuthor(true)
+          setPosts(data)
+        })
+
+    } catch (error) {
+      setIsAuthor(false)
+      console.log('Error fetching user posts:', error)
+    }
+  }
+
+  async function checkIfIsAuthor() {
+    try {
+      console.log(sessionStorage)
+      setIsAuthor(userId === sessionStorage.getItem('userId'));
+    } catch (error) {
+      console.log('Error checking if is author:', error)
+    }
+  }
 
   return (
     <Layout>
@@ -83,7 +107,7 @@ export default function ProfilePage () {
           <div>
             <Cover
               url={profileUser.cover}
-              editable={isMyUser}
+              editable={isAuthor}
               onChange={fetchAll}
             />
           </div>
@@ -92,7 +116,7 @@ export default function ProfilePage () {
               <Avatar
                 url={profileUser.avatar}
                 size={'big'}
-                editable={isMyUser}
+                editable={isAuthor}
                 onChange={fetchAll}
               />
             </div>
@@ -133,7 +157,7 @@ export default function ProfilePage () {
                   <div className={`${selected}`}></div>
                 </div>
 
-                {isMyUser && (
+                {isAuthor && (
                   <div className='mt-10 place-items-center self-center text-gray-400 float-right'>
                     <p>Remaining Quota: {`${profileUser.daily_quota}`}</p>
                   </div>
