@@ -32,7 +32,7 @@ const Reaction = ({ id }) => {
             .eq('post_id', id)
             .then((res) => {
                 setLikes(res.data.length);
-                console.log(res.data.length + " siamo qui");
+
             })
         await supabase
             .from('dislikes')

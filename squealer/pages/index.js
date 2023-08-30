@@ -5,10 +5,9 @@ import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
-export default function Home() {
-
+export default function Home () {
   const session = useSession()
-  const router = useRouter();
+  const router = useRouter()
   const supabase = useSupabaseClient()
 
   const [posts, setPosts] = useState([])
@@ -21,7 +20,7 @@ export default function Home() {
     }
   }, [session])
 
-  function fetchPosts() {
+  function fetchPosts () {
     supabase
       .from('posts')
       .select('id, content, created_at,photos, profiles(id, avatar, name)')
@@ -31,7 +30,7 @@ export default function Home() {
       })
   }
 
-  async function checkUsername() {
+  async function checkUsername () {
     if (session) {
       const result = await supabase
         .from('profiles')
@@ -41,8 +40,6 @@ export default function Home() {
       setUsername(result.data[0].username)
     }
   }
-
-  
 
   const handleUsernameSubmit = async e => {
     e.preventDefault()
@@ -68,7 +65,6 @@ export default function Home() {
           <PostFormCard onPost={fetchPosts} />
           {posts?.length > 0 &&
             posts.map(post => <PostCard key={post.id} {...post} />)}
-          
         </Layout>
       ) : (
         <Layout hidenavigation={true}>
@@ -83,7 +79,6 @@ export default function Home() {
           </form>
         </Layout>
       )}
-      
     </div>
   )
 }
