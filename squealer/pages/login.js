@@ -23,22 +23,22 @@ export default function LoginPage() {
     await supabase.auth.signInWithOAuth({
       provider: 'google'
     })
-    sessionStorage.setItem('userId', session.user.id)
-    checkSessionStorage()
-    console.log(sessionStorage)
+    localStorage.setItem('userId', session.user.id)
+    checklocalStorage()
+    console.log(localStorage)
   }
 
-  async function checkSessionStorage() {
+  async function checklocalStorage() {
     if (session?.user.id) {
       await supabase
         .from('profiles')
         .select()
-        .eq('id', sessionStorage.getItem('userId'))
+        .eq('id', localStorage.getItem('userId'))
         .single()
         .then(result => {
           setUsername(result.data.username)
-          sessionStorage.setItem('username', username)
-          sessionStorage.setItem('isLogged', true)
+          localStorage.setItem('username', username)
+          localStorage.setItem('isLogged', true)
         })
     }
   }
@@ -86,8 +86,8 @@ export default function LoginPage() {
       email,
       password
     })
-    sessionStorage.setItem('username', username)
-    sessionStorage.setItem('userId', session.user.id)
+    localStorage.setItem('username', username)
+    localStorage.setItem('userId', session.user.id)
     router.push('/userlist')
   }
 

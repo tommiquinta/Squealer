@@ -2,14 +2,13 @@ import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useState } from 'react'
 import { uploadUserProfileImage } from '../../Helpers/user.js'
 import Preloader from './Preloader'
-import { update } from 'react-spring'
 
-export default function Avatar ({ url, size, editable, onChange }) {
+export default function Avatar({ url, size, editable, onChange }) {
   const supabase = useSupabaseClient()
   const session = useSession()
   const [isUploading, setIsUploading] = useState(false)
 
-  async function updateAvatar (ev) {
+  async function updateAvatar(ev) {
     try {
       const file = ev.target.files?.[0]
       if (file) {
@@ -33,8 +32,8 @@ export default function Avatar ({ url, size, editable, onChange }) {
   if (size === 'big') {
     sizeWidth = 'w-24 h-24'
   }
-  
-   if (size === 'medium') {
+
+  if (size === 'medium') {
     sizeWidth = 'w-17 h-17'
   }
 

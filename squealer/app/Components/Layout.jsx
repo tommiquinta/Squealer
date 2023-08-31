@@ -10,7 +10,7 @@ export default function Layout({ children, hidenavigation }) {
   const [publicChannels, setPublicChannels] = useState([])
 
   useEffect(() => {
-    if (sessionStorage.getItem('isLogged') === 'true') {
+    if (localStorage.getItem('isLogged') === 'true') {
       fetchPublicChannels()
     }
   }, [])

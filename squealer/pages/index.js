@@ -15,7 +15,7 @@ export default function Home() {
   useEffect(() => {
     checkUsername()
     fetchPosts()
-    console.log(sessionStorage, "sessionStorage in useEffect");
+    console.log(localStorage, "localStorage in useEffect");
   }, [])
 
   async function fetchPosts() {
@@ -35,17 +35,21 @@ export default function Home() {
 
   async function checkUsername() {
     try {
-      if (sessionStorage.getItem('isLogged') === 'true') {
+      console.log(localStorage, "localStorage in checkUsername");
+      if (localStorage.getItem('isLogged') === 'true') {
         await supabase
           .from('profiles')
           .select()
-          .eq('id', sessionStorage.getItem('userId'))
+          .eq('id', localStorage.getItem('userId'))
           .single()
           .then(result => {
             setUsername(result.data.username)
-            sessionStorage.setItem('username', username)
-            sessionStorage.setItem('userId', session.user.id)
+            localStorage.setItem('username', username)
+            localStorage.setItem('userId', session.user.id)
           })
+          if (localStorage.getItem('isLogged' === 'false')) {
+            router.push('/login') 
+          }
       }
     } catch (error) {
       console.log('Error fetching user data: ', error)
@@ -57,12 +61,12 @@ export default function Home() {
     e.preventDefault()
     const newUsername = e.target.username.value
 
-    if (newUsername && sessionStorage.getItem('isLogged') === 'true') {
+    if (newUsername && localStorage.getItem('isLogged') === 'true') {
       // Update the username in the database
       await supabase
         .from('profiles')
         .update({ username: newUsername })
-        .eq('id', sessionStorage.getItem('userId'))
+        .eq('id', localStorage.getItem('userId'))
 
       // Update the local state
       setUsername(newUsername)

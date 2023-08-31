@@ -2,6 +2,8 @@ import { SyncLoader } from "react-spinners";
 
 export default function Preloader() {
     return (
-        <SyncLoader speedMultiplier={0.5} color="blue" />
+        <div className="flex items-center justify-center h-full">
+            <SyncLoader speedMultiplier={0.5} color="blue" />
+        </div>
     )
 }
