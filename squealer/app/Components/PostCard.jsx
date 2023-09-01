@@ -4,6 +4,8 @@ import Link from 'next/link';
 import Reaction from './Reaction/Reaction';
 import Card from './Card';
 import Avatar from './Avatar';
+import Media from './Post-Media/Media';
+
 
 export default function PostCard(
   {
@@ -45,41 +47,7 @@ export default function PostCard(
           {content}
         </p>
 
-        <div className=''>
-          {photos.length > 0 && (
-            <div className='mt-4 flex justify-center items-center'>
-              {photos.length === 4 ? (
-                <table className="w-full">
-                  <tbody>
-                    <tr>
-                      <td className="p-2">
-                        <img src={photos[0]} className="w-full h-auto rounded-md object-cover" alt="" />
-                      </td>
-                      <td className="p-2">
-                        <img src={photos[1]} className="w-full h-auto rounded-md object-cover" alt="" />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="p-2">
-                        <img src={photos[2]} className="w-full h-auto rounded-md object-cover" alt="" />
-                      </td>
-                      <td className="p-2">
-                        <img src={photos[3]} className="w-full h-auto rounded-md object-cover" alt="" />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              ) : (
-                <div className='flex gap-2.5'>
-                  <div className='flex justify-center items-center'>
-                    <img src={photos[0]} className="w-auto rounded-md object-cover" alt="" />
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-
+        <Media photos={photos} />
       </div>
 
       <div className=''>
