@@ -35,11 +35,11 @@ export default function Avatar ({ url, size, editable, onChange }) {
   }
   
    if (size === 'medium') {
-    sizeWidth = 'w-17 h-17'
+    sizeWidth = 'w-20 h-20'
   }
 
   return (
-    <div className='h-30 flex justify-center items-center relative'>
+    <div className='flex justify-center items-center relative'>
       <div className={`${sizeWidth} relative rounded-full overflow-hidden`}>
         <div
           className='items-center justify-center'
