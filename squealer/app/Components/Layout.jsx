@@ -1,18 +1,32 @@
 import NavigationBar from './NavigationBar'
 import PublicChannelsList from './PublicChannelsList'
 import { useEffect, useState } from 'react'
-import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
-
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import Preloader from './Preloader'
 
 export default function Layout({ children, hidenavigation }) {
-  const session = useSession()
   const supabase = useSupabaseClient()
   const [publicChannels, setPublicChannels] = useState([])
+  const [loading, setLoading] = useState(true) // loading è a true per evitare che venga mostrato il contenuto della pagina prima che venga caricato il componente Preloader
+  const [user, setUser] = useState(null) // user è a null per evitare che venga mostrato il contenuto della pagina prima che venga caricato il componente Preloader
+
+
 
   useEffect(() => {
-    if (localStorage.getItem('isLogged') === 'true') {
-      fetchPublicChannels()
+    async function checkLocalStorage() {
+      try {
+        setLoading(true)  // loading è a true per evitare che venga mostrato il contenuto della pagina prima che venga caricato il componente Preloader
+        if (localStorage.getItem('isLogged') === 'false') {
+          router.push('/login')
+        }
+        fetchPublicChannels()
+        setLoading(false) // loading è a false per mostrare il contenuto della pagina
+      } catch (error) {
+        console.log(error + 'errore in useEffect in Layout.jsx')
+        setLoading(false) // loading è a false per mostrare il contenuto della pagina
+      }
     }
+    checkLocalStorage()
   }, [])
 
   function fetchPublicChannels() {
@@ -22,6 +36,10 @@ export default function Layout({ children, hidenavigation }) {
       .then(result => {
         setPublicChannels(result.data)
       })
+  }
+
+  if (loading) {
+    return <Preloader />
   }
 
   return (

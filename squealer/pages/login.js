@@ -3,6 +3,7 @@ import Layout from '@/app/Components/Layout'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import Preloader from '@/app/Components/Preloader'
 
 export default function LoginPage() {
   const supabase = useSupabaseClient()
@@ -17,19 +18,29 @@ export default function LoginPage() {
   const [name, setName] = useState()
   const [avatar, setAvatar] = useState()
   const [username, setUsername] = useState()
+  const [loading, setLoading] = useState(false) // loading è a true per evitare che venga mostrato il contenuto della pagina prima che venga caricato il componente Preloader
+  const [user, setUser] = useState(null) // user è a null per evitare che venga mostrato il contenuto della pagina prima che venga caricato il componente Preloader
 
+
+  
 
   async function loginWithGoogle() {
-    await supabase.auth.signInWithOAuth({
-      provider: 'google'
-    })
-    localStorage.setItem('userId', session.user.id)
-    checklocalStorage()
-    console.log(localStorage)
+    async function loginHandler() {
+      await supabase.auth.signInWithOAuth({
+        provider: 'google'
+      })
+      localStorage.setItem('userId', session.user.id)
+      await checkLocalStorage()
+      console.log(localStorage)
+      console.log(session);
+      console.log("terzo porco dio");
+    }
+    loginHandler()
   }
 
-  async function checklocalStorage() {
-    if (session?.user.id) {
+  async function checkLocalStorage() {
+    if (!(localStorage.getItem('userId') === undefined)) {
+      console.log("porco dio")
       await supabase
         .from('profiles')
         .select()
@@ -37,10 +48,14 @@ export default function LoginPage() {
         .single()
         .then(result => {
           setUsername(result.data.username)
+          console.log(result.data.username);
+          console.log("secondo porco dio");
           localStorage.setItem('username', username)
+          console.log(localStorage.getItem('username'));
           localStorage.setItem('isLogged', true)
         })
     }
+    setLoading(false)
   }
 
   async function signUpWithEmail() {
@@ -88,7 +103,11 @@ export default function LoginPage() {
     })
     localStorage.setItem('username', username)
     localStorage.setItem('userId', session.user.id)
-    router.push('/userlist')
+    router.push('/')
+  }
+
+  if (loading) {
+    return <Preloader />
   }
 
   return (
