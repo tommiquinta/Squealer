@@ -7,12 +7,7 @@ import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import PostCard from '@/app/Components/PostCard'
 import LoginPage from './login'
 import PostFormCard from '@/app/Components/FormPostCard'
-import { Tweet } from 'react-tweet'
 import SearchComponent from '@/app/Components/SearchComponent'
-
-
-
-
 
 
 export default function channel () {
@@ -126,8 +121,8 @@ export default function channel () {
 
         {channelHandle === 'elonTweet' &&
           (<div className='flex-col gap-2 mx-auto'>
-              <SearchComponent toSearch={'elon musk twitter'}/>
-              <Tweet options={{align: "center"}} data-theme="light" id="1695769644727210273"/>
+              <SearchComponent toSearch={'elon musk twitter news'}/>
+             
             </div>
           )}  
       </Layout>

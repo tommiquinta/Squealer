@@ -18,8 +18,6 @@
     "axios": "^1.5.0",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.13",
-    "google-auth-library": "^9.0.0",
-    "googleapis": "^126.0.1",
     "install": "^0.13.0",
     "javascript-time-ago": "^2.5.9",
     "moment": "^2.29.4",

@@ -30,8 +30,10 @@ export default function searchComponent({toSearch}) {
           cx: '938ddd3d055554371',
         },
       });
-      console.log(response.data);
-      return response.data;
+      
+      var dataArray = response.data.items;
+      console.log(dataArray);
+      return dataArray;
     }
     
     return(
@@ -40,9 +42,9 @@ export default function searchComponent({toSearch}) {
         <p>Caricamento...</p>
       ) : (
         <ul>
-          {searchResults.items.map((item, index) => (
-            <li key={index}>{item.title}</li>
-          ))}
+          {searchResults.map((news, index) => (
+          <li className="my-4" key={index}>{news.snippet}</li>
+        ))}
         </ul>
       )}
       </div>
