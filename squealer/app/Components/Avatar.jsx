@@ -2,7 +2,6 @@ import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useState } from 'react'
 import { uploadUserProfileImage } from '../../Helpers/user.js'
 import Preloader from './Preloader'
-import { update } from 'react-spring'
 
 export default function Avatar ({ url, size, editable, onChange }) {
   const supabase = useSupabaseClient()
