@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import News from "./News";
 
 export default function searchComponent({toSearch}) {
     
@@ -15,7 +16,7 @@ export default function searchComponent({toSearch}) {
         setLoading(false);
       } catch (error) {
         console.error('Errore nella ricerca:', error);
-        setLoading(false);
+        setLoading(true);
       }
     }
 
@@ -28,11 +29,10 @@ export default function searchComponent({toSearch}) {
           q: query,
           key: API_KEY,
           cx: '938ddd3d055554371',
+          lr: 'english',
         },
       });
-      
       var dataArray = response.data.items;
-      console.log(dataArray);
       return dataArray;
     }
     
@@ -43,7 +43,9 @@ export default function searchComponent({toSearch}) {
       ) : (
         <ul>
           {searchResults.map((news, index) => (
-          <li className="my-4" key={index}>{news.snippet}</li>
+          <li className="my-4" id={index}>
+            <News title={news.title} link={news.link} info={news.snippet} image={news.pagemap.cse_thumbnail}/>
+            </li>
         ))}
         </ul>
       )}

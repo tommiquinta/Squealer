@@ -122,7 +122,7 @@ export default function channel () {
         {channelHandle === 'elonTweet' &&
           (<div className='flex-col gap-2 mx-auto'>
               <SearchComponent toSearch={'elon musk twitter news'}/>
-             
+
             </div>
           )}  
       </Layout>
