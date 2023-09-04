@@ -63,7 +63,6 @@ function LikeButton({ id, onClick, active }) {
     }
 
     async function removeDisLike() {
-        console.log("Sono dentro removeDislike");
         try {
             await supabase
                 .from('dislikes')

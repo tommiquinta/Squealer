@@ -24,7 +24,7 @@ export default function NavigationBar() {
 
   function handleClick() {
     console.log('clicked home button')
-    router.push('/')
+    router.push('/Home')
   }
 
 
