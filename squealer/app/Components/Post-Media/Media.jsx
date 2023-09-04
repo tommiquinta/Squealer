@@ -4,6 +4,7 @@ import { RxDotFilled } from 'react-icons/rx';
 
 export default function Media({ uploads }) {
     const [currentIndex, setCurrentIndex] = useState(0);
+    //TODO sistemare nel DB il campo uploads che per ora si chiama photos e quindi aggiornare il codice e tutte le query
 
     // Creare un nuovo array slides utilizzando gli URL delle immagini e dei video da uploads
     const slides = uploads.map((upload, index) => ({

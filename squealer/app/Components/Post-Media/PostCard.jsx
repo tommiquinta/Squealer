@@ -12,7 +12,7 @@ export default function PostCard(
     id,
     content,
     created_at,
-    photos,
+    photos: uploads,
     profiles: authorProfiles
   }
 ) {
@@ -46,7 +46,7 @@ export default function PostCard(
         {content}
       </p>
 
-      {photos.length > 0 && (
+      {uploads.length > 0 && (
         <div
           style={{
             backgroundRepeat: 'no-repeat',
