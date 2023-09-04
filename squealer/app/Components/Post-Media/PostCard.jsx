@@ -1,10 +1,10 @@
 import React from 'react';
 import moment from 'moment';
 import Link from 'next/link';
-import Reaction from './Reaction/Reaction';
-import Card from './Card';
-import Avatar from './Avatar';
-import Media from './Post-Media/Media';
+import Reaction from '../Reaction/Reaction';
+import Card from '../Card';
+import Avatar from '../Avatar';
+import Media from './Media';
 
 
 export default function PostCard(
@@ -19,6 +19,7 @@ export default function PostCard(
 
   return (
     <Card>
+
       <div className='flex gap-3'>
         <div>
           <Link href={'/profile/' + authorProfiles?.id}>
@@ -42,19 +43,25 @@ export default function PostCard(
         </div>
       </div>
 
-      <div className='my-4'>
-        <p className='my-3 text-md'>
-          {content}
-        </p>
+      <p className='my-5 text-md'>
+        {content}
+      </p>
 
-        <Media photos={photos} />
-      </div>
+      {photos.length > 0 && (
+        <div
+          style={{
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'container',
+          }}
+          className='w-full h-full rounded-2xl bg-center'>
+          <Media photos={photos} />
+        </div>
+      )}
 
-      <div className=''>
-        <Reaction
-          id={id}
-        />
-      </div>
+
+      <Reaction
+        id={id}
+      />
 
     </Card >
   );

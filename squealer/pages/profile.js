@@ -1,7 +1,7 @@
 import Layout from '@/app/Components/Layout'
 import Card from '@/app/Components/Card'
 import Avatar from '@/app/Components/Avatar'
-import PostCard from '@/app/Components/PostCard'
+import PostCard from '@/app/Components/Post-Media/PostCard'
 import Cover from '@/app/Components/Cover'
 import Link from 'next/link'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'

@@ -1,6 +1,6 @@
-import PostFormCard from '@/app/Components/FormPostCard'
+import PostFormCard from '@/app/Components/Post-Media/FormPostCard'
 import Layout from '@/app/Components/Layout'
-import PostCard from '@/app/Components/PostCard'
+import PostCard from '@/app/Components/Post-Media/PostCard'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
