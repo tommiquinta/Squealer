@@ -1,9 +1,9 @@
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import PostFormCard from '@/app/Components/FormPostCard'
+import PostFormCard from '@/app/Components/Post-Media/FormPostCard'
+import PostCard from '@/app/Components/Post-Media/PostCard'
 import Layout from '@/app/Components/Layout'
-import PostCard from '@/app/Components/PostCard'
 import Preloader from '@/app/Components/Preloader'
 
 export default function Home() {
