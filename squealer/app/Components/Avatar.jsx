@@ -1,6 +1,6 @@
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useState } from 'react'
-import { uploadUserProfileImage } from '../../Helpers/user.js'
+import { uploadOnSupabase } from '../../Helpers/uploadOnSupabase.js'
 import Preloader from './Preloader'
 
 export default function Avatar ({ url, size, editable, onChange }) {
@@ -13,7 +13,7 @@ export default function Avatar ({ url, size, editable, onChange }) {
       const file = ev.target.files?.[0]
       if (file) {
         setIsUploading(true)
-        await uploadUserProfileImage(
+        await uploadOnSupabase(
           supabase,
           session.user.id,
           'avatars',

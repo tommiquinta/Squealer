@@ -1,7 +1,7 @@
-import { useSupabaseClient } from '@supabase/auth-helpers-react'
-import { useSession } from '@supabase/auth-helpers-react'
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import { uploadOnSupabase } from '@/Helpers/uploadOnSupabase'
 
 import Avatar from '../Avatar'
 import Card from '../Card'
@@ -20,11 +20,19 @@ export default function PostFormCard({ onPost }) {
   const router = useRouter()
 
   useEffect(() => {
-    if (!session) {
-      router.push('/login')
+    try {
+      if (!session) {
+        router.push('/login')
+      }
+      checkDailyQuota()
+    } catch (error) {
+      console.log(error + 'errore in useEffect in FormPostCard');
     }
+  }, [session])
+
+  async function checkDailyQuota() {
     if (session?.user) {
-      supabase
+      await supabase
         .from('profiles')
         .select()
         .eq('id', session.user.id)
@@ -38,152 +46,196 @@ export default function PostFormCard({ onPost }) {
           console.error('Error fetching profile data:', error)
         })
     }
-  }, [session])
-
-
-
-  // console.log(profile)
+  }
 
   async function createPost() {
-    if (content && content.trim() !== '') {
-      if (content.includes('@')) {
-        const regex = /@(\w+)/
+    try {
+      if (content && content.trim() !== '') {
+        if (content.includes('@')) {
+          const regex = /@(\w+)/
 
-        const match = regex.exec(content)
-        if (match) {
-          const receiverHandle = match[1]
-          supabase
-            .from('profiles')
-            .select()
-            .eq('username', receiverHandle)
-            .then(response => {
-              if (!response.error) {
-                supabase
-                  .from('direct_messages')
-                  .insert({
-                    author: session.user.id,
-                    receiver: response.data[0].id,
-                    content: content,
-                    photos: uploads
-                  })
-                  .then(response => {
-                    if (!response.error) {
-                      setContent('')
-                      setUploads([])
-                    }
-                  })
-              } else {
-                console.log(response.error) // TO-DO: handle error
-              }
-            })
+          const match = regex.exec(content)
+          if (match) {
+            const receiverHandle = match[1]
+            supabase
+              .from('profiles')
+              .select()
+              .eq('username', receiverHandle)
+              .then(response => {
+                if (!response.error) {
+                  supabase
+                    .from('direct_messages')
+                    .insert({
+                      author: session.user.id,
+                      receiver: response.data[0].id,
+                      content: content,
+                      photos: uploads
+                    })
+                    .then(response => {
+                      if (!response.error) {
+                        setContent('')
+                        setUploads([])
+                      }
+                    })
+                } else {
+                  console.log(response.error) // TO-DO: handle error
+                }
+              })
+          }
         }
-      }
 
-      if (content.includes('§')) {
-        const regex = /§(\w+)/
+        if (content.includes('§')) {
+          const regex = /§(\w+)/
+          const match = regex.exec(content)
 
-        const match = regex.exec(content)
+          if (match) {
+            const receiverHandle = match[1]
 
-        if (match) {
-          const receiverHandle = match[1]
+            supabase
+              .from('public_channels')
+              .select()
+              .eq('handle', receiverHandle)
+              .then(response => {
+                if (!response.error) {
+                  supabase
+                    .from('posts')
+                    .insert({
+                      author: session.user.id,
+                      public_channel: response.data[0].id,
+                      content: content,
+                      photos: uploads
+                    })
+                    .then(response => {
+                      if (!response.error) {
+                        setContent('')
+                        setUploads([])
 
+                      }
+                    })
+                } else {
+                  console.log(response.error) // TO-DO: handle error
+                }
+              })
+          }
+        } else {
+          // check if the post is not empty
           supabase
-            .from('public_channels')
-            .select()
-            .eq('handle', receiverHandle)
+            .from('posts')
+            .insert({
+              author: session.user.id, // in the database rules we have a check to control who actually clicks on "share"
+              content,
+              photos: uploads
+            })
             .then(response => {
               if (!response.error) {
+                setContent('')
+                setUploads([])
+
+                const newDailyQuota =
+                  profile.daily_quota - content.length - uploads.length * 125
+
                 supabase
-                  .from('posts')
-                  .insert({
-                    author: session.user.id,
-                    public_channel: response.data[0].id,
-                    content: content,
-                    photos: uploads
+                  .from('profiles')
+                  .update({
+                    daily_quota: newDailyQuota
                   })
+                  .eq('id', session.user.id)
                   .then(response => {
                     if (!response.error) {
-                      setContent('')
-                      setUploads([])
-
+                      setDaily_quota(newDailyQuota) // update local dailyQuota
+                    } else {
+                      console.error('daily quota update error.', response.error)
                     }
                   })
-              } else {
-                console.log(response.error) // TO-DO: handle error
+
+                if (onPost) {
+                  onPost() // function to fill home with posts in index.js
+                }
               }
             })
         }
       } else {
-        // cheack if the post is not empty
-        supabase
-          .from('posts')
-          .insert({
-            author: session.user.id, // in the database rules we have a check to control who actually clicks on "share"
-            content,
-            photos: uploads
-          })
-          .then(response => {
-            if (!response.error) {
-              setContent('')
-              setUploads([])
-
-              const newDailyQuota =
-                profile.daily_quota - content.length - uploads.length * 125
-
-              supabase
-                .from('profiles')
-                .update({
-                  daily_quota: newDailyQuota
-                })
-                .eq('id', session.user.id)
-                .then(response => {
-                  if (!response.error) {
-                    setDaily_quota(newDailyQuota) // update local dailyQuota
-                  } else {
-                    console.error('daily quota update error.', response.error)
-                  }
-                })
-
-              if (onPost) {
-                onPost() // function to fill home with posts in index.js
-              }
-            }
-          })
+        alert("A squeal with no content is a little useless, isn't it?")
       }
-    } else {
-      alert("A squeal with no content is a little useless, isn't it?")
+    } catch (error) {
+      console.log(error + 'errore in createPost in FormPostCard')
     }
   }
 
   async function addPhotos(ev) {
-    const files = ev.target.files
-    if (files.length > 0) {
-      setIsUploading(true)
-      for (const file of files) {
-        const newName = Date.now() + file.name
-        const result = await supabase.storage
-          .from('photos')
-          .upload(newName, file)
+    try {
+      const files = ev.target.files
+      if (files.length > 0) {
+        setIsUploading(true)
 
-        if (result.data) {
-          const url =
-            process.env.NEXT_PUBLIC_SUPABASE_URL +
-            '/storage/v1/object/public/photos/' +
-            result.data.path
+        // TODO aggiustare utilizzando l'helper uploadOnSupabase (ex user.js ma che potrebbe essere usata per tutti gli upldoad), 
+        // il problema è la lista degli URL che non viene passata e quindi non può essere vista la preview delle foto postate
+        for (const file of files) {
 
-          setUploads(prevUploads => [...prevUploads, url])
-          setDaily_quota(daily_quota - 125)
-        } else {
-          console.log(result)
+          const newName = Date.now() + file.name
+          const result =
+            await supabase
+              .storage
+              .from('photos')
+              .upload(newName, file)
+          if (result.data) {
+            const url =
+              process.env.NEXT_PUBLIC_SUPABASE_URL +
+              '/storage/v1/object/public/photos/' +
+              result.data.path
+
+            setUploads(prevUploads => [...prevUploads, url])
+
+            setDaily_quota(daily_quota - 125)
+          } else {
+            console.log(result)
+          }
         }
+        setIsUploading(false)
       }
-      setIsUploading(false)
+
+    } catch (error) {
+      console.log(error + 'errore in addPhotos in FormPostCard');
+    }
+
+  }
+
+  async function addVideo(ev) {
+    try {
+      const files = ev.target.files
+      if (files.length > 0) {
+        setIsUploading(true)
+        for (const file of files) {
+          const newName = Date.now() + file.name
+          const result = await supabase.storage
+            .from('videos')
+            .upload(newName, file)
+
+          if (result.data) {
+            const url =
+              process.env.NEXT_PUBLIC_SUPABASE_URL +
+              '/storage/v1/object/public/videos/' +
+              result.data.path
+
+            setUploads(prevUploads => [...prevUploads, url])
+            setDaily_quota(daily_quota - 400)
+          } else {
+            console.log(result)
+          }
+        }
+        setIsUploading(false)
+      }
+
+    } catch (error) {
+      console.log(error + 'errore in addPhotos in FormPostCard');
     }
   }
+
 
   return (
     <div className='mb-5'>
       <Card>
+        {/* Avatar */}
         <div className='flex gap-3'>
           {profile && <Avatar size={'medium'} url={profile.avatar} />}
           <textarea
@@ -260,9 +312,12 @@ export default function PostFormCard({ onPost }) {
           </div>
         )}
 
+        {/* Bottone per le immagini */}
         <div className=' flex gap-6 items-center mt-2'>
           <div>
-            <label className='flex gap-1'>
+            <label
+              className='flex gap-1 cursor-pointer'
+            >
               <input
                 type='file'
                 className='hidden'
@@ -286,8 +341,16 @@ export default function PostFormCard({ onPost }) {
               Image
             </label>
           </div>
+
+          {/* Bottone per i video */}
           <div>
-            <button className='flex gap-1'>
+            <label className='flex gap-1 cursor-pointer'>
+              <input
+                type='file'
+                className='hidden'
+                multiple
+                onChange={addVideo}
+              />
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
@@ -302,10 +365,12 @@ export default function PostFormCard({ onPost }) {
                 />
               </svg>
               Video
-            </button>
+            </label>
           </div>
-          <div>
-            <button className='flex gap-1'>
+
+          {/* Bottone per la posizione */}
+          <div className=''>
+            <button className='flex gap-1 cursor-pointer'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
@@ -331,7 +396,7 @@ export default function PostFormCard({ onPost }) {
 
           <div>
             <a
-              className={`flex gap-1 ml-8 ${daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'
+              className={`flex gap-1 ml-8  ${daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'
                 }`}
             >
               Daily Quota: {daily_quota}

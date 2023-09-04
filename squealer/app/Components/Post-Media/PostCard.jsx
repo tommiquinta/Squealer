@@ -8,7 +8,7 @@ import Media from './Media';
 
 
 export default function PostCard(
-  {
+  { 
     id,
     content,
     created_at,
@@ -19,7 +19,6 @@ export default function PostCard(
 
   return (
     <Card>
-
       <div className='flex gap-3'>
         <div>
           <Link href={'/profile/' + authorProfiles?.id}>
@@ -54,12 +53,12 @@ export default function PostCard(
             backgroundSize: 'container',
           }}
           className='w-full h-full rounded-2xl bg-center'>
-          <Media photos={photos} />
+          <Media uploads={uploads} />
         </div>
       )}
 
 
-      <Reaction
+      <Reaction 
         id={id}
       />
 
