@@ -1,14 +1,13 @@
 import React from 'react';
 import moment from 'moment';
 import Link from 'next/link';
-import Reaction from '../Reaction/Reaction';
 import Card from '../Card';
 import Avatar from '../Avatar';
 import Media from './Media';
-
+import Reaction from './Reaction/Reaction';
 
 export default function PostCard(
-  { 
+  {
     id,
     content,
     created_at,
@@ -16,6 +15,7 @@ export default function PostCard(
     profiles: authorProfiles
   }
 ) {
+  const userID = localStorage.getItem('userId')
 
   return (
     <Card>
@@ -57,10 +57,9 @@ export default function PostCard(
         </div>
       )}
 
-
-      <Reaction 
-        id={id}
-      />
+      <div className='mt-5'>
+        <Reaction postId={id} userId ={userID}/>
+      </div>
 
     </Card >
   );
