@@ -1,13 +1,13 @@
 import Layout from "@/app/Components/Layout"
 import Card from "@/app/Components/Card"
 import Avatar from "@/app/Components/Avatar"
-import PostCard from '@/app/Components/PostCard'
 import Cover from "@/app/Components/Cover"
-import Link from 'next/link'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
 import { useRouter } from "next/router"
 import LoginPage from "./login"
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"
+import AllSqueals from "@/app/Components/AllSqueals"
 
 export default function ProfilePage() {
   const router = useRouter()
@@ -15,6 +15,8 @@ export default function ProfilePage() {
   const supabase = useSupabaseClient()
   const [profileUser, setProfile] = useState([])
   const [posts, setPosts] = useState([])
+  const [isModerator, setIsModerator] = useState(false)
+  const [channels, setChannels] = useState([])
   const userId = router.query.id
   const selected = "border-b-4 rounded-sm border-socialBlue text-sky-600 w-4"
 
@@ -58,10 +60,21 @@ export default function ProfilePage() {
   }
 
 
-  // console.log(profileUser)
   const isMyUser = userId === session?.user?.id
+  if(isMyUser){
+    try {
+      supabase
+        .from('moderator')
+        .select('id')
+        .eq('id', userId)
+        .then(result => setIsModerator(true))
+    } catch (error) {
+      console.error(error + " trying to define if moderator")
+    }
+  }
 
   return (
+    <Router>
     <Layout>
       <Card noPadding={true}>
         <div className="relative">
@@ -78,9 +91,9 @@ export default function ProfilePage() {
                   {`${profileUser && profileUser.name} `}</h1>
                 <div className="text-gray-500 leading-4"> {`@${profileUser && profileUser.username} `}</div>
               </div>
-              <div className="flex gap-2">
-                <div className="mt-10 flex flex-col gap-0 items-center">
-                  <Link href={"/#squeals"} className={`flex gap-1 px-4 py-1 items-center`}>
+              <div className="flex gap-2 mt-10 ">
+                <div className="flex flex-col gap-1 items-center hover:bg-socialBlue/40 hover:py-1 hover:-mb-2 hover:rounded-t">
+                  <Link to={`${userId}/#squeals`} className={`flex gap-1 px-4 py-1 items-center`}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                       viewBox="0 0 14 14">
                       <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -92,28 +105,54 @@ export default function ProfilePage() {
                   <div className={`${selected}`}></div>
                 </div>
 
+                {isModerator && (
+                  <div className="flex">
+                     <div className="flex flex-col gap-1 items-center hover:bg-socialBlue/40 hover:py-1 hover:-mb-2 hover:rounded-t">
+                     <Link to={`${userId}/#channels`} className={`flex gap-1 px-4 py-1 items-center`}>
+                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                      <path fill="currentColor" d="M7 17q.425 0 .713-.288T8 16q0-.425-.288-.713T7 15q-.425 0-.713.288T6 16q0 .425.288.713T7 17ZM7 7q-.425 0-.713.288T6 8v4q0 .425.288.713T7 13q.425 
+                      0 .713-.288T8 12V8q0-.425-.288-.713T7 7Zm10 10q.425 0 .713-.288T18 16q0-.425-.288-.713T17 15h-5q-.425 0-.713.288T11 16q0 .425.288.713T12 17h5Zm0-4q.425 0 .713-.288T18 12q0-.425-.288-.713T17 
+                      11h-5q-.425 0-.713.288T11 12q0 .425.288.713T12 13h5Zm0-4q.425 0 .713-.288T18 8q0-.425-.288-.713T17 7h-5q-.425 0-.713.288T11 8q0 .425.288.713T12 9h5ZM4 21q-.825 0-1.413-.588T2 19V5q0-.825.588-1.413T4 3h16q.825 
+                      0 1.413.588T22 5v14q0 .825-.588 1.413T20 21H4Zm0-2h16V5H4v14Zm0 0V5v14Z"/></svg>
+                    Channels
+                  </Link>
+                    <div ></div>
+                  </div>
+                  <div className="flex flex-col gap-1 items-center hover:bg-socialBlue/40 hover:py-1 hover:-mb-2 hover:rounded-t">
+                  <Link to={`${userId}/#moderators`} className={`flex gap-1 px-4 py-1 items-center`}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" 
+                    d="M17 20c0-1.657-2.239-3-5-3s-5 1.343-5 3m14-3c0-1.23-1.234-2.287-3-2.75M3 17c0-1.23 1.234-2.287 3-2.75m12-4.014a3 3 0 1 0-4-4.472m-8 4.472a3 3 0 0 1 4-4.472M12 14a3 3 0 1 1 0-6a3 3 0 0 1 0 6Z"/>
+                  </svg>
+                  Moderators
+                </Link>
+                  <div ></div>
+                  </div>
+                  </div>
+                )}
                 {isMyUser && (
-                  <div className="mt-10 place-items-center self-center text-gray-400 float-right">
+                  <div className=" place-items-center self-center text-gray-400 float-right">
                     <p>Remaining Quota: {`${profileUser.daily_quota}`}</p>
                   </div>
                 )}
+
+                
               </div>
             </div>
           </div>
 
         </div>
       </Card>
-      {
-        //TODO: farli comparire solo quando sono nel link #squeals
-      }
-      <div className="my-8">
-        {posts?.length > 0 &&
-          posts.map(
-            (
-              post // this is like a foreach to loop through the posts.
-            ) => <PostCard key={post.id} {...post} />
-          )}
-      </div>
+
+      <Routes>
+        {// Qui post è una chiamata asincrona e quindi non lo carica subito: da gestire
+        }<Route path={`${userId}/`} element={<AllSqueals posts={posts}/>}/>
+        <Route path={`${userId}/#channel`} element={channels}/>
+        <Route path={`${userId}/#moderators`} element={channels}/>
+      </Routes>
+
+      
     </Layout>
+    </Router>
   )
 }
