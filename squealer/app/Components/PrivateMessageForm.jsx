@@ -1,19 +1,23 @@
-import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import Avatar from './Avatar'
 import Card from './Card'
-import { SyncLoader } from 'react-spinners'
-import { useEffect, useState } from 'react'
-import { useSession } from '@supabase/auth-helpers-react'
 import Preloader from './Preloader'
 
-export default function PrivateMessageForm ({ onPost, receiver }) {
+export default function PrivateMessageForm({ onPost, receiver }) {
   const [profile, setProfile] = useState()
   const [uploads, setUploads] = useState([])
   const [isUploading, setIsUploading] = useState(false)
   const [content, setContent] = useState()
   const supabase = useSupabaseClient()
   const session = useSession()
+  const router = useRouter()
+
   useEffect(() => {
+    if (!session) {
+      router.push('/login')
+    }
     if (session?.user) {
       supabase
         .from('profiles')
@@ -30,11 +34,8 @@ export default function PrivateMessageForm ({ onPost, receiver }) {
     }
   }, [session])
 
-  if (!session) {
-    return <loadingPage />
-  }
 
-  async function createMessage () {
+  async function createMessage() {
     try {
       // get recevier id
       const { data } = await supabase
@@ -71,7 +72,7 @@ export default function PrivateMessageForm ({ onPost, receiver }) {
   }
 
   //https://fzhzqznaucvfclbaadpa.supabase.co/storage/v1/object/public/photos/1691597003355ChallengingMario.jpeg?t=2023-08-09T16%3A03%3A50.136Z
-  async function addPhotos (ev) {
+  async function addPhotos(ev) {
     const files = ev.target.files
     if (files.length > 0) {
       setIsUploading(true)

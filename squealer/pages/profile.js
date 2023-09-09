@@ -1,3 +1,4 @@
+
 import Layout from "@/app/Components/Layout"
 import Card from "@/app/Components/Card"
 import Avatar from "@/app/Components/Avatar"
@@ -10,7 +11,8 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"
 import AllSqueals from "@/app/Components/AllSqueals"
 import SelectedBar from "@/app/Components/SelectedBar"
 
-export default function ProfilePage() {
+
+export default function ProfilePage () {
   const router = useRouter()
   const session = useSession()
   const supabase = useSupabaseClient()
@@ -19,51 +21,60 @@ export default function ProfilePage() {
   const [isModerator, setIsModerator] = useState(false)
   const [channels, setChannels] = useState([])
   const userId = router.query.id
-  
 
+
+  async function fetchAll () {
+    try {
+      await fetchUser()
+      await fetchPosts()
+    } catch (error) {
+      console.error('Error fetching data:', error)
+    }
+  }
   useEffect(() => {
-    if (!userId) {
-      <LoginPage />
+    if (!session) {
+      router.push('/login')
     }
     fetchAll()
-  }, [])
+  }, [userId, session]) // Include userId e session come dipendenze
 
-  function fetchAll() {
-    fetchUser()
-    fetchPosts()
-  }
-
-  function fetchUser() {
-    supabase
-      .from('profiles')
-      .select()
-      .eq('id', userId)
-      .then(result => {
-        if (result.error) {
-          throw result.error
-        }
-        if (result.data) {
-          setProfile(result.data[0])
-        }
-      })
-  }
-
-  function fetchPosts() {
+  async function fetchUser () {
     try {
-      supabase
+      const { data, error } = await supabase
+        .from('profiles')
+        .select()
+        .eq('id', userId)
+        .single()
+
+      if (data) {
+        setProfile(data)
+      }
+
+      if (error) {
+        throw error
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error)
+    }
+  }
+
+  async function fetchPosts () {
+    try {
+      const { data, error } = await supabase
         .from('posts')
-        .select('id, content, created_at,photos, profiles(id, avatar, name, cover)')
+        .select(
+          'id, content, created_at, photos, profiles(id, avatar, name, cover)'
+        )
         .eq('author', userId)
         .then(result => {
           setPosts(result.data);
         })
-      
+     
     } catch (error) {
-      console.error(error + " fetchPosts per prendere i post dell'utente")
+      console.error('Error fetching user posts:', error)
     }
 
   }
-
 
   const isMyUser = userId === session?.user?.id
   if(isMyUser){
@@ -82,19 +93,32 @@ export default function ProfilePage() {
     <Router>
     <Layout>
       <Card noPadding={true}>
-        <div className="relative">
+        <div className='relative'>
           <div>
-            <Cover url={profileUser.cover} editable={isMyUser} onChange={fetchAll} />
+            <Cover
+              url={profileUser.cover}
+              editable={isMyUser}
+              onChange={fetchAll}
+            />
           </div>
-          <div className="z-20">
-            <div className="absolute top-28 left-4 ">
-              <Avatar url={profileUser.avatar} size={'big'} editable={isMyUser} onChange={fetchAll} />
+          <div className='z-20'>
+            <div className='absolute top-28 left-4 '>
+              <Avatar
+                url={profileUser.avatar}
+                size={'big'}
+                editable={isMyUser}
+                onChange={fetchAll}
+              />
             </div>
-            <div className="p-4 pb-2 items-left">
-              <div className="ml-28">
-                <h1 className="font-bold text-2xl">
-                  {`${profileUser && profileUser.name} `}</h1>
-                <div className="text-gray-500 leading-4"> {`@${profileUser && profileUser.username} `}</div>
+            <div className='p-4 pb-2 items-left'>
+              <div className='ml-28'>
+                <h1 className='font-bold text-2xl'>
+                  {`${profileUser && profileUser.name} `}
+                </h1>
+                <div className='text-gray-500 leading-4'>
+                  {' '}
+                  {`@${profileUser && profileUser.username} `}
+                </div>
               </div>
               <div className="flex gap-2 mt-10 -mb-2">
                 <div className="flex flex-col gap-1 items-center hover:bg-socialBlue/40 hover:py-1 hover:-mb-1 hover:rounded-t">
@@ -104,6 +128,7 @@ export default function ProfilePage() {
                       <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                         <rect width="9" height="4" x="1.5" y="1" rx="1" />
                         <rect width="9" height="4" x="4.5" y="8.5" rx="1" /></g>
+
                     </svg>
                     Squeals
                   </Link>
@@ -137,6 +162,7 @@ export default function ProfilePage() {
                 )}
                 {isMyUser && (
                   <div className=" place-items-center py-1 text-gray-400 float-right">
+
                     <p>Remaining Quota: {`${profileUser.daily_quota}`}</p>
                   </div>
                 )}
@@ -145,7 +171,6 @@ export default function ProfilePage() {
               </div>
             </div>
           </div>
-
         </div>
       </Card>
 

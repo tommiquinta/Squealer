@@ -1,0 +1,23 @@
+
+
+.blueBar {
+width: 10%;
+height: 5px;
+background-color: cornflowerblue;
+border-radius: 20px;
+transform: translateY(6px);
+display: block;
+}
+
+
+#header {
+  z-index: 10;
+  top:0px;
+}
+
+#focus-page {
+font-weight: 600;
+}
+
+
+  

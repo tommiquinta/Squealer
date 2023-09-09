@@ -18,14 +18,11 @@ export default function LoginPage() {
     await supabase.auth.signInWithOAuth({
       provider: 'google'
     })
-    const { user, error } = await supabase.auth.update({
-      data: { username: 'temp' }
-    })
   }
 
-  async function signUpWithEmail() {
+  async function signUpWithEmail () {
     if (!email) {
-      alert('You can not sign in without an eamil!')
+      alert('You can not sign in without an email!')
       return
     }
     if (!email.includes('@') && (!email.includes('.com') || !email.includes('.it'))) {
@@ -68,6 +65,14 @@ export default function LoginPage() {
     })
   }
 
+  async function withoutLoginMode(){
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email : "guest@squeal.it",
+      password : "guest"
+    })
+    sessionStorage.guest = true;
+  }
+
   return (
     <Layout hidenavigation={true}>
       <div className='h-screen flex items-center'>
@@ -101,7 +106,7 @@ export default function LoginPage() {
 
               <div className='mt-3 text-center text-gray-500'>
                 <p>
-                  Do not have an account? Click
+                  Do not have an account? Click{' '}
                   <span
                     className='underline cursor-pointer ml-1'
                     onClick={() => {
@@ -111,7 +116,7 @@ export default function LoginPage() {
                         setPassword('')
                     }}
                   >
-                    here
+                     here
                   </span>
                   .
                 </p>
@@ -201,6 +206,9 @@ export default function LoginPage() {
             </button>
           </Card>
           {/* end login with Google */}
+
+          <p className='text-socialBlue hover:underline cursor-pointer text-center' onClick={(withoutLoginMode)}>Continue without logging...</p>
+
         </div>
       </div>
     </Layout>
