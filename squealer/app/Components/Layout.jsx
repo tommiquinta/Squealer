@@ -12,15 +12,6 @@ export default function Layout({ children, hidenavigation }) {
 
 
 
-  let rightColumnClasses = '';
-  if (hidenavigation) {
-    rightColumnClasses += 'w-full relative left-25% ';
-  } else {
-    rightColumnClasses += 'mx-2 relative top-36 md:top-0 md:left-1/4 md:mx-0 md:w-9/12';
-  }
-
-
-
   useEffect(() => {
     async function checkLocalStorage() {
       try {
@@ -69,14 +60,13 @@ export default function Layout({ children, hidenavigation }) {
         {children}
       </div>
       {!hidenavigation && (
-        <div className='px-4 relative md:left-[23%] 2xl:left-[21%]'>
-          <PublicChannelsList publicChannels={publicChannels} />
-        </div>
-      )}
-
+          <div className='px-4 relative md:left-[23%] 2xl:left-[21%]'>
+                <PublicChannelsList publicChannels={publicChannels} />
+          </div>
+      )} 
+      
       <div className={rightColumnClasses}>
-        {children}
-      </div>
+        {children}</div>
 
     </div>
   )

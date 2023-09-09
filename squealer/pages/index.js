@@ -1,22 +1,26 @@
-import PostFormCard from '@/app/Components/Post-Media/FormPostCard.jsx'
+import PostFormCard from '@/app/Components/FormPostCard'
 import Layout from '@/app/Components/Layout'
-import PostCard from '@/app/Components/Post-Media/PostCard'
+import PostCard from '@/app/Components/PostCard'
 import Header from '@/app/Components/Header'
-import Preloader from '@/app/Components/Preloader'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import PostFormCard from '@/app/Components/Post-Media/FormPostCard'
+import PostCard from '@/app/Components/Post-Media/PostCard'
+import Layout from '@/app/Components/Layout'
+import Preloader from '@/app/Components/Preloader'
 
-export default function Home() {
+export default function Home () {
   const session = useSession()
   const router = useRouter()
   const supabase = useSupabaseClient()
+  const router = useRouter()
   const [user, setUser] = useState(null) // user è a null per evitare che venga mostrato il contenuto della pagina prima che venga caricato il componente Preloader
 
   const [loading, setLoading] = useState(true) // loading è a true per evitare che venga mostrato il contenuto della pagina prima che venga caricato il componente Preloader
   const [postFormLoading, setPostFormLoading] = useState(true)
 
-
+  
   const isGuest = session?.guest == null ? false : true;
 
   // to fill the homepage with posts:
@@ -25,7 +29,7 @@ export default function Home() {
   const [username, setUsername] = useState('')
   const [channels, setChannels] = useState()
 
-  useEffect(() => { 
+  useEffect(() => {
     async function fetchData() {
       try {
         await checkLocalStorage()
@@ -49,7 +53,7 @@ export default function Home() {
   }, [])
 
   async function fetchPosts() {
-    if (isGuest) {
+    if(isGuest){
       //deve filtrare i post e mettere solo quelli dei canali ufficiali
     }
     try {
@@ -105,7 +109,7 @@ export default function Home() {
     }
   }
 
-
+  
 
   const handleUsernameSubmit = async e => {
     e.preventDefault()
@@ -142,22 +146,22 @@ export default function Home() {
       {username ? (
         <Layout>
 
-          <Header updatePost={updateUserChannel} />
+         <Header updatePost={updateUserChannel}/>
           {channels == false ? (
             <div>
               <PostFormCard onPost={fetchPosts} />
-
+            
               {posts?.length > 0 &&
                 posts.map(post => <PostCard key={post.id} {...post} />)}
             </div>
           ) : (
             <div>
-
+              
               <h4>else should be getting post from channel</h4>
-
+              
             </div>
           )}
-
+          
 
         </Layout>
       ) : (
