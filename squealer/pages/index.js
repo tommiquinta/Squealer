@@ -1,3 +1,7 @@
+import PostFormCard from '@/app/Components/FormPostCard'
+import Layout from '@/app/Components/Layout'
+import PostCard from '@/app/Components/PostCard'
+import Header from '@/app/Components/Header'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
@@ -16,9 +20,14 @@ export default function Home () {
   const [loading, setLoading] = useState(true) // loading è a true per evitare che venga mostrato il contenuto della pagina prima che venga caricato il componente Preloader
   const [postFormLoading, setPostFormLoading] = useState(true)
 
+  
+  const isGuest = session?.guest == null ? false : true;
+
+  // to fill the homepage with posts:
 
   const [posts, setPosts] = useState([])
   const [username, setUsername] = useState('')
+  const [channels, setChannels] = useState()
 
   useEffect(() => {
     async function fetchData() {
@@ -44,6 +53,9 @@ export default function Home () {
   }, [])
 
   async function fetchPosts() {
+    if(isGuest){
+      //deve filtrare i post e mettere solo quelli dei canali ufficiali
+    }
     try {
       await supabase
         .from('posts')
@@ -118,6 +130,11 @@ export default function Home () {
     }
   }
 
+  const updateUserChannel = (showChannel) => {
+    setChannels(showChannel);
+  }
+
+
   const anythingIsLoading = postFormLoading || loading
 
   if (anythingIsLoading) {
@@ -128,20 +145,33 @@ export default function Home () {
     <div className='flex'>
       {username ? (
         <Layout>
-          <PostFormCard onPost={fetchPosts} />
-          {posts?.length > 0 &&
-            posts.map(post => <PostCard key={post.id} {...post} />)}
+
+         <Header updatePost={updateUserChannel}/>
+          {channels == false ? (
+            <div>
+              <PostFormCard onPost={fetchPosts} />
+            
+              {posts?.length > 0 &&
+                posts.map(post => <PostCard key={post.id} {...post} />)}
+            </div>
+          ) : (
+            <div>
+              
+              <h4>else should be getting post from channel</h4>
+              
+            </div>
+          )}
+          
+
         </Layout>
       ) : (
         <Layout hidenavigation={true}>
-          <form >
-            <label>this must be fixed using css: its pretty ugly.</label>
-            <br />
-            <label>
+          <form onSubmit={handleUsernameSubmit} className='flex bg-white shadow-md shadow-gray-300 rounded-md mb-5 p-4'>
+            <label className='text-gray-600'>
               Insert your username:
               <input type='text' name='username' />
             </label>
-            <button type='submit' onSubmit={handleUsernameSubmit}>Submit</button>
+            <button type='submit' className='bg-socialBlue p-3 text-white'>Submit</button>
           </form>
         </Layout>
       )}
