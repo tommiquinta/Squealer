@@ -7,8 +7,6 @@ import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import PostCard from '@/app/Components/Post-Media/PostCard'
 import LoginPage from './login'
 import PostFormCard from '@/app/Components/FormPostCard'
-import SearchComponent from '@/app/Components/SearchComponent'
-
 
 export default function channel () {
   const session = useSession()
@@ -81,7 +79,6 @@ export default function channel () {
     }
   }
 
-
   return (
     <div className='flex'>
       <Layout>
@@ -108,23 +105,13 @@ export default function channel () {
           </div>
         </Card>
         <PostFormCard />
-          {
-            !posts && (
-              <div className='pb-2 font-sans text-sm text-center text-gray-400'>
-                    Here below are gonna be listed all squeals shared to this channel.
-                  </div>
-            )
-          }
-        
+
+        <div className='pb-2 font-sans text-sm text-center text-gray-400'>
+          Here below are gonna be listed all squeals shared to this channel.
+        </div>
+
         {posts?.length > 0 &&
           posts.map(post => <PostCard key={post.id} {...post} />)}
-
-        {channelHandle === 'elonTweet' &&
-          (<div className='flex-col gap-2 mx-auto'>
-              <SearchComponent toSearch={'elon musk twitter news'}/>
-
-            </div>
-          )}  
       </Layout>
     </div>
   )

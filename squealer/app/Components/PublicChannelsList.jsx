@@ -11,7 +11,7 @@ export default function PublicChannelsList ({ publicChannels }) {
             <div className='items-center'>
               <Link
                 href={`/Channel?channelId=${channel.id}`}
-                className='flex gap-2 py-3 px-2 h-15 rounded-sm shadow-sm'
+                className='flex gap-2 py-3 h-15 rounded-sm shadow-sm'
               >
                 {channel.name}
               </Link>
