@@ -7,7 +7,6 @@ import Avatar from './Avatar'
 import Card from './Card'
 import Preloader from './Preloader'
 
-//https://fzhzqznaucvfclbaadpa.supabase.co/storage/v1/object/public/photos/1691597003355ChallengingMario.jpeg?t=2023-08-09T16%3A03%3A50.136Z
 
 export default function PostFormCard({ onPost }) {
   const [profile, setProfile] = useState(null)
@@ -18,6 +17,10 @@ export default function PostFormCard({ onPost }) {
   
   const supabase = useSupabaseClient()
   const session = useSession()
+
+  const [handlerInfo, setHandlerInfo] = useState()
+  const isGuest = sessionStorage.guest == null ? false : true;
+
   const router = useRouter()
 
   useEffect(() => {
@@ -184,10 +187,14 @@ export default function PostFormCard({ onPost }) {
 
   return (
     <div className='mb-5'>
-      <Card>
+      <Card styles={'md:mt-16'}>
         <div className='flex gap-3'>
-          {profile && <Avatar size={'medium'} url={profile.avatar} />}
-          <textarea
+          {profile && <Avatar url={profile.avatar} size={"big"}/>}
+          {isGuest ? (
+            <label className='self-center text-gray-400'>You are a guest, please log in to access all the power of Squaler</label>
+          ) : (
+            <textarea
+
             value={content}
             onChange={e => {
               setContent(e.target.value)
@@ -196,6 +203,8 @@ export default function PostFormCard({ onPost }) {
             className='grow p-3 h-18 resize-none'
             placeholder={`What's on your mind, ${profile && profile.username}?`}
           />
+          )}
+          
         </div>
 
         <div className=''>
@@ -261,6 +270,7 @@ export default function PostFormCard({ onPost }) {
           </div>
         )}
 
+      {!isGuest && (
         <div className=' flex gap-6 items-center mt-2'>
           <div>
             <label className='flex gap-1'>
@@ -348,7 +358,7 @@ export default function PostFormCard({ onPost }) {
               Squeal
             </button>
           </div>
-        </div>
+        </div> )}
       </Card>
       <hr></hr>
     </div>
