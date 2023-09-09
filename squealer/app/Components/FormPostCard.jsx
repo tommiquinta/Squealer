@@ -14,14 +14,15 @@ export default function PostFormCard({ onPost }) {
   const [uploads, setUploads] = useState([])
   const [isUploading, setIsUploading] = useState(false)
   const [content, setContent] = useState()
+  
   const supabase = useSupabaseClient()
   const session = useSession()
   const router = useRouter()
 
   useEffect(() => {
-    if (!session) {
+     if (!session) {
       router.push('/login')
-    }
+    } 
     if (session?.user) {
       supabase
         .from('profiles')
@@ -184,7 +185,7 @@ export default function PostFormCard({ onPost }) {
     <div className='mb-5'>
       <Card styles={'md:mt-16'}>
         <div className='flex gap-3'>
-          {profile && <Avatar url={profile.avatar} />}
+          {profile && <Avatar size={'medium'} url={profile.avatar} />}
           <textarea
             value={content}
             onChange={e => {
