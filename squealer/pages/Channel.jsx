@@ -4,7 +4,7 @@ import Layout from '@/app/Components/Layout'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
-import PostCard from '@/app/Components/Post-Media/PostCard'
+import PostCard from '@/app/Components/PostCard'
 import LoginPage from './login'
 import PostFormCard from '@/app/Components/FormPostCard'
 

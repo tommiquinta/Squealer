@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import ProfilePage from '../Profile.jsx';
+import ProfilePage from '../profile';
 
 export default function Id(){
     const router = useRouter();

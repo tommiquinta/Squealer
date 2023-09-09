@@ -2,53 +2,31 @@ import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useRouter } from "next/router"
 import Card from './Card'
 import Link from 'next/link'
-import { useEffect, useState } from 'react';
 
 export default function NavigationBar() {
 
-  const supabase = useSupabaseClient()
+  const session = useSession();
   const router = useRouter();
   const { pathname } = router;
+  const { asPath } = router;
   const activePage = 'text-white flex gap-2 py-1 px-2 mx-1 md:gap-2 md:py-3 bg-socialBlue md:-mx-10 md:px-10 rounded-md shadow-md shadow-gray-300 '
   const nonActivePage = 'flex gap-2 mx-2 py-1 px-2 md:py-3 hover:bg-socialBlue hover:bg-opacity-20 md:-mx-10 md:px-10 rounded-md hover:shadow-md shadow-gray-300 transition-all hover:scale-110'
-  const [userPage, setUserpage] = useState('');
 
-
-  useEffect(() => {
-    checklocalStorage()
-  }, [])
-
-  async function checklocalStorage() {
-    try {
-      if (localStorage.getItem('username') === '') {
-        await supabase
-          .from('profiles')
-          .select('username')
-          .eq('id', localStorage.getItem('userId'))
-          .single()
-          .then(result => {
-            localStorage.setItem('username', result.data.username)
-            if (localStorage.getItem('isLogged') === 'true') {
-              setUserpage('/profile/' + localStorage.getItem('username'))
-            }
-          })
-      }
-    } catch (error) {
-      console.log('Error fetching user data: ', error)
-    }
+  var userpage = '';
+  if (session) {
+    userpage = '/profile/' + session.user.id;
   }
-
+  const supabase = useSupabaseClient()
   function logout() {
     supabase.auth.signOut()
-    console.log('hai fatto logout');
-    // Svuota completamente il localStorage
-    localStorage.clear();
     router.push('/login')
   }
 
   function handleClick() {
+    console.log('clicked home button')
     router.push('/')
   }
+
 
   return (
 
@@ -65,7 +43,6 @@ export default function NavigationBar() {
         </div>
 
         <div className='flex gap-4 place-content-center place-items-center md:block '>
-
           <Link href='/' className={pathname === '/' ? activePage : nonActivePage}>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -83,8 +60,7 @@ export default function NavigationBar() {
             </svg>
             <p className='hidden md:block'>Home</p>
           </Link>
-
-          <Link href='/UsersList' className={pathname === '/UsersList' ? activePage : nonActivePage}>
+          <Link href='/usersList' className={pathname === '/usersList' ? activePage : nonActivePage}>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
@@ -101,8 +77,7 @@ export default function NavigationBar() {
             </svg>
             <p className='hidden md:block'>Users</p>
           </Link>
-
-          <Link href={`/profile/${localStorage.getItem('username')}`} className={router.asPath === `/profile/${localStorage.getItem('username')}` ? activePage : nonActivePage}>
+          <Link href={userpage} onClick={() => asPath === userpage ? fetchUser() : null} className={asPath === userpage ? activePage : nonActivePage}>
             <svg xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -116,7 +91,6 @@ export default function NavigationBar() {
             </svg>
             <p className='hidden md:block'>Your Profile</p>
           </Link>
-
           <Link href='/' className={nonActivePage}>
             <svg xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -131,7 +105,6 @@ export default function NavigationBar() {
             </svg>
             <p className='hidden md:block'>Explore</p>
           </Link>
-
           <Link href='/' className={nonActivePage}>
             <svg
               xmlns="http://www.w3.org/2000/svg"

@@ -1,116 +1,80 @@
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import Layout from '@/app/Components/Layout'
 import Card from '@/app/Components/Card'
 import Avatar from '@/app/Components/Avatar'
-import PostCard from '@/app/Components/Post-Media/PostCard'
+import PostCard from '@/app/Components/PostCard'
 import Cover from '@/app/Components/Cover'
 import Link from 'next/link'
-import Preloader from '@/app/Components/Preloader'
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
-export default function ProfilePage() {
+export default function ProfilePage () {
   const router = useRouter()
+  const session = useSession()
   const supabase = useSupabaseClient()
   const [profileUser, setProfile] = useState([])
   const [posts, setPosts] = useState([])
-  const [isAuthor, setIsAuthor] = useState(false)
-  const userProfile = router.query.id
+  const userId = router.query.id
   const selected = 'border-b-4 rounded-sm border-socialBlue text-sky-600 w-4'
-  const [loading, setLoading] = useState(true) // usato per il refresh della pagina
-  const [userData, setUserData] = useState(null) // usato per il refresh della pagina
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        await checkLocalStorage();
-        const isLoggedIn = localStorage.getItem('isLogged');
-        if (isLoggedIn === 'false') {
-          router.push('/login');
-          return;
-        }
-        await fetchAll();
-        setLoading(false); // caricamento completato
-      } catch (error) {
-        console.log('Error fetching data:', error);
-        setLoading(false); // caricamento false anche se c'è un errore
-      }
-    }
-    fetchData()
-  }, [])
-
-  async function fetchAll() {
+  async function fetchAll () {
     try {
       await fetchUser()
       await fetchPosts()
-      checkIfIsAuthor()
     } catch (error) {
-      console.log('Error fetching data:', error)
+      console.error('Error fetching data:', error)
     }
   }
+  useEffect(() => {
+    if (!session) {
+      router.push('/login')
+    }
+    fetchAll()
+  }, [userId, session]) // Include userId e session come dipendenze
 
-  async function fetchUser() {
+  async function fetchUser () {
     try {
-      await supabase
+      const { data, error } = await supabase
         .from('profiles')
         .select()
-        .eq('id', localStorage.getItem('userId'))
+        .eq('id', userId)
         .single()
-        .then(result => {
-          setProfile(result.data)
-        })
-    } catch (error) {
-      console.log('Error fetching user data:', error)
-    }
-  }
 
+      if (data) {
+        setProfile(data)
+      }
 
-  async function checkLocalStorage() {
-    try {
-      if (localStorage.getItem('username') === null) {
-        await supabase
-          .from('profiles')
-          .select('username')
-          .eq('id', localStorage.getItem('userId'))
-          .single()
-          .then(result => {
-            localStorage.setItem('username', result.data.username)
-          })
+      if (error) {
+        throw error
       }
     } catch (error) {
-      console.log('Error fetching user data: ', error)
+      console.error('Error fetching user data:', error)
     }
   }
 
-  async function fetchPosts() {
+  async function fetchPosts () {
     try {
-      await supabase
+      const { data, error } = await supabase
         .from('posts')
-        .select('id, content, created_at, photos, profiles(id, avatar, name, cover)')
-        .eq('author', localStorage.getItem('userId'))
-        .then(result => {
-          setIsAuthor(true)
-          setPosts(result.data)
-        })
+        .select(
+          'id, content, created_at, photos, profiles(id, avatar, name, cover)'
+        )
+        .eq('author', userId)
 
+      if (data) {
+        setPosts(data)
+      }
+
+      if (error) {
+        throw error
+      }
     } catch (error) {
-      // setIsAuthor(false)
-      console.log('Error fetching user posts:', error)
+      console.error('Error fetching user posts:', error)
     }
   }
 
-  async function checkIfIsAuthor() {
-    try {
-
-      setIsAuthor(userProfile === localStorage.getItem('username'));
-    } catch (error) {
-      console.log('Error checking if is author:', error)
-    }
-  }
-
-  if (loading) {
-    return <Preloader />
-  }
+  // console.log(profileUser)
+  const isMyUser = userId === session?.user?.id
 
   return (
     <Layout>
@@ -119,7 +83,7 @@ export default function ProfilePage() {
           <div>
             <Cover
               url={profileUser.cover}
-              editable={isAuthor}
+              editable={isMyUser}
               onChange={fetchAll}
             />
           </div>
@@ -128,7 +92,7 @@ export default function ProfilePage() {
               <Avatar
                 url={profileUser.avatar}
                 size={'big'}
-                editable={isAuthor}
+                editable={isMyUser}
                 onChange={fetchAll}
               />
             </div>
@@ -169,7 +133,7 @@ export default function ProfilePage() {
                   <div className={`${selected}`}></div>
                 </div>
 
-                {isAuthor && (
+                {isMyUser && (
                   <div className='mt-10 place-items-center self-center text-gray-400 float-right'>
                     <p>Remaining Quota: {`${profileUser.daily_quota}`}</p>
                   </div>
