@@ -1,20 +1,33 @@
 import NavigationBar from './NavigationBar'
-import postcssConfig from '@/postcss.config'
 import PublicChannelsList from './PublicChannelsList'
 import { useEffect, useState } from 'react'
-import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import Preloader from './Preloader'
 
-
-export default function Layout ({ children, hidenavigation }) {
-  const session = useSession()
+export default function Layout({ children, hidenavigation }) {
   const supabase = useSupabaseClient()
   const [publicChannels, setPublicChannels] = useState([])
+  const [loading, setLoading] = useState(true) // loading è a true per evitare che venga mostrato il contenuto della pagina prima che venga caricato il componente Preloader
+  const [user, setUser] = useState(null) // user è a null per evitare che venga mostrato il contenuto della pagina prima che venga caricato il componente Preloader
+
+
 
   useEffect(() => {
-    if (session) {
-      fetchPublicChannels()
+    async function checkLocalStorage() {
+      try {
+        setLoading(true)  // loading è a true per evitare che venga mostrato il contenuto della pagina prima che venga caricato il componente Preloader
+        if (localStorage.getItem('isLogged') === 'false') {
+          router.push('/login')
+        }
+        fetchPublicChannels()
+        setLoading(false) // loading è a false per mostrare il contenuto della pagina
+      } catch (error) {
+        console.log(error + 'errore in useEffect in Layout.jsx')
+        setLoading(false) // loading è a false per mostrare il contenuto della pagina
+      }
     }
-  }, [session])
+    checkLocalStorage()
+  }, [])
 
   function fetchPublicChannels() {
     supabase
@@ -25,13 +38,17 @@ export default function Layout ({ children, hidenavigation }) {
       })
   }
 
+  if (loading) {
+    return <Preloader />
+  }
+
   return (
     <div className='md:flex mt-4 max-w-4xl mx-auto gap-6 '>
       {!hidenavigation && (
         <div className='relative'>
           <NavigationBar />
         </div>
-        
+
       )}
       <div
         className={
@@ -43,10 +60,10 @@ export default function Layout ({ children, hidenavigation }) {
         {children}
       </div>
       {!hidenavigation && (
-          <div className='px-4 relative md:left-1/4'>
-                <PublicChannelsList publicChannels={publicChannels} />
-          </div>
-       )}
+        <div className='px-4 relative md:left-1/4'>
+          <PublicChannelsList publicChannels={publicChannels} />
+        </div>
+      )}
     </div>
   )
 }

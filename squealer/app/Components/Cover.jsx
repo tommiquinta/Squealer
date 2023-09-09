@@ -1,7 +1,7 @@
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useState } from "react";
 import Preloader from "./Preloader";
-import { uploadUserProfileImage } from "../../Helpers/user.js";
+import { uploadOnSupabase } from "../../Helpers/uploadOnSupabase.js";
 
 export default function Cover({
     url,
@@ -18,7 +18,7 @@ export default function Cover({
             const file = ev.target.files?.[0];
             if (file) {
                 setIsUploading(true);
-                await uploadUserProfileImage(
+                await uploadOnSupabase(
                     supabase,
                     session.user.id,
                     "covers",
