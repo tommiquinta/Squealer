@@ -31,7 +31,7 @@ export default function NavigationBar() {
   return (
 
     <Card isNavbar={true}>
-      <div className='px-4 py-2 w-screen md:w-fit '>
+      <div className='px-4 py-2 w-[89vw] md:w-fit '>
         <div className='flex gap-2 leading-9 justify-center mb-3'>
           <img
             src="yoshi-logo-empty.png"

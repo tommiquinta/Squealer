@@ -7,7 +7,6 @@ import Avatar from './Avatar'
 import Card from './Card'
 import Preloader from './Preloader'
 
-//https://fzhzqznaucvfclbaadpa.supabase.co/storage/v1/object/public/photos/1691597003355ChallengingMario.jpeg?t=2023-08-09T16%3A03%3A50.136Z
 
 export default function PostFormCard({ onPost }) {
   const [profile, setProfile] = useState(null)
@@ -184,7 +183,7 @@ export default function PostFormCard({ onPost }) {
 
   return (
     <div className='mb-5'>
-      <Card>
+      <Card styles={'md:mt-16'}>
         <div className='flex gap-3'>
           {profile && <Avatar size={'medium'} url={profile.avatar} />}
           <textarea

@@ -1,6 +1,7 @@
 import PostFormCard from '@/app/Components/FormPostCard'
 import Layout from '@/app/Components/Layout'
 import PostCard from '@/app/Components/PostCard'
+import Header from '@/app/Components/Header'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
@@ -9,12 +10,15 @@ export default function Home () {
   const session = useSession()
   const router = useRouter()
   const supabase = useSupabaseClient()
+  
 
   const [posts, setPosts] = useState([])
   const [userName, setUsername] = useState(null)
+  const [channels, setChannels] = useState()
 
   useEffect(() => {
     if (session) {
+      setChannels(false)
       fetchPosts()
       checkUsername()
     }
@@ -58,24 +62,42 @@ export default function Home () {
     }
   }
 
+  const updateUserChannel = (showChannel) => {
+    setChannels(showChannel);
+  }
+
+
   return (
     <div className='flex'>
       {userName ? (
         <Layout>
-          <PostFormCard onPost={fetchPosts} />
-          {posts?.length > 0 &&
-            posts.map(post => <PostCard key={post.id} {...post} />)}
+
+         <Header updatePost={updateUserChannel}/>
+          {channels == false ? (
+            <div>
+              <PostFormCard onPost={fetchPosts} />
+            
+              {posts?.length > 0 &&
+                posts.map(post => <PostCard key={post.id} {...post} />)}
+            </div>
+          ) : (
+            <div>
+              
+              <h4>else should be getting post from channel</h4>
+              
+            </div>
+          )}
+          
+
         </Layout>
       ) : (
         <Layout hidenavigation={true}>
-          <form onSubmit={handleUsernameSubmit}>
-            <label>this must be fixed using css: its pretty ugly.</label>
-            <br />
-            <label>
+          <form onSubmit={handleUsernameSubmit} className='flex bg-white shadow-md shadow-gray-300 rounded-md mb-5 p-4'>
+            <label className='text-gray-600'>
               Insert your username:
               <input type='text' name='username' />
             </label>
-            <button type='submit'>Submit</button>
+            <button type='submit' className='bg-socialBlue p-3 text-white'>Submit</button>
           </form>
         </Layout>
       )}
