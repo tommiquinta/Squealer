@@ -1,6 +1,7 @@
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useSession } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
 import Avatar from './Avatar'
 import Card from './Card'
@@ -13,12 +14,19 @@ export default function PostFormCard({ onPost }) {
   const [uploads, setUploads] = useState([])
   const [isUploading, setIsUploading] = useState(false)
   const [content, setContent] = useState()
+  
   const supabase = useSupabaseClient()
   const session = useSession()
+
   const [handlerInfo, setHandlerInfo] = useState()
   const isGuest = sessionStorage.guest == null ? false : true;
 
+  const router = useRouter()
+
   useEffect(() => {
+     if (!session) {
+      router.push('/login')
+    } 
     if (session?.user) {
       supabase
         .from('profiles')
@@ -36,33 +44,29 @@ export default function PostFormCard({ onPost }) {
     }
   }, [session])
 
-  if (!session) {
-    return <loadingPage />
-  }
+
 
   // console.log(profile)
 
-  async function createPost () {
-    if (content.includes('@')) {
-      const regex = /@(\w+)/
+  async function createPost() {
+    if (content && content.trim() !== '') {
+      if (content.includes('@')) {
+        const regex = /@(\w+)/
 
-      const match = regex.exec(content)
-      if (match) {
-        const receiverHandle = match[1]
-        supabase
-          .from('profiles')
-          .select()
-          .eq('username', receiverHandle)
-          .then(response => {
-            if (!response.error) {
-              setHandlerInfo(response.data[0].id)
-              if (handlerInfo) {
-                console.log(handlerInfo)
+        const match = regex.exec(content)
+        if (match) {
+          const receiverHandle = match[1]
+          supabase
+            .from('profiles')
+            .select()
+            .eq('username', receiverHandle)
+            .then(response => {
+              if (!response.error) {
                 supabase
                   .from('direct_messages')
                   .insert({
                     author: session.user.id,
-                    receiver: handlerInfo,
+                    receiver: response.data[0].id,
                     content: content,
                     photos: uploads
                   })
@@ -72,12 +76,48 @@ export default function PostFormCard({ onPost }) {
                       setUploads([])
                     }
                   })
+              } else {
+                console.log(response.error) // TO-DO: handle error
               }
-            }
-          })
+            })
+        }
       }
-    } else {
-      if (content && content.trim() !== '') {
+
+      if (content.includes('§')) {
+        const regex = /§(\w+)/
+
+        const match = regex.exec(content)
+
+        if (match) {
+          const receiverHandle = match[1]
+
+          supabase
+            .from('public_channels')
+            .select()
+            .eq('handle', receiverHandle)
+            .then(response => {
+              if (!response.error) {
+                supabase
+                  .from('posts')
+                  .insert({
+                    author: session.user.id,
+                    public_channel: response.data[0].id,
+                    content: content,
+                    photos: uploads
+                  })
+                  .then(response => {
+                    if (!response.error) {
+                      setContent('')
+                      setUploads([])
+
+                    }
+                  })
+              } else {
+                console.log(response.error) // TO-DO: handle error
+              }
+            })
+        }
+      } else {
         // cheack if the post is not empty
         supabase
           .from('posts')
@@ -114,6 +154,8 @@ export default function PostFormCard({ onPost }) {
             }
           })
       }
+    } else {
+      alert("A squeal with no content is a little useless, isn't it?")
     }
   }
 
@@ -145,20 +187,21 @@ export default function PostFormCard({ onPost }) {
 
   return (
     <div className='mb-5'>
-      <Card>
+      <Card styles={'md:mt-16'}>
         <div className='flex gap-3'>
           {profile && <Avatar url={profile.avatar} size={"big"}/>}
           {isGuest ? (
             <label className='self-center text-gray-400'>You are a guest, please log in to access all the power of Squaler</label>
           ) : (
             <textarea
+
             value={content}
             onChange={e => {
               setContent(e.target.value)
               setDaily_quota(profile.daily_quota - e.target.value.length)
             }}
             className='grow p-3 h-18 resize-none'
-            placeholder={`What's on your mind, ${profile && profile.name}?`}
+            placeholder={`What's on your mind, ${profile && profile.username}?`}
           />
           )}
           

@@ -15,9 +15,17 @@
         "package.json": true,
         "package-lock.json": true,
         "**/package-lock.json": true,
-        ".vscode/**": true,
         "**/node_modules": true,
-        "**/.vscode": true
+        "**/.env": true,
+        "**/.next": true,
+        "**/.vscode": true,
+        "**/users.json": true,
+        "**/tailwind.config.js": true,
+        "**/postcss.config.js": true,
+        "**/jsconfig.json": true,
+        "**/.eslintrc.json": true,
+        "**/middleware.js": true,
+        "**/next.config.js": true
     },
     "explorerExclude.backup": {}
 }

@@ -27,3 +27,7 @@ body {
     )
     rgb(var(--background-start-rgb)); */
 }
+
+.colored {
+  color: blue;
+}

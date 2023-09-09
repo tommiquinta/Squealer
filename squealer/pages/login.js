@@ -3,7 +3,7 @@ import Layout from '@/app/Components/Layout'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useState } from 'react'
 
-export default function LoginPage () {
+export default function LoginPage() {
   const supabase = useSupabaseClient()
 
   const [email, setEmail] = useState()
@@ -14,12 +14,9 @@ export default function LoginPage () {
   const [avatar, setAvatar] = useState()
   const [username, setUsername] = useState()
 
-  async function loginWithGoogle () {
+  async function loginWithGoogle() {
     await supabase.auth.signInWithOAuth({
       provider: 'google'
-    })
-    const { user, error } = await supabase.auth.update({
-      data: { username: 'temp' }
     })
   }
 
@@ -61,7 +58,7 @@ export default function LoginPage () {
     }
   }
 
-  async function signInWithEmail () {
+  async function signInWithEmail() {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password
@@ -109,7 +106,7 @@ export default function LoginPage () {
 
               <div className='mt-3 text-center text-gray-500'>
                 <p>
-                  Do not have an account? Click
+                  Do not have an account? Click{' '}
                   <span
                     className='underline cursor-pointer ml-1'
                     onClick={() => {
@@ -211,6 +208,7 @@ export default function LoginPage () {
           {/* end login with Google */}
 
           <p className='text-socialBlue hover:underline cursor-pointer text-center' onClick={(withoutLoginMode)}>Continue without logging...</p>
+
         </div>
       </div>
     </Layout>

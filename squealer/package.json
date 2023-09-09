@@ -28,6 +28,7 @@
     "react-devtools": "^4.28.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",
+    "react-router-dom": "^6.15.0",
     "react-spinner": "^0.2.7",
     "react-spinners": "^0.13.8",
     "react-spring": "^9.7.2",
