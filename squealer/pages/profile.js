@@ -3,11 +3,12 @@ import Card from "@/app/Components/Card"
 import Avatar from "@/app/Components/Avatar"
 import Cover from "@/app/Components/Cover"
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
-import { useEffect, useState } from 'react'
+import { use, useEffect, useState } from 'react'
 import { useRouter } from "next/router"
 import LoginPage from "./login"
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom"
 import AllSqueals from "@/app/Components/AllSqueals"
+import SelectedBar from "@/app/Components/SelectedBar"
 
 export default function ProfilePage() {
   const router = useRouter()
@@ -18,7 +19,7 @@ export default function ProfilePage() {
   const [isModerator, setIsModerator] = useState(false)
   const [channels, setChannels] = useState([])
   const userId = router.query.id
-  const selected = "border-b-4 rounded-sm border-socialBlue text-sky-600 w-4"
+  
 
   useEffect(() => {
     if (!userId) {
@@ -53,10 +54,14 @@ export default function ProfilePage() {
         .from('posts')
         .select('id, content, created_at,photos, profiles(id, avatar, name, cover)')
         .eq('author', userId)
-        .then(result => setPosts(result.data))
+        .then(result => {
+          setPosts(result.data);
+        })
+      
     } catch (error) {
       console.error(error + " fetchPosts per prendere i post dell'utente")
     }
+
   }
 
 
@@ -64,7 +69,7 @@ export default function ProfilePage() {
   if(isMyUser){
     try {
       supabase
-        .from('moderator')
+        .from('moderators')
         .select('id')
         .eq('id', userId)
         .then(result => setIsModerator(true))
@@ -91,9 +96,9 @@ export default function ProfilePage() {
                   {`${profileUser && profileUser.name} `}</h1>
                 <div className="text-gray-500 leading-4"> {`@${profileUser && profileUser.username} `}</div>
               </div>
-              <div className="flex gap-2 mt-10 ">
-                <div className="flex flex-col gap-1 items-center hover:bg-socialBlue/40 hover:py-1 hover:-mb-2 hover:rounded-t">
-                  <Link to={`${userId}/#squeals`} className={`flex gap-1 px-4 py-1 items-center`}>
+              <div className="flex gap-2 mt-10 -mb-2">
+                <div className="flex flex-col gap-1 items-center hover:bg-socialBlue/40 hover:py-1 hover:-mb-1 hover:rounded-t">
+                  <Link to={`${userId}`} className={`flex gap-1 px-4 py-1 items-center`} >
                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                       viewBox="0 0 14 14">
                       <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -102,13 +107,13 @@ export default function ProfilePage() {
                     </svg>
                     Squeals
                   </Link>
-                  <div className={`${selected}`}></div>
+                  <SelectedBar selected={false}/>
                 </div>
 
                 {isModerator && (
                   <div className="flex">
-                     <div className="flex flex-col gap-1 items-center hover:bg-socialBlue/40 hover:py-1 hover:-mb-2 hover:rounded-t">
-                     <Link to={`${userId}/#channels`} className={`flex gap-1 px-4 py-1 items-center`}>
+                     <div className="flex flex-col gap-1 items-center hover:bg-socialBlue/40 hover:py-1 hover:-mb-1 hover:rounded-t">
+                     <Link to={`${userId}/channels`} className={`flex gap-1 px-4 py-1 items-center`} >
                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                       <path fill="currentColor" d="M7 17q.425 0 .713-.288T8 16q0-.425-.288-.713T7 15q-.425 0-.713.288T6 16q0 .425.288.713T7 17ZM7 7q-.425 0-.713.288T6 8v4q0 .425.288.713T7 13q.425 
                       0 .713-.288T8 12V8q0-.425-.288-.713T7 7Zm10 10q.425 0 .713-.288T18 16q0-.425-.288-.713T17 15h-5q-.425 0-.713.288T11 16q0 .425.288.713T12 17h5Zm0-4q.425 0 .713-.288T18 12q0-.425-.288-.713T17 
@@ -116,22 +121,22 @@ export default function ProfilePage() {
                       0 1.413.588T22 5v14q0 .825-.588 1.413T20 21H4Zm0-2h16V5H4v14Zm0 0V5v14Z"/></svg>
                     Channels
                   </Link>
-                    <div ></div>
+                    <SelectedBar selected={false}/>
                   </div>
-                  <div className="flex flex-col gap-1 items-center hover:bg-socialBlue/40 hover:py-1 hover:-mb-2 hover:rounded-t">
-                  <Link to={`${userId}/#moderators`} className={`flex gap-1 px-4 py-1 items-center`}>
+                  <div className="flex flex-col gap-1 items-center hover:bg-socialBlue/40 hover:py-1 hover:-mb-1 hover:rounded-t">
+                  <Link to={`${userId}/moderators`} className={`flex gap-1 px-4 py-1 items-center`} >
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                     <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" 
                     d="M17 20c0-1.657-2.239-3-5-3s-5 1.343-5 3m14-3c0-1.23-1.234-2.287-3-2.75M3 17c0-1.23 1.234-2.287 3-2.75m12-4.014a3 3 0 1 0-4-4.472m-8 4.472a3 3 0 0 1 4-4.472M12 14a3 3 0 1 1 0-6a3 3 0 0 1 0 6Z"/>
-                  </svg>
-                  Moderators
-                </Link>
-                  <div ></div>
+                    </svg>
+                    Moderators
+                    </Link>
+                    <SelectedBar selected={false}/>
                   </div>
-                  </div>
+                </div>
                 )}
                 {isMyUser && (
-                  <div className=" place-items-center self-center text-gray-400 float-right">
+                  <div className=" place-items-center py-1 text-gray-400 float-right">
                     <p>Remaining Quota: {`${profileUser.daily_quota}`}</p>
                   </div>
                 )}
@@ -144,13 +149,12 @@ export default function ProfilePage() {
         </div>
       </Card>
 
+      
       <Routes>
-        {// Qui post è una chiamata asincrona e quindi non lo carica subito: da gestire
-        }<Route path={`${userId}/`} element={<AllSqueals posts={posts}/>}/>
-        <Route path={`${userId}/#channel`} element={channels}/>
-        <Route path={`${userId}/#moderators`} element={channels}/>
+        <Route path={`${userId}`} element={<AllSqueals posts={posts}/>}/>
+        <Route path={`${userId}/channels`} element={"PublicChannels"}/>
+        <Route path={`${userId}/moderators`} element={<Card></Card>}/>
       </Routes>
-
       
     </Layout>
     </Router>
