@@ -11,6 +11,9 @@ export default function Home () {
   const router = useRouter()
   const supabase = useSupabaseClient()
   
+  const isGuest = session?.guest == null ? false : true;
+
+  // to fill the homepage with posts:
 
   const [posts, setPosts] = useState([])
   const [userName, setUsername] = useState(null)
@@ -25,6 +28,9 @@ export default function Home () {
   }, [session])
 
   function fetchPosts () {
+    if(isGuest){
+      //deve filtrare i post e mettere solo quelli dei canali ufficiali
+    }
     supabase
       .from('posts')
       .select('id, content, created_at,photos, profiles(id, avatar, name)')

@@ -46,7 +46,11 @@ export default function Layout ({ children, hidenavigation }) {
           <div className='px-4 relative md:left-[23%] 2xl:left-[21%]'>
                 <PublicChannelsList publicChannels={publicChannels} />
           </div>
-       )}
+      )} 
+      
+      <div className={rightColumnClasses}>
+        {children}</div>
+
     </div>
   )
 }
