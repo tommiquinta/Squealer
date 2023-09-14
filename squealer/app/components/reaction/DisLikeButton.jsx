@@ -1,17 +1,31 @@
 "use client"
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSpring, animated } from 'react-spring';
 import { FaThumbsDown } from 'react-icons/fa';
 import "@/styles/DisLikeButton.css";
 import { removeLike, addDislike, removeDislike } from './reactions';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useRouter } from 'next/navigation';
+
 
 function DisLikeButton({ postsLiked, postsDisliked }) {
+
+  const [active, setActive] = useState(false);
+  const router = useRouter();
 
   const thumbAnimation = useSpring({
     transform: active ? 'scale(1.2)' : 'scale(1)',
     color: active ? 'red' : 'gray',
   });
+
+  useEffect(() => {
+    if (postsDisliked.user_has_disliked_tweet) {
+      setActive(true)
+    } else {
+      setActive(false)
+    }
+  }, [postsDisliked.user_has_disliked_tweet])
 
   const handleDislikes = async () => {
 
@@ -33,7 +47,7 @@ function DisLikeButton({ postsLiked, postsDisliked }) {
 
   return (
 
-    <button onClick={handleDislikes()}>
+    <button onClick={handleDislikes}>
       <animated.button
         style={thumbAnimation}
         className="dislike-button"

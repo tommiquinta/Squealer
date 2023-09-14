@@ -109,7 +109,7 @@ function Reaction({ post }) {
     }
 
     return (
-        <div className='w-full h-[30px] flex inline gap-2.5'>
+        <div className='w-full h-[30px] inline gap-2.5'>
             <LikeButton
                 active={likeSelected}
                 onClick={likeClickHandler} />
