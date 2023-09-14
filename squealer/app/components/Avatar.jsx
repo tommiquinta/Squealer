@@ -2,8 +2,8 @@
 
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useState } from 'react'
-import { uploadUserProfileImage } from '../../Helpers/user.js'
-import Preloader from './Preloader'
+/* import { uploadUserProfileImage } from '../../Helpers/user.js'
+ */import Preloader from './Preloader'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 export default function Avatar({ url, size, editable, onChange }) {
@@ -11,7 +11,7 @@ export default function Avatar({ url, size, editable, onChange }) {
     const session = useSession()
     const [isUploading, setIsUploading] = useState(false)
 
-    async function updateAvatar(ev) {
+  /*   async function updateAvatar(ev) {
         try {
             const file = ev.target.files?.[0]
             if (file) {
@@ -29,7 +29,7 @@ export default function Avatar({ url, size, editable, onChange }) {
         } catch (error) {
             console.log(error + ' errore in updateAvatar')
         }
-    }
+    } */
 
     let sizeWidth = 'w-12 h-12'
     if (size === 'big') {
