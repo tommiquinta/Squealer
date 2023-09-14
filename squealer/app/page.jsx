@@ -24,9 +24,6 @@ export default async function Home() {
     .from("posts")
     .select("*")
 
-  console.log(tweets.data);
-
-
 
   // Per ogni post, verifica se l'utente ha messo "mi piace" al post
   // const postsLiked =
