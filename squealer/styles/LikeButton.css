@@ -1,17 +1,12 @@
 .like-button {
     background-color: transparent;
     border: none;
-    /* padding: 10px 20px; */
     font-size: 16px;
     cursor: pointer;
-    /* display: flex; */
-    /* align-items: center; */
     transition: background-color 0.1s ease, transform 0.1s ease;
 }
 
 .like-button.liked {
-    color: #4caf50;
-    /* Colore quando è "liked" */
     animation: fillLike 0.1s ease;
 }
 

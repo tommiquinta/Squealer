@@ -17,17 +17,11 @@
 }
 
 body {
-  background-color: #f5f7fb;
-  color: #333;
-  /* color: rgb(var(--foreground-rgb));
+  color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
       transparent,
       rgb(var(--background-end-rgb))
     )
-    rgb(var(--background-start-rgb)); */
-}
-
-.colored {
-  color: blue;
+    rgb(var(--background-start-rgb));
 }

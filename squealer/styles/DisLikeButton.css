@@ -1,25 +1,12 @@
 .dislike-button {
     background-color: transparent;
     border: none;
-    /* padding: 10px 20px; */
     font-size: 16px;
     cursor: pointer;
-    /* display: flex;
-    align-items: center; */
     transition: background-color 0.1s ease, transform 0.1s ease;
 }
 
-.thumbs-down-icon {
-    font-size: 20px;
-    /* margin-right: 8px; */
-    color: #999;
-    /* Colore di default */
-    transition: color 0.1s ease;
-}
-
 .dislike-button.disliked .thumbs-down-icon {
-    color: #6b6b6b;
-    /* Colore quando è "disliked" */
     animation: fillThumbsDown 0.1s ease;
 }
 
