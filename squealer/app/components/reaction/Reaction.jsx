@@ -120,4 +120,4 @@ function Reaction({ post }) {
     );
 }
 
-export default dynamic(() => Promise.resolve(Reaction), { ssr: false })
+export default Reaction;
