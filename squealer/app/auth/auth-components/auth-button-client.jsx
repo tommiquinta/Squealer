@@ -59,7 +59,7 @@ export default function AuthButtonClient({ session }) {
             <Card>
                 <button
                     onClick={() => handleProviderSignIn("github")}
-                    className='flex gap-5 items-center text-center'
+                    className='flex gap-5 items-center text-center text-stone-600'
                 >
                     <svg
                         className='h-8'
@@ -76,7 +76,7 @@ export default function AuthButtonClient({ session }) {
             <Card>
                 <button
                     onClick={() => handleProviderSignIn("google")}
-                    className='flex gap-5 items-center text-center'
+                    className='flex gap-5 items-center text-center text-stone-600'
                 >
                     <svg
                         className='h-8'
@@ -90,7 +90,8 @@ export default function AuthButtonClient({ session }) {
                 </button>
             </Card>
             <Card>
-                <button onClick={() => signUpWithEmail()}>Login with email</button>
+                <button onClick={() => signUpWithEmail()} 
+                className='flex gap-5 items-center text-center text-stone-600' >Login with email</button>
             </Card>
         </div >
 

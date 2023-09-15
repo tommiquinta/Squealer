@@ -16,13 +16,19 @@ export default async function Home () {
     data: { session }
   } = await supabase.auth.getSession()
 
-  // Se l'utente non ha effettuato l'accesso, reindirizza alla pagina di login
-  if (!session) {
-    redirect('/login')
-  }
+  const hasLoggedIn = session ? true : false;
 
   // Ottieni tutti i post con dettagli aggiuntivi come profili utente associati e conteggio dei "mi piace"
-  const squeals = await supabase.from('posts').select('*')
+  var squeals = null;
+
+  const publicSqueals = await supabase.rpc('get_public_only');
+  //questo me lo stampa nel server
+  console.log("publicSqueals:");
+  console.log(publicSqueals);
+
+  if(!hasLoggedIn){
+    squeals = publicSqueals;
+  } 
 
   // Per ogni post, verifica se l'utente ha messo "mi piace" al post
   const postsLiked =
@@ -44,12 +50,16 @@ export default async function Home () {
       dislikes: post?.dislikes?.length
     })) ?? []
 
+    console.log(squeals.data)
   // Renderizza il componente Home con il pulsante di autenticazione, il componente per creare un nuovo tweet e la lista dei post
   return (
+
     <layout>
+
       <AuthButtonServer />
       <NewTweet />
-      {squeals?.data?.length > 0 && // Cambia questa riga
+      
+      { squeals?.data?.length > 0 && // Cambia questa riga
         squeals.data.map(post => <PostCard key={post.id} {...post} />)}
 
       {/*  {squeals.data?.map((post) => (
