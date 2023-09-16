@@ -4,6 +4,7 @@ import AuthButtonServer from './auth/auth-components/auth-button-server'
 import { redirect } from 'next/navigation'
 import NewTweet from './new-tweet'
 import PostCard from './components/media/PostCard'
+import PublicChannelsPost from './components/media/PublicChannelsPost'
 import LikeButton from './components/reaction/LikeButton'
 import DisLikeButton from './components/reaction/DisLikeButton'
 
@@ -22,60 +23,43 @@ export default async function Home () {
   var squeals = null;
 
   const publicSqueals = await supabase.rpc('get_public_only');
-  //questo me lo stampa nel server
-  console.log("publicSqueals:");
-  console.log(publicSqueals);
 
   if(!hasLoggedIn){
     squeals = publicSqueals;
-  } 
 
-  // Per ogni post, verifica se l'utente ha messo "mi piace" al post
-  const postsLiked =
-    squeals?.data?.map(post => ({
-      ...post,
-      user_has_liked_post: !!post?.likes?.find(
-        like => like?.user_id === session.user.id
-      ),
-      likes: post?.likes?.length
-    })) ?? []
+  } else {
+    //TODO: passare il corretto parametro alla funzione
+    var user = 'da sistemare';
+    user.id = 2;
+    squeals = await supabase.rpc('get_posts', {
+      user_uuid : user.id
+    })
 
-  // Per ogni post nella variabile "squeal", verifica se l'utente ha messo "dislike" al post
-  const postsDisliked =
-    squeals?.data?.map(post => ({
-      ...post,
-      user_has_disliked_post: !!post?.dislikes?.find(
-        dislike => dislike?.user_id === session.user.id
-      ),
-      dislikes: post?.dislikes?.length
-    })) ?? []
+    // squeals ora contiene in data un array json con:
+    // id, created_at, author, content, photos, 
+    // channel_id, likes (ovvero numero dei like per post), dislike (numero dei dislike per post), 
+    // hasLiked (boolean true se l'utente ha messo like), hasDisliked (boolean true se l'utente ha messo dislike)
+  }
 
-    console.log(squeals.data)
+
+
   // Renderizza il componente Home con il pulsante di autenticazione, il componente per creare un nuovo tweet e la lista dei post
+  console.log(squeals);
+  console.log(hasLoggedIn);
   return (
 
     <layout>
 
       <AuthButtonServer />
       <NewTweet />
-      
-      { squeals?.data?.length > 0 && // Cambia questa riga
-        squeals.data.map(post => <PostCard key={post.id} {...post} />)}
 
-      {/*  {squeals.data?.map((post) => (
-        <div key={post.id}>
-          {post?.profiles?.name} {post?.profiles?.username}
-          {post?.content}
-          <LikeButton
-            postsLiked={postsLiked}
-            postsDisliked={postsDisliked}
-          />
-          <DisLikeButton
-            postsLiked={postsLiked}
-            postsDisliked={postsDisliked}
-          />
-        </div>
-      ))} */}
+      {(!hasLoggedIn) && 
+        squeals.data.map(post => <PublicChannelsPost key={post.id} {...post} /> )
+      }
+      
+      { hasLoggedIn && squeals?.data?.length > 0 && // Cambia questa riga
+        squeals.data.map(post => { <PostCard key={post.id} {...post} /> })}
+
     </layout>
   )
 }
