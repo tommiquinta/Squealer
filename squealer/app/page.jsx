@@ -44,7 +44,7 @@ export default async function Home () {
 
 
   // Renderizza il componente Home con il pulsante di autenticazione, il componente per creare un nuovo tweet e la lista dei post
-  console.log(squeals);
+  console.log(squeals.data);
   console.log(hasLoggedIn);
   return (
 
@@ -54,7 +54,7 @@ export default async function Home () {
       <NewTweet />
 
       {(!hasLoggedIn) && 
-        squeals.data.map(post => <PublicChannelsPost key={post.id} {...post} /> )
+        squeals.data.map(post => <PublicChannelsPost key={post.id} post={post} /> )
       }
       
       { hasLoggedIn && squeals?.data?.length > 0 && // Cambia questa riga

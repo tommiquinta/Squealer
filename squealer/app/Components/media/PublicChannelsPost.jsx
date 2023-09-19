@@ -1,25 +1,24 @@
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
 import Card from '../Card';
-
 import moment from 'moment';
-/* import Reaction from '../reaction/Reaction';
- */import Avatar from '../Avatar';
-
-// import Reaction from './Reaction/Reaction';
+import Avatar from '../Avatar';
 
 
-export default function PublicChannelsPost(
-  {
-    id,
-    created_at,
-    author,
-    content,
-    photos,
-    channel_id,
-    num_likes,
-    num_dislikes
-    }
+export default async function PublicChannelsPost(
+  { post }
 ) {
-    console.log("sono dentro posts");
+    const supabase = createServerComponentClient({ cookies });
+
+    var info = null;
+    if(post.channel_id == null){
+        info = await supabase.from('profiles').select('username, avatar').eq('uuid', post.author);
+    } else {
+      info = await supabase.from('public_channels').select("name, avatar").eq('id', post.channel_id);
+    }
+
+    info = info.data[0];
+
     //devo gestire che se è un canale (quindi channel id != null ) allora devo mettere foto e info del canale
    return (
     <Card>
@@ -27,7 +26,7 @@ export default function PublicChannelsPost(
         <div>
 {/*           <Link href={'/profile/' + authorProfiles?.id}>
  */}            <span className='cursor-pointer'>
-              <Avatar url={author?.avatar} />
+              <Avatar url={info?.avatar} />
             </span>
 {/*           </Link>
  */}        </div>
@@ -35,26 +34,26 @@ export default function PublicChannelsPost(
           <p>
 {/*             <Link href={'/profile/' + authorProfiles?.id}>
  */}              <span className='font-semibold hover:underline cursor-pointer '>
-                {author?.name}
+                {info?.name ? info.name : info.username}
               </span>{' '}
               shared a squeal
 {/*             </Link>
  */}          </p>
           <p className='text-gray-500 text-sm'>
-            {moment(created_at).fromNow()}
+            {moment(post.created_at).fromNow()}
           </p>
         </div>
       </div>
 
  <div className='my-4'>
         <p className='my-3 text-md'>
-          {content}
+          {post.content}
         </p>
- {/*
+
         <div className=''>
-          {photos.length > 0 && (
+          {post.photos?.length > 0 && (
             <div className='mt-4 flex justify-center items-center'>
-              {photos.length === 4 ? (
+              {post.photos.length === 4 ? (
                 <table className="w-full">
                   <tbody>
                     <tr>
@@ -78,18 +77,18 @@ export default function PublicChannelsPost(
               ) : (
                 <div className='flex gap-2.5'>
                   <div className='flex justify-center items-center'>
-                    <img src={photos[0]} className="w-auto rounded-md object-cover" alt="" />
+                    <img src={post.photos[0]} className="w-auto rounded-md object-cover" alt="" />
                   </div>
                 </div>
               )}
             </div>
           )}
         </div>
- */}
-      </div>
+
+    </div>
       
-      <p>{num_likes} </p>
-      <p>{num_dislikes} </p>
+      <p>{post.likes} </p>
+      <p>{post.dislikes} </p>
 
      {/*  <div className=''>
         <Reaction
