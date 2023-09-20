@@ -3,23 +3,23 @@ import { cookies } from 'next/headers'
 import Card from '../Card';
 import moment from 'moment';
 import Avatar from '../Avatar';
+import Reaction from '../reaction/Reaction';
 
 
 export default async function PublicChannelsPost(
-  { post }
+  { post, disableReaction}
 ) {
     const supabase = createServerComponentClient({ cookies });
 
+    //se è un canale, metto le info del canale
     var info = null;
     if(post.channel_id == null){
         info = await supabase.from('profiles').select('username, avatar').eq('uuid', post.author);
     } else {
       info = await supabase.from('public_channels').select("name, avatar").eq('id', post.channel_id);
     }
-
     info = info.data[0];
 
-    //devo gestire che se è un canale (quindi channel id != null ) allora devo mettere foto e info del canale
    return (
     <Card>
       <div className='flex gap-3'>
@@ -87,14 +87,17 @@ export default async function PublicChannelsPost(
 
     </div>
       
-      <p>{post.likes} </p>
-      <p>{post.dislikes} </p>
-
-     {/*  <div className=''>
+     <div className=''>
         <Reaction
-          id={id}
+          id={post.id}
+          numLikes={post.likes}
+          numDislikes={post.dislikes}
+          /*essendo pubblico non mi serve, serve per i privati 
+          * hasLiked={post.hasLiked}
+          * hasDisliked={post.hasDisliked} */
+         disable = {disableReaction} 
         />
-      </div> */}
+      </div> 
 
     </Card >
   )

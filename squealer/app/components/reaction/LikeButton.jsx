@@ -1,24 +1,34 @@
-"use client"
+'use client'
+
 import React, { useEffect, useState } from 'react';
 import { useSpring, animated } from 'react-spring';
 import { FaThumbsUp } from 'react-icons/fa';
 import "@/styles/LikeButton.css";
-import { addLike, removeLike, removeDislike } from './reactions';
-import { useRouter } from 'next/navigation';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 
-function LikeButton({ postsLiked, postsDisliked }) {
+function LikeButton({ hasLiked, handleLikes, count, toDisable }) {
 
-    const router = useRouter();
-    const [active, setActive] = useState(false);
+    const [active, setActive] = useState();
+
+    // Aggiorna lo state 'active' quando 'hasLiked' cambia
+    useEffect(() => {
+        console.log('hasLiked:', hasLiked);
+        console.log('active:', active);
+
+        setActive(hasLiked);
+    }, [hasLiked]);
 
     const thumbAnimation = useSpring({
         transform: active ? 'scale(1.2)' : 'scale(1)',
         color: active ? 'green' : 'gray',
     });
 
-    useEffect(() => {
+    function clickLike(){ 
+        setActive(active => !active);
+        handleLikes(!active);
+    }
+
+    /*useEffect(() => {
         if (postsLiked.user_has_liked_tweet) {
             setActive(true)
         } else {
@@ -42,22 +52,18 @@ function LikeButton({ postsLiked, postsDisliked }) {
             }
             router.refresh();
         }
-    };
-
-
-
+    };*/
 
     return (
-
-        <button onClick={handleLikes}>
+        <button onClick={() => clickLike()} disabled={toDisable}>
             <animated.button
                 style={thumbAnimation}
-                className="like-button"
+                className="like-button flex gap-1 items-center"
             >
                 <FaThumbsUp />
+                {count}
             </animated.button>
         </button>
-
     );
 }
 

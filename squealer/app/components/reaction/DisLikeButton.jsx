@@ -1,23 +1,37 @@
-"use client"
+'use client'
 
 import React, { useEffect, useState } from 'react';
 import { useSpring, animated } from 'react-spring';
 import { FaThumbsDown } from 'react-icons/fa';
 import "@/styles/DisLikeButton.css";
-import { removeLike, addDislike, removeDislike } from './reactions';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { useRouter } from 'next/navigation';
 
 
-function DisLikeButton({ postsLiked, postsDisliked }) {
 
-  const [active, setActive] = useState(false);
-  const router = useRouter();
+function DisLikeButton({ hasDisliked, handleDislike, count, toDisable }) {
+
+  const [active, setActive] = useState(hasDisliked);
+
+
+  // Aggiorna lo state 'active' quando 'hasDisliked' cambia
+  useEffect(() => {
+      setActive(hasDisliked);
+  }, [hasDisliked]);
+
 
   const thumbAnimation = useSpring({
     transform: active ? 'scale(1.2)' : 'scale(1)',
     color: active ? 'red' : 'gray',
   });
+
+  function clickDislikes() {
+    setActive(active => !active);
+    handleDislike(!active);
+
+  }
+
+  /*const router = useRouter();
+
+  
 
   useEffect(() => {
     if (postsDisliked.user_has_disliked_tweet) {
@@ -43,16 +57,16 @@ function DisLikeButton({ postsLiked, postsDisliked }) {
       }
       router.refresh();
     }
-  };
+  };*/
 
   return (
-
-    <button onClick={handleDislikes}>
+    <button onClick={() => clickDislikes()} disabled ={toDisable}>
       <animated.button
         style={thumbAnimation}
-        className="dislike-button"
+        className="dislike-button flex gap-1 items-center"
       >
         <FaThumbsDown />
+        {count}
       </animated.button>
     </button>
   );

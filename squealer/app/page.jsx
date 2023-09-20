@@ -5,8 +5,11 @@ import { redirect } from 'next/navigation'
 import NewTweet from './new-tweet'
 import PostCard from './components/media/PostCard'
 import PublicChannelsPost from './components/media/PublicChannelsPost'
-import LikeButton from './components/reaction/LikeButton'
-import DisLikeButton from './components/reaction/DisLikeButton'
+import RootLayout from './layout'
+import { Inter } from 'next/font/google'
+
+//const inter = Inter({ subsets: ['latin'] })
+
 
 export default async function Home () {
   // Crea un oggetto supabase utilizzando createServerComponentClient e passa l'oggetto cookies come argomento
@@ -46,20 +49,22 @@ export default async function Home () {
   // Renderizza il componente Home con il pulsante di autenticazione, il componente per creare un nuovo tweet e la lista dei post
   console.log(squeals.data);
   console.log(hasLoggedIn);
+
   return (
 
-    <layout>
+        <RootLayout>
 
-      <AuthButtonServer />
-      <NewTweet />
+          <AuthButtonServer />
+          <NewTweet />
 
-      {(!hasLoggedIn) && 
-        squeals.data.map(post => <PublicChannelsPost key={post.id} post={post} /> )
-      }
-      
-      { hasLoggedIn && squeals?.data?.length > 0 && // Cambia questa riga
-        squeals.data.map(post => { <PostCard key={post.id} {...post} /> })}
-
-    </layout>
+          {(!hasLoggedIn) && 
+            squeals.data.map(post => <PublicChannelsPost key={post.id} post={post} disableReaction={true} /> )
+          }
+          
+          { hasLoggedIn && squeals?.data?.length > 0 && // Cambia questa riga
+            squeals.data.map(post => { <PostCard key={post.id} {...post} /> })}
+       
+        </RootLayout>
+    
   )
 }

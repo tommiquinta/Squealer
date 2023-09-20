@@ -1,50 +1,43 @@
-import { useState, useEffect } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+'use client'
 import LikeButton from './LikeButton.jsx';
 import DislikeButton from './DisLikeButton.jsx';
 import dynamic from 'next/dynamic.js';
+import { useEffect, useState } from 'react';
 
-function Reaction({ post }) {
-    const supabase = createClientComponentClient();
-    const postId = post.id
-    const userId = post.author
+function Reaction({ numLikes, numDislikes, hasLiked, hasDisliked, like, dislike, disable }) {
+    //per ora non quadra
+    const [isLiked, setIsLiked] = useState(hasLiked ? true : false)
+    const [isDisliked, setIsDisliked] = useState(hasDisliked ? true : false)
 
-    let likeSelectedState = false;
-    let dislikeSelectedState = false;
-
-
-    useEffect(() => {
-        try {
-            // Controllo che ci siano già like o dislike
-            async function fetchReactions() {
-                await supabase
-                    .from('likes')
-                    .select()
-                    .eq('post_id', postId)
-                    .eq('user_id', userId)
-                    .then((result) => {
-                        result?.data?.length > 0 ? setLikeSelected(true) : setLikeSelected(false);
-                    })
-
-                await supabase
-                    .from('dislikes')
-                    .select()
-                    .eq('post_id', postId)
-                    .eq('user_id', userId)
-                    .then((result) => {
-                        result?.data?.length > 0 ? setDislikeSelected(true) : setDislikeSelected(false);
-                    })
-            }
-            fetchReactions();
-        } catch (error) {
-            console.log(error + 'Errore nel fetch dei like e dislike');
+    function handleDislike(isDiliked){
+        if(isDiliked){
+            console.log("qui gestisci che deve aggiungere un dislike");
+            //aggiungi dislike
+            handleLike(false)
+        } else {
+            console.log("qui gestisci il fatto che ha tolto il dislike");
+            //rimuovi dislike
+            setIsDisliked(false);
+            console.log("dislike: "+isDiliked);
         }
-    });
+    }
 
- 
-   
+    function handleLike(isLiked){
+        if(isLiked){
+            console.log("qui gestisci che deve aggiungere un like");
+            //aggiungi like
+            handleDislike(false)
+        } else {
+            console.log("qui gestisci il fatto che ha tolto il like");
+            //rimuovi like
+            setIsLiked(false);
+            console.log("like: "+isLiked);
+        }
+    }
 
-    async function addLike() {
+
+    //tutta sta roba va passata nel componete che lo richiama, tramite like e dislike -> qui no supabase
+   /* async function addLike() {
         try {
             await supabase
                 .from('likes')
@@ -76,7 +69,7 @@ function Reaction({ post }) {
         } catch (error) {
             console.log(error, 'Errore nel like');
         }
-    }
+    } 
 
     async function removeLike() {
         try {
@@ -106,16 +99,21 @@ function Reaction({ post }) {
         } catch (error) {
             console.log(error, 'Errore nel like');
         }
-    }
+    } */
 
     return (
-        <div className='w-full h-[30px] inline gap-2.5'>
+        <div className='w-full h-[30px] gap-2 flex items-center'>
             <LikeButton
-                active={likeSelected}
-                onClick={likeClickHandler} />
+                hasLiked={isLiked}
+                handleLikes={() => handleLike(!isLiked)}
+                count = {numLikes} 
+                toDisable={disable}/>
             <DislikeButton
-                active={dislikeSelected}
-                onClick={dislikeClickHandler} />
+                hasDisliked={isDisliked}
+                handleDislike={() => handleDislike(!isDisliked)} 
+                count={numDislikes}
+                toDisable={disable}/>
+            {/* inserisci views */}
         </div>
     );
 }
