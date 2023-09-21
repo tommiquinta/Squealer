@@ -7,6 +7,7 @@ import PostCard from './components/media/PostCard'
 import PublicChannelsPost from './components/media/PublicChannelsPost'
 import RootLayout from './layout'
 import { Inter } from 'next/font/google'
+import NavigationBar from './Components/layout/Navbar'
 
 //const inter = Inter({ subsets: ['latin'] })
 
@@ -51,20 +52,21 @@ export default async function Home () {
   console.log(hasLoggedIn);
 
   return (
+        
+        <RootLayout>  
+        <NavigationBar hasLoggedIn={hasLoggedIn} />
 
-        <RootLayout>
-
-          <AuthButtonServer />
-          <NewTweet />
-
-          {(!hasLoggedIn) && 
-            squeals.data.map(post => <PublicChannelsPost key={post.id} post={post} disableReaction={true} /> )
-          }
-          
-          { hasLoggedIn && squeals?.data?.length > 0 && // Cambia questa riga
-            squeals.data.map(post => { <PostCard key={post.id} {...post} /> })}
-       
+         {/* <AuthButtonServer /> */} 
+          <div className='md:flex mt-4 max-w-4xl mx-auto gap-6 '>
+            <div className={'mx-2 relative top-36 md:top-0  md:mx-0 md:w-9/12 md:left-1/4'}>
+              {(!hasLoggedIn) && 
+                squeals.data.map(post => <PublicChannelsPost key={post.id} post={post} disableReaction={true} /> )
+              }
+              
+              { hasLoggedIn && squeals?.data?.length > 0 && (<NewTweet />) &&// Cambia questa riga
+                squeals.data.map(post => { <PostCard key={post.id} {...post} /> })}
+            </div>
+          </div>
         </RootLayout>
-    
   )
 }
