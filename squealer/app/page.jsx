@@ -58,7 +58,7 @@ export default async function Home () {
         <NavigationBar hasLoggedIn={hasLoggedIn} />
 
          {/* questi non vanno qui <AuthButtonServer /> */} 
-          <div className='md:flex max-w-4xl gap-6 left-1/4 relative md:w-6/12'>
+          <div className=' ml-2 max-w-4xl gap-4 left-1/4 relative md:ml-0 md:flex md:w-10/12 lg:w-6/12 '>
             <div className={'mx-2 relative top-36 md:top-0 md:mx-0 md:w-full'}>
               {(!hasLoggedIn) && 
                 squeals.data.map(post => <PublicChannelsPost key={post.id} post={post} disableReaction={true} /> )
@@ -68,7 +68,7 @@ export default async function Home () {
                 squeals.data.map(post => { <PostCard key={post.id} {...post} /> })}
             </div>
           </div>
-        <div className='left-1/4 relative ml-9'>
+        <div className='left-1/4 relative ml-2'>
           <SideWidget publicChannels={publicChannelsList.data} />
         </div>
         </RootLayout>
