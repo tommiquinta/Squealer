@@ -9,7 +9,7 @@ export default function RootLayout ({ children }) {
   return (
     <html>
       <body>
-        <div className='mx-[25%]'>
+        <div className='md:mx-[20%] flex mt-4 gap-6'>
           {children}
         </div>
       </body>

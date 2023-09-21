@@ -8,6 +8,7 @@ import PublicChannelsPost from './components/media/PublicChannelsPost'
 import RootLayout from './layout'
 import { Inter } from 'next/font/google'
 import NavigationBar from './Components/layout/Navbar'
+import SideWidget from './Components/layout/SideWidget'
 
 //const inter = Inter({ subsets: ['latin'] })
 
@@ -27,7 +28,7 @@ export default async function Home () {
   var squeals = null;
 
   const publicSqueals = await supabase.rpc('get_public_only');
-
+  const publicChannelsList = await supabase.rpc('get_public_list');
   if(!hasLoggedIn){
     squeals = publicSqueals;
 
@@ -56,17 +57,20 @@ export default async function Home () {
         <RootLayout>  
         <NavigationBar hasLoggedIn={hasLoggedIn} />
 
-         {/* <AuthButtonServer /> */} 
-          <div className='md:flex mt-4 max-w-4xl mx-auto gap-6 '>
-            <div className={'mx-2 relative top-36 md:top-0  md:mx-0 md:w-9/12 md:left-1/4'}>
+         {/* questi non vanno qui <AuthButtonServer /> */} 
+          <div className='md:flex max-w-4xl gap-6 left-1/4 relative md:w-6/12'>
+            <div className={'mx-2 relative top-36 md:top-0 md:mx-0 md:w-full'}>
               {(!hasLoggedIn) && 
                 squeals.data.map(post => <PublicChannelsPost key={post.id} post={post} disableReaction={true} /> )
               }
               
-              { hasLoggedIn && squeals?.data?.length > 0 && (<NewTweet />) &&// Cambia questa riga
+              { hasLoggedIn && squeals?.data?.length > 0 && (<NewTweet />) &&
                 squeals.data.map(post => { <PostCard key={post.id} {...post} /> })}
             </div>
           </div>
+        <div className='left-1/4 relative ml-9'>
+          <SideWidget publicChannels={publicChannelsList.data} />
+        </div>
         </RootLayout>
   )
 }
