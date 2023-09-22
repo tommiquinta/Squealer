@@ -9,23 +9,13 @@ import "@/styles/DisLikeButton.css";
 
 function DisLikeButton({ hasDisliked, handleDislike, count, toDisable }) {
 
-  const [active, setActive] = useState(hasDisliked);
-
-
-  // Aggiorna lo state 'active' quando 'hasDisliked' cambia
-  useEffect(() => {
-      setActive(hasDisliked);
-  }, [hasDisliked]);
-
-
   const thumbAnimation = useSpring({
-    transform: active ? 'scale(1.2)' : 'scale(1)',
-    color: active ? 'red' : 'gray',
+    transform: hasDisliked ? 'scale(1.2)' : 'scale(1)',
+    color: hasDisliked ? 'red' : 'gray',
   });
 
   function clickDislikes() {
-    setActive(active => !active);
-    handleDislike(!active);
+    handleDislike(!hasDisliked);
 
   }
 

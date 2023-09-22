@@ -3,8 +3,7 @@ import Card from '../Card';
 import moment from 'moment';
 import Reaction from '../reaction/Reaction';
 import Avatar from '../Avatar';
-
-// import Reaction from './Reaction/Reaction';
+import Link from 'next/link';
 
 
 export default function PostCard(
@@ -17,21 +16,21 @@ export default function PostCard(
     <Card>
       <div className='flex gap-3'>
         <div>
-{/*           <Link href={'/profile/' + authorProfiles?.id}>
- */}            <span className='cursor-pointer'>
+         <Link href={'/profile/' + post.username}>
+            <span className='cursor-pointer'>
               <Avatar url={post.avatar} />
             </span>
-{/*           </Link>
- */}        </div>
+           </Link>
+         </div>
         <div className='flex flex-col'>
           <p>
-{/*             <Link href={'/profile/' + authorProfiles?.id}>
- */}              <span className='font-semibold hover:underline cursor-pointer '>
+           <Link href={'/profile/' +  post.username}>
+             <span className='font-semibold hover:underline cursor-pointer '>
                 {post.username}
               </span>{' '}
               shared a squeal
-{/*             </Link>
- */}          </p>
+             </Link>
+         </p>
           <p className='text-gray-500 text-sm'>
             {moment(post.created_at).fromNow()}
           </p>

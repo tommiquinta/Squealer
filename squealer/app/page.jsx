@@ -23,8 +23,8 @@ export default async function Home () {
   } = await supabase.auth.getSession()
 
   const hasLoggedIn = session ? true : false;
+  var userObj = null; //oggetto per passare le informazioni dell'user ai figli della home
 
-  // Ottieni tutti i post con dettagli aggiuntivi come profili utente associati e conteggio dei "mi piace"
   var squeals = null;
 
   const publicSqueals = await supabase.rpc('get_public_only');
@@ -33,16 +33,17 @@ export default async function Home () {
     squeals = publicSqueals;
 
   } else {
-    //TODO: passare il corretto parametro alla funzione
-    
     var user = session.user;
-  
+
+    userObj = await supabase.rpc('get_logged_user', {
+      user_uuid : user.id
+    })
     squeals = await supabase.rpc('get_posts', {
       user_uuid : user.id
     })
    
     // squeals ora contiene in data un array json con:
-    // id, created_at, author, content, photos, 
+    // id, created_at, username, avatar, content, photos, 
     // channel_id, likes (ovvero numero dei like per post), dislike (numero dei dislike per post), 
     // hasLiked (boolean true se l'utente ha messo like), hasDisliked (boolean true se l'utente ha messo dislike)
   }
@@ -62,7 +63,7 @@ export default async function Home () {
               
               { hasLoggedIn && (
                 <div>
-                <NewTweet profile={user.user_metadata}/>
+                <NewTweet profile={userObj.data[0]}/>
                 { squeals.data.map(post =>  <PostCard key={post.id} post={post} /> ) }
                 </div>)}
             </div>

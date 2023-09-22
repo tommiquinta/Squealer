@@ -6,7 +6,6 @@ import Avatar from './Components/Avatar'
 export default function NewTweet ({profile}) {
 
   console.log(profile);
-
   async function addTweet (formData) {
     'use server'
     const content = formData.get('content')
@@ -23,11 +22,12 @@ export default function NewTweet ({profile}) {
     }
   }
 
+  var daily_quota = profile.daily_quota;
   return (
     <div className='mb-5'>
       <Card>
         <div className='flex gap-3'>
-          <Avatar size={'medium'} url={profile.avatar_url} />
+          <Avatar size={'medium'} url={profile.avatar} />
           <textarea
             /*  value={content}
             onChange={e => {
@@ -35,7 +35,7 @@ export default function NewTweet ({profile}) {
               setDaily_quota(profile.daily_quota - e.target.value.length)
             }}*/
             className='grow p-3 h-18 resize-none'
-            placeholder={`What's on your mind ${profile.name}?`}
+            placeholder={`What's on your mind ${profile.username}?`}
           />
         </div>
       </Card>
@@ -44,8 +44,7 @@ export default function NewTweet ({profile}) {
         <button
 /*           onClick={createPost}
  */          className='bg-blue-500 text-white px-6 py-1 rounded-md'
-/*           disabled={daily_quota < 0}
- */        >
+           disabled={daily_quota < 0} >
           Squeal
         </button>
       </div>
