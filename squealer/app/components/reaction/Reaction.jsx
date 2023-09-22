@@ -107,7 +107,8 @@ function Reaction({ numLikes, numDislikes, hasLiked, hasDisliked, like, dislike,
                 hasLiked={isLiked}
                 handleLikes={() => handleLike(!isLiked)}
                 count = {numLikes} 
-                toDisable={disable}/>
+                toDisable={disable}
+               />
             <DislikeButton
                 hasDisliked={isDisliked}
                 handleDislike={() => handleDislike(!isDisliked)} 

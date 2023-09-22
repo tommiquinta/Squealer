@@ -1,8 +1,12 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import Card from './components/Card'
+import Avatar from './Components/Avatar'
 
-export default function NewTweet () {
+export default function NewTweet ({profile}) {
+
+  console.log(profile);
+
   async function addTweet (formData) {
     'use server'
     const content = formData.get('content')
@@ -23,7 +27,7 @@ export default function NewTweet () {
     <div className='mb-5'>
       <Card>
         <div className='flex gap-3'>
-          {/* {profile && <Avatar size={'medium'} url={profile.avatar} />} */}
+          <Avatar size={'medium'} url={profile.avatar_url} />
           <textarea
             /*  value={content}
             onChange={e => {
@@ -31,7 +35,7 @@ export default function NewTweet () {
               setDaily_quota(profile.daily_quota - e.target.value.length)
             }}*/
             className='grow p-3 h-18 resize-none'
-            placeholder={`What's on your mind?`}
+            placeholder={`What's on your mind ${profile.name}?`}
           />
         </div>
       </Card>

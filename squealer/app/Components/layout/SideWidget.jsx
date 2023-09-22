@@ -2,7 +2,6 @@ import Card from '../Card';
 import PublicChannelsWidget from './PublicChannelsWidget'
 
 export default function SideWidget({ publicChannels }) {
-    console.log(publicChannels);
   return (
     <Card>
       <h2 className='text-gray-500'>Public Channels</h2>

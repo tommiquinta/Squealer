@@ -92,10 +92,7 @@ export default async function PublicChannelsPost(
           id={post.id}
           numLikes={post.likes}
           numDislikes={post.dislikes}
-          /*essendo pubblico non mi serve, serve per i privati 
-          * hasLiked={post.hasLiked}
-          * hasDisliked={post.hasDisliked} */
-         disable = {disableReaction} 
+          disable = {disableReaction} 
         />
       </div> 
 

@@ -34,23 +34,19 @@ export default async function Home () {
 
   } else {
     //TODO: passare il corretto parametro alla funzione
-    var user = 'da sistemare';
-    user.id = 2;
+    
+    var user = session.user;
+  
     squeals = await supabase.rpc('get_posts', {
       user_uuid : user.id
     })
-
+   
     // squeals ora contiene in data un array json con:
     // id, created_at, author, content, photos, 
     // channel_id, likes (ovvero numero dei like per post), dislike (numero dei dislike per post), 
     // hasLiked (boolean true se l'utente ha messo like), hasDisliked (boolean true se l'utente ha messo dislike)
   }
 
-
-
-  // Renderizza il componente Home con il pulsante di autenticazione, il componente per creare un nuovo tweet e la lista dei post
-  console.log(squeals.data);
-  console.log(hasLoggedIn);
 
   return (
         
@@ -61,11 +57,14 @@ export default async function Home () {
           <div className=' ml-2 max-w-4xl gap-4 left-1/4 relative md:ml-0 md:flex md:w-10/12 lg:w-6/12 '>
             <div className={'mx-2 relative top-36 md:top-0 md:mx-0 md:w-full'}>
               {(!hasLoggedIn) && 
-                squeals.data.map(post => <PublicChannelsPost key={post.id} post={post} disableReaction={true} /> )
+                squeals.data.map(publicPost => <PublicChannelsPost key={publicPost.id} post={publicPost} disableReaction={true} /> )
               }
               
-              { hasLoggedIn && squeals?.data?.length > 0 && (<NewTweet />) &&
-                squeals.data.map(post => { <PostCard key={post.id} {...post} /> })}
+              { hasLoggedIn && (
+                <div>
+                <NewTweet profile={user.user_metadata}/>
+                { squeals.data.map(post =>  <PostCard key={post.id} post={post} /> ) }
+                </div>)}
             </div>
           </div>
         <div className='left-1/4 relative ml-2'>

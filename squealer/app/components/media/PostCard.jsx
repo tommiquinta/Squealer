@@ -1,28 +1,25 @@
 import Card from '../Card';
 
 import moment from 'moment';
-/* import Reaction from '../reaction/Reaction';
- */import Avatar from '../Avatar';
+import Reaction from '../reaction/Reaction';
+import Avatar from '../Avatar';
 
 // import Reaction from './Reaction/Reaction';
 
 
 export default function PostCard(
   {
-    id,
-    content,
-    created_at,
-    photos,
-    profiles: authorProfiles
+    post
   }
 ) {
+  
    return (
     <Card>
       <div className='flex gap-3'>
         <div>
 {/*           <Link href={'/profile/' + authorProfiles?.id}>
  */}            <span className='cursor-pointer'>
-              <Avatar url={authorProfiles?.avatar} />
+              <Avatar url={post.avatar} />
             </span>
 {/*           </Link>
  */}        </div>
@@ -30,20 +27,20 @@ export default function PostCard(
           <p>
 {/*             <Link href={'/profile/' + authorProfiles?.id}>
  */}              <span className='font-semibold hover:underline cursor-pointer '>
-                {authorProfiles?.name}
+                {post.username}
               </span>{' '}
               shared a squeal
 {/*             </Link>
  */}          </p>
           <p className='text-gray-500 text-sm'>
-            {moment(created_at).fromNow()}
+            {moment(post.created_at).fromNow()}
           </p>
         </div>
       </div>
 
  <div className='my-4'>
         <p className='my-3 text-md'>
-          {content}
+          {post.content}
         </p>
  {/*
         <div className=''>
@@ -84,11 +81,16 @@ export default function PostCard(
       </div>
       
 
-     {/*  <div className=''>
+    <div className=''>
         <Reaction
-          id={id}
+          id={post.id}
+          numLikes={post.likes}
+          numDislikes={post.dislikes}
+          hasLiked ={post.hasLiked}
+          hasDisliked={post.hasDisliked}
+          disable ={false}
         />
-      </div> */}
+      </div> 
 
     </Card >
   )
