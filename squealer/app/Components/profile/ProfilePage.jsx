@@ -1,9 +1,11 @@
-import RootLayout from "@/app/layout";
+import NavigationBar from "../layout/Navbar";
 
-export default function ProfilePage () {
+
+export default function ProfilePage ({children}) {
+    
     return(
-        <RootLayout>
-            <p>hi there</p>
-        </RootLayout>
+       <div>
+            {children}
+       </div>
     );
 }

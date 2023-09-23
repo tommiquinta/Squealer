@@ -1,12 +1,9 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
-import AuthButtonServer from './auth/auth-components/auth-button-server'
-import { redirect } from 'next/navigation'
 import NewTweet from './new-tweet'
 import PostCard from './components/media/PostCard'
 import PublicChannelsPost from './components/media/PublicChannelsPost'
 import RootLayout from './layout'
-import { Inter } from 'next/font/google'
 import NavigationBar from './Components/layout/Navbar'
 import SideWidget from './Components/layout/SideWidget'
 
@@ -48,11 +45,12 @@ export default async function Home () {
     // hasLiked (boolean true se l'utente ha messo like), hasDisliked (boolean true se l'utente ha messo dislike)
   }
 
+  console.log(userObj);
 
   return (
         
         <RootLayout>  
-        <NavigationBar hasLoggedIn={hasLoggedIn} />
+        <NavigationBar hasLoggedIn={hasLoggedIn} sessionUsername={hasLoggedIn ? userObj.data[0].username : null}/>
 
          {/* questi non vanno qui <AuthButtonServer /> */} 
           <div className=' ml-2 max-w-4xl gap-4 left-1/4 relative md:ml-0 md:flex md:w-10/12 lg:w-6/12 '>

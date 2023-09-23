@@ -43,7 +43,6 @@ export default function PostFormCard({ onPost }) {
 
 
 
-  // console.log(profile)
 
   async function createPost() {
     if (content && content.trim() !== '') {

@@ -1,25 +1,34 @@
 //pagina che visualizza l'elenco di tutti gli utenti
 //vecchia userList
-import { useSession} from '@supabase/auth-helpers-react'
-import { useRouter } from 'next/navigation'
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import UsersList from '../Components/profile/UsersList'
+import RootLayout from "../layout";
+import NavigationBar from "../Components/layout/Navbar";
 
-function UsersListPage() {
-  const session = useSession()
-  const router = useRouter()
+async function UsersListPage() {
+  const supabase = createServerComponentClient({ cookies });
 
-  var loggedUser = null;
+  const { data: { session },
+  } = await supabase.auth.getSession();
 
-    if (session) {
-        loggedUser = session.user.id;
-        console.log("loggedUser "+ loggedUser);
-    } else {
-        router.push('/login')
-    }
+  var userId = null;
+  if (session) {
+      userId= session.user.id;
+  } else {
+    redirect("/");
+  }
 
-  return (
-      <UsersList userId={loggedUser}/>
-  )
+  const profiles = await supabase.from('profiles').select('id, name, avatar, username').neq('id', userId);
+  const username = await supabase.from('profiles').select('username').eq('id', userId);
+  console.log(username);
+    return (
+      <RootLayout>
+        <NavigationBar hasLoggedIn={true} sessionUsername={username.data[0].username}/>
+        <UsersList profiles={profiles.data}/>
+      </RootLayout>
+    );
 }
 
 export default UsersListPage;

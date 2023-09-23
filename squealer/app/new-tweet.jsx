@@ -5,7 +5,6 @@ import Avatar from './Components/Avatar'
 
 export default function NewTweet ({profile}) {
 
-  console.log(profile);
   async function addTweet (formData) {
     'use server'
     const content = formData.get('content')

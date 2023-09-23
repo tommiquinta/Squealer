@@ -1,23 +1,20 @@
-'use client'
+'use client';
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import NavbarButton from './NavbarButton'
 import Card from '../Card'
-import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
-export default function NavigationBar({hasLoggedIn, hidden}) {
-  const nonActivePage = 'flex gap-2 mx-2 py-1 px-2 md:py-3 hover:bg-socialBlue hover:bg-opacity-20 md:-mx-10 md:px-10 rounded-md hover:shadow-md shadow-gray-300 transition-all hover:scale-110'
+export default function NavigationBar({hasLoggedIn, hidden, sessionUsername}) {
 
-  //questo va modificato con l'user
-  var userpage = '/profile/';
-  /*if (session) {
-    userpage = '/profile/' + session.user.id;
-  }*/
   const supabase = useSupabaseClient()
   function logout() {
     supabase.auth.signOut()
     //router.push('/login')
   }
 
+  //questo va modificato con l'user
+  var userpage = `/profiles/${sessionUsername}`;
+  
 
   function handleClick() {
     router.push('/')
@@ -27,7 +24,8 @@ export default function NavigationBar({hasLoggedIn, hidden}) {
     return(<div></div>);
   }
 
-  var pathname ="/";
+
+  var pathname =usePathname();
   var asPath = "";
 
   return (
