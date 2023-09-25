@@ -16,7 +16,7 @@ export default function NavigationBar({hasLoggedIn, hidden, sessionUsername}) {
   var pathname =usePathname();
   
   function handleClick() {
-    router.push('/')
+    //router.push('/')
   }
 
   if(hidden){

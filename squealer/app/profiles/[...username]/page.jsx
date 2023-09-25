@@ -1,7 +1,8 @@
 import NavigationBar from '@/app/Components/layout/Navbar';
 import ProfilePage from '@/app/Components/profile/ProfilePage';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
+import { redirect } from 'next/navigation';
 
 
 async function Username({ params }){
