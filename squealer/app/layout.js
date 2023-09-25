@@ -5,7 +5,7 @@ export const metadata = {
   title: 'Squealer',
   description: 'La nuova versione di Squealer, il social network per eccellenza.'
 }
-export default function RootLayout ({ children }) {
+export default function Layout ({ children }) {
   return (
     <html>
       <body>

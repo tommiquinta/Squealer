@@ -56,7 +56,7 @@ export default async function Home () {
           <div className=' ml-2 max-w-4xl gap-4 left-1/4 relative md:ml-0 md:flex md:w-10/12 lg:w-6/12 '>
             <div className={'mx-2 relative top-36 md:top-0 md:mx-0 md:w-full'}>
               {(!hasLoggedIn) && 
-                squeals.data.map(publicPost => <PublicChannelsPost key={publicPost.id} post={publicPost} disableReaction={true} /> )
+                squeals?.data?.map(publicPost => <PublicChannelsPost key={publicPost.id} post={publicPost} disableReaction={true} /> )
               }
               
               { hasLoggedIn && (

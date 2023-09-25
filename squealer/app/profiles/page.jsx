@@ -4,7 +4,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import UsersList from '../Components/profile/UsersList'
-import RootLayout from "../layout";
+import Layout from "../layout";
 import NavigationBar from "../Components/layout/Navbar";
 
 async function UsersListPage() {
@@ -22,12 +22,12 @@ async function UsersListPage() {
 
   const profiles = await supabase.from('profiles').select('id, name, avatar, username').neq('id', userId);
   const username = await supabase.from('profiles').select('username').eq('id', userId);
-  console.log(username);
+  
     return (
-      <RootLayout>
+      <Layout>
         <NavigationBar hasLoggedIn={true} sessionUsername={username.data[0].username}/>
         <UsersList profiles={profiles.data}/>
-      </RootLayout>
+      </Layout>
     );
 }
 

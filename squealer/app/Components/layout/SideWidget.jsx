@@ -6,7 +6,7 @@ export default function SideWidget({ publicChannels }) {
     <Card>
       <h2 className='text-gray-500'>Public Channels</h2>
       <ul>
-        {publicChannels.map(channel => (
+        {publicChannels?.map(channel => (
           <li key={channel.id}>
             <PublicChannelsWidget channel={channel}/>
           </li>

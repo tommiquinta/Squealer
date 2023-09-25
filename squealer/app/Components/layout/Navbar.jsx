@@ -12,10 +12,8 @@ export default function NavigationBar({hasLoggedIn, hidden, sessionUsername}) {
     //router.push('/login')
   }
 
-  //questo va modificato con l'user
   var userpage = `/profiles/${sessionUsername}`;
   
-
   function handleClick() {
     router.push('/')
   }
@@ -26,8 +24,7 @@ export default function NavigationBar({hasLoggedIn, hidden, sessionUsername}) {
 
 
   var pathname =usePathname();
-  var asPath = "";
-
+  console.log("ciclo qui");
   return (
 
     <Card isNavbar={true}>
