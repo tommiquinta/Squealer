@@ -4,7 +4,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies, headers } from "next/headers";
 
 
-async function Username({username}){
+async function Username({ params }){
    
     const supabase = createServerComponentClient({ cookies });
     const { data: { session }, } = await supabase.auth.getSession();
@@ -12,20 +12,14 @@ async function Username({username}){
         redirect("/");
     }
 
-    //giro immenso per ottenere il profilo
-    var headersList = headers();
-    var fullurl= headersList.get('referer') || "";
-    var broken = fullurl.split('/');
-    var index =broken.length -1;
-    var profile = broken[index];
-
-    console.log(profile);
-
+    //prendo l'username per creare la pagina profilo
+    var profile = params.username;
     var loggedUserInfo = null;
 
     try{
         if(! loggedUserInfo){
-            loggedUserInfo = await supabase.from('profiles').select('id, username').eq('id', session.user.id)
+            loggedUserInfo = await supabase.from('profiles').select('id, username').eq('id', session.user.id);
+            loggedUserInfo = loggedUserInfo?.data[0]?.username;
         }
     } catch(error){
         return(
@@ -33,12 +27,11 @@ async function Username({username}){
         );
     }
     
+
     return (
-        /*<ProfilePage profile={profile} isMyUser={loggedUserInfo?.data[0]?.username === profile}>
-            <NavigationBar hasLoggedIn={true} sessionUsername={loggedUserInfo?.data[0]?.username}/>
-        </ProfilePage>*/
-        //<NavigationBar hasLoggedIn={true} sessionUsername={loggedUserInfo?.data[0]?.username}/>
-        <p>{broken.map((br)=> br+"11")} {index}</p>
+        <ProfilePage profile={profile} isMyUser={loggedUserInfo === profile}>
+            <NavigationBar hasLoggedIn={true} sessionUsername={loggedUserInfo}/>
+        </ProfilePage>
     );
 }
 

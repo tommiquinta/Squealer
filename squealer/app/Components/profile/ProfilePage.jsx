@@ -10,8 +10,10 @@ import { cookies } from "next/headers";
 export default async function ProfilePage ({children, profile, isMyUser}) {
 
     const supabase = createServerComponentClient({cookies});
-    const user = await supabase.from('profiles').select('*').eq('username', profile)
+    var user = await supabase.from('profiles').select('*').eq('username', profile)
 
+    user = user.data[0];
+    console.log(user);
  
     return(
        <div className="w-[85%]">
@@ -59,8 +61,8 @@ export default async function ProfilePage ({children, profile, isMyUser}) {
                                 <g
                                     fill='none'
                                     stroke='currentColor'
-                                    stroke-linecap='round'
-                                    stroke-linejoin='round'
+                                    strokeLinecap='round'
+                                    strokeLinejoin='round'
                                 >
                                     <rect width='9' height='4' x='1.5' y='1' rx='1' />
                                     <rect width='9' height='4' x='4.5' y='8.5' rx='1' />

@@ -13,6 +13,7 @@ export default function NavigationBar({hasLoggedIn, hidden, sessionUsername}) {
   }
 
   var userpage = `/profiles/${sessionUsername}`;
+  var pathname =usePathname();
   
   function handleClick() {
     router.push('/')
@@ -21,10 +22,7 @@ export default function NavigationBar({hasLoggedIn, hidden, sessionUsername}) {
   if(hidden){
     return(<div></div>);
   }
-
-
-  var pathname =usePathname();
-  console.log("ciclo qui");
+  
   return (
 
     <Card isNavbar={true}>
