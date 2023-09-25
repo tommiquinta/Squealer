@@ -17,7 +17,7 @@ function Reaction({ numLikes, numDislikes, hasLiked, hasDisliked, like, dislike,
         } else {
             console.log("qui gestisci il fatto che ha tolto il dislike");
             //rimuovi dislike
-            useEffect(() => setIsDisliked(false), [isDisliked]);
+            setIsDisliked(false);
             console.log("dislike: "+isDiliked);
         }
     }
@@ -30,7 +30,7 @@ function Reaction({ numLikes, numDislikes, hasLiked, hasDisliked, like, dislike,
         } else {
             console.log("qui gestisci il fatto che ha tolto il like");
             //rimuovi like
-            useEffect(() => setIsLiked(false), [isLiked]);
+            setIsLiked(false);
             console.log("like: "+isLiked);
         }
     }

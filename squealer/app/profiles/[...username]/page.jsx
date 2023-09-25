@@ -2,7 +2,7 @@ import NavigationBar from '@/app/Components/layout/Navbar';
 import ProfilePage from '@/app/Components/profile/ProfilePage';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from "next/headers";
-import { redirect } from 'next/navigation';
+import { redirect, usePathname } from 'next/navigation';
 
 
 async function Username({ params }){
@@ -14,13 +14,13 @@ async function Username({ params }){
     }
 
     //prendo l'username per creare la pagina profilo
-    var profile = params.username;
-    var loggedUserInfo = null;
+    var profile = params.username[0];
+    var loggedUserInfo = null;   
 
     try{
         if(! loggedUserInfo){
             loggedUserInfo = await supabase.from('profiles').select('id, username').eq('id', session.user.id);
-            loggedUserInfo = loggedUserInfo?.data[0]?.username;
+            loggedUserInfo = loggedUserInfo.data[0].username;
         }
     } catch(error){
         return(
@@ -28,6 +28,10 @@ async function Username({ params }){
         );
     }
     
+    console.log("loggedUserInfo")
+    console.log(loggedUserInfo)
+    console.log("profile")
+    console.log(profile)
 
     return (
         <ProfilePage profile={profile} isMyUser={loggedUserInfo === profile}>
