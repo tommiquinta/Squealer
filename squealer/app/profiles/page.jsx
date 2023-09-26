@@ -30,12 +30,12 @@ export default async function UsersListPage () {
     .eq('id', userId)
 
   return (
-    <layout>
+    <>
       <NavigationBar
         hasLoggedIn={true}
         sessionUsername={username?.data[0].username}
       />
       <UsersList profiles={profiles.data} />
-    </layout>
+    </>
   )
 }

@@ -33,7 +33,7 @@ export default async function ProfilePage ({ children, profile, isMyUser }) {
   })
 
   return (
-    <layout>
+    <>
       <div className='w-[85%]'>
         {children}
         <ProfileContainer
@@ -42,6 +42,6 @@ export default async function ProfilePage ({ children, profile, isMyUser }) {
           isMyUser={isMyUser}
         ></ProfileContainer>
       </div>
-    </layout>
+    </>
   )
 }

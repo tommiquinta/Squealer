@@ -11,7 +11,7 @@ export default function RootLayout ({ children }) {
     <html lang='en'>
     {/*   {}
       <head /> */}
-      <body>{children}</body>
+      <body className='md:mx-[15%] 2xl:mx-[20%] flex mt-4 gap-9'>{children}</body>
     </html>
   )
 }

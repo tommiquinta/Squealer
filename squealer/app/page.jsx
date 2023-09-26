@@ -45,7 +45,7 @@ export default async function Home () {
   console.log(userObj)
 
   return (
-    <layout>
+    <>
       <NavigationBar
         hasLoggedIn={hasLoggedIn}
         sessionUsername={hasLoggedIn ? userObj.data[0].username : null}
@@ -76,6 +76,6 @@ export default async function Home () {
       <div className='left-1/4 relative ml-2'>
         <SideWidget publicChannels={publicChannelsList.data} />
       </div>
-    </layout>
+    </>
   )
 }

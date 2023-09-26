@@ -35,11 +35,11 @@ export default async function Username ({ params }) {
   console.log(profile)
 
   return (
-    <layout>
+    <>
       <ProfilePage profile={profile} isMyUser={loggedUserInfo === profile}>
         <NavigationBar hasLoggedIn={true} sessionUsername={loggedUserInfo} />
       </ProfilePage>
-    </layout>
+    </>
   )
 }
 
