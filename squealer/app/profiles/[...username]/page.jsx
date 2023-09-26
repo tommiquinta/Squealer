@@ -1,11 +1,10 @@
 import NavigationBar from '../../Components/layout/Navbar'
 import ProfilePage from '../../Components/profile/ProfilePage'
-import Layout from '../../layout'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { redirect, usePathname } from 'next/navigation'
 
-async function Username ({ params }) {
+export default async function Username ({ params }) {
   const supabase = createServerComponentClient({ cookies })
   const {
     data: { session }
@@ -36,12 +35,11 @@ async function Username ({ params }) {
   console.log(profile)
 
   return (
-    <Layout>
+    <layout>
       <ProfilePage profile={profile} isMyUser={loggedUserInfo === profile}>
         <NavigationBar hasLoggedIn={true} sessionUsername={loggedUserInfo} />
       </ProfilePage>
-    </Layout>
+    </layout>
   )
 }
 
-export default Username

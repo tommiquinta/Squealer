@@ -4,7 +4,6 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import ProfileContainer from './ProfileContainer'
 
-import Layout from '../../layout'
 
 export default async function ProfilePage ({ children, profile, isMyUser }) {
   const supabase = createServerComponentClient({ cookies })
@@ -34,7 +33,7 @@ export default async function ProfilePage ({ children, profile, isMyUser }) {
   })
 
   return (
-    <Layout>
+    <layout>
       <div className='w-[85%]'>
         {children}
         <ProfileContainer
@@ -43,6 +42,6 @@ export default async function ProfilePage ({ children, profile, isMyUser }) {
           isMyUser={isMyUser}
         ></ProfileContainer>
       </div>
-    </Layout>
+    </layout>
   )
 }
