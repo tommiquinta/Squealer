@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSpring, animated } from 'react-spring';
 import { FaThumbsUp } from 'react-icons/fa';
-import "@/styles/LikeButton.css";
+import '../../../styles/LikeButton.css';
 
 
 function LikeButton({ hasLiked, handleLikes, count, toDisable }) {

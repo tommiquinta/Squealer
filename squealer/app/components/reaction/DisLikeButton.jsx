@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSpring, animated } from 'react-spring';
 import { FaThumbsDown } from 'react-icons/fa';
-import "@/styles/DisLikeButton.css";
+import '../../../styles/DisLikeButton.css';
 
 
 
