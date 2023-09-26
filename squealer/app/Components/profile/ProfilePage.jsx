@@ -1,45 +1,48 @@
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
 
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+import { redirect } from 'next/navigation'
+import ProfileContainer from './ProfileContainer'
 
-import { redirect } from "next/navigation";
-import ProfileContainer from "./ProfileContainer";
+import Layout from '../../layout'
 
+export default async function ProfilePage ({ children, profile, isMyUser }) {
+  const supabase = createServerComponentClient({ cookies })
+  const {
+    data: { session }
+  } = await supabase.auth.getSession()
 
+  if (!session) {
+    redirect('/')
+  }
 
-export default async function ProfilePage ({children, profile, isMyUser}) {
-    const supabase = createServerComponentClient({cookies});
-    const { data: { session },
-    } = await supabase.auth.getSession();
+  var profileDB = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('username', profile)
 
-    if(! session){
-        redirect("/");
-    }
+  const user =
+    profileDB.data && profileDB.data.length > 0 ? profileDB.data[0] : null
 
-    var profileDB = await supabase.from('profiles').select('*').eq('username', profile)
+  if (!user) {
+    return <p>i've got no user</p>
+  }
+  //prendi solo gli squeals dell'utente
+  var squeals = await supabase.rpc('get_user_posts', {
+    logged_uuid: session.user.id,
+    profile_username: user?.username
+  })
 
-    const user = profileDB.data && profileDB.data.length > 0 ? profileDB.data[0] : null;
- 
-    if(! user){
-        return(
-            <p>i've got no user</p>
-        );
-    }
-    //prendi solo gli squeals dell'utente
-    var squeals =  await supabase.rpc('get_user_posts', {
-        logged_uuid : session.user.id,
-        profile_username : user?.username,
-    })
-    
-    return(
-       <div className="w-[85%]">
-            {children}
-            <ProfileContainer squeals={squeals} user={user} isMyUser={isMyUser}>
-                
-            </ProfileContainer>
-              
-              
-               
-    </div>
-    );
+  return (
+    <Layout>
+      <div className='w-[85%]'>
+        {children}
+        <ProfileContainer
+          squeals={squeals}
+          user={user}
+          isMyUser={isMyUser}
+        ></ProfileContainer>
+      </div>
+    </Layout>
+  )
 }

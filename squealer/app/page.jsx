@@ -3,7 +3,6 @@ import { cookies } from 'next/headers'
 import NewTweet from './new-tweet'
 import PostCard from './components/media/PostCard'
 import PublicChannelsPost from './components/media/PublicChannelsPost'
-import Layout from './layout'
 import NavigationBar from './Components/layout/Navbar'
 import SideWidget from './Components/layout/SideWidget'
 
@@ -46,7 +45,7 @@ export default async function Home () {
   console.log(userObj)
 
   return (
-    <Layout>
+    <layout>
       <NavigationBar
         hasLoggedIn={hasLoggedIn}
         sessionUsername={hasLoggedIn ? userObj.data[0].username : null}
@@ -77,6 +76,6 @@ export default async function Home () {
       <div className='left-1/4 relative ml-2'>
         <SideWidget publicChannels={publicChannelsList.data} />
       </div>
-    </Layout>
+    </layout>
   )
 }
