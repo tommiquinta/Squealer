@@ -3,8 +3,8 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import UsersList from '../Components/profile/UsersList'
-import NavigationBar from '../Components/layout/Navbar'
+import UsersList from '../components/profile/UsersList'
+import NavigationBar from '../components/layout/Navbar'
 
 export default async function UsersListPage () {
   const supabase = createServerComponentClient({ cookies })

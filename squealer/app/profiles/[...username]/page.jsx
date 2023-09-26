@@ -1,5 +1,5 @@
-import NavigationBar from '../../Components/layout/Navbar'
-import ProfilePage from '../../Components/profile/ProfilePage'
+import NavigationBar from '../../components/layout/Navbar'
+import ProfilePage from '../../components/profile/ProfilePage'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { redirect, usePathname } from 'next/navigation'

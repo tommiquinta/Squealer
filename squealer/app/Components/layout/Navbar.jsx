@@ -1,6 +1,6 @@
 import NavbarButton from './NavbarButton'
 import Card from '../Card'
-import Login from '@/app/login/page'
+
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 

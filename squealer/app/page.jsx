@@ -3,8 +3,8 @@ import { cookies } from 'next/headers'
 import NewTweet from './new-tweet'
 import PostCard from './components/media/PostCard'
 import PublicChannelsPost from './components/media/PublicChannelsPost'
-import NavigationBar from './Components/layout/Navbar'
-import SideWidget from './Components/layout/SideWidget'
+import NavigationBar from './components/layout/Navbar'
+import SideWidget from './components/layout/SideWidget'
 
 //const inter = Inter({ subsets: ['latin'] })
 
