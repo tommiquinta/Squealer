@@ -1,9 +1,8 @@
-'use client'
-import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import NavbarButton from './NavbarButton'
 import Card from '../Card'
 import Login from '@/app/login/page'
-import { redirect, usePathname } from 'next/navigation'
+import { redirect } from 'next/navigation'
+import Link from 'next/link'
 
 export default function NavigationBar ({
   hasLoggedIn,
@@ -11,19 +10,10 @@ export default function NavigationBar ({
   sessionUsername
 }) {
 
-  const supabase = useSupabaseClient()
-  console.log("supabase");
-  console.log(supabase);
-  function logout() {
-    supabase.auth.signOut()
-    redirect("/");
-  }
-
   var userpage = `/profiles/${sessionUsername}`
-  var pathname = usePathname()
 
   function handleClick () {
-    router.push('/')
+    redirect('/')
   }
 
   if (hidden) {
@@ -34,18 +24,18 @@ export default function NavigationBar ({
     <Card isNavbar={true}>
       <div className='px-4 py-2 w-screen md:w-fit '>
         <div className='flex gap-2 leading-9 justify-center mb-3'>
+          <Link href="/">
           <img
             src='yoshi-logo-empty.png'
             alt='logo'
             className='w-8 h-8'
-            onClick={handleClick}
-          />
+          /> </Link>
           <h2 className='text-gray-400 text-center text-3xl'>Squealer</h2>
         </div>
 
         <div className='flex gap-4 place-content-center place-items-center md:block '>
 
-        <NavbarButton name={'Home'} isActive={pathname === '/'} url={'/'} icon={  <svg
+        <NavbarButton name={'Home'}  url={'/'} icon={  <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
               viewBox='0 0 24 24'
@@ -62,7 +52,7 @@ export default function NavigationBar ({
 
         {hasLoggedIn && (
           <div>
-            <NavbarButton name={'Users'} isActive={pathname === '/profiles'} url={'/profiles'} icon={
+            <NavbarButton name={'Users'} url={'/profiles'} icon={
                 <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
@@ -79,7 +69,7 @@ export default function NavigationBar ({
             </svg>
             } />
         
-            <NavbarButton name={'Your Profile'} isActive={pathname === userpage} url={userpage} icon={
+            <NavbarButton name={'Your Profile'} url={userpage} icon={
             <svg xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -93,7 +83,7 @@ export default function NavigationBar ({
             </svg>
             } />
         
-            <NavbarButton name={'Explore'} isActive={false} url={'/'} icon={
+            <NavbarButton name={'Explore'} url={'/explore'} icon={
                 <svg xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -107,7 +97,7 @@ export default function NavigationBar ({
                 </svg>
                 } />
         
-            <NavbarButton name={'Notifications'} isActive={false} url={'/'} children={
+            <NavbarButton name={'Notifications'}  url={'/notifications'} children={
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -123,7 +113,7 @@ export default function NavigationBar ({
                 </svg>
                 } />
         
-              <NavbarButton name={'Logout'} isActive={false} url={'/'} logout={logout} children={
+              <NavbarButton name={'Logout'} url={'/logout'} children={
                 <svg
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
@@ -147,7 +137,6 @@ export default function NavigationBar ({
           {!hasLoggedIn && (
             <NavbarButton
               name={'Login'}
-              isActive={false}
               url={'/login'}
               icon={
                 <svg
