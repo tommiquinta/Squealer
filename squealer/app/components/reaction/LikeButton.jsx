@@ -7,14 +7,9 @@ import "@/styles/LikeButton.css";
 
 
 function LikeButton({ hasLiked, handleLikes, count, toDisable }) {
-
     const [active, setActive] = useState();
 
-    // Aggiorna lo state 'active' quando 'hasLiked' cambia
     useEffect(() => {
-      //  console.log('hasLiked:', hasLiked);
-      //  console.log('active:', active);
-
         setActive(hasLiked);
     }, [hasLiked]);
 
@@ -28,42 +23,16 @@ function LikeButton({ hasLiked, handleLikes, count, toDisable }) {
         handleLikes(!active);
     }
 
-    /*useEffect(() => {
-        if (postsLiked.user_has_liked_tweet) {
-            setActive(true)
-        } else {
-            setActive(false)
-        }
-    }, [postsLiked.user_has_liked_tweet])
-
-    const handleLikes = async () => {
-
-        const supabase = createClientComponentClient();
-        const {
-            data: { user },
-        } = await supabase.auth.getUser();
-
-        if (user) {
-            if (postsLiked.user_has_liked_tweet) {
-                removeLike()
-            } else if (postsDisliked.user_has_disliked_tweet) {
-                removeDislike()
-                addLike()
-            }
-            router.refresh();
-        }
-    };*/
-
     return (
-        <button onClick={() => clickLike()} disabled={toDisable}>
-            <animated.button
-                style={thumbAnimation}
-                className="like-button flex gap-1 items-center"
-            >
-                <FaThumbsUp />
-                {count}
-            </animated.button>
-        </button>
+        <animated.button
+            onClick={() => clickLike()}
+            style={thumbAnimation}
+            className="like-button flex gap-1 items-center"
+            disabled={toDisable}
+        >
+            <FaThumbsUp />
+            {count}
+        </animated.button>
     );
 }
 
