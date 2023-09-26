@@ -46,41 +46,37 @@ export default async function Home () {
   console.log(userObj)
 
   return (
-    <html>
-      <body>
-        <Layout>
-          <NavigationBar
-            hasLoggedIn={hasLoggedIn}
-            sessionUsername={hasLoggedIn ? userObj.data[0].username : null}
-          />
+    <Layout>
+      <NavigationBar
+        hasLoggedIn={hasLoggedIn}
+        sessionUsername={hasLoggedIn ? userObj.data[0].username : null}
+      />
 
-          {/* questi non vanno qui <AuthButtonServer /> */}
-          <div className=' ml-2 max-w-4xl gap-4 left-1/4 relative md:ml-0 md:flex md:w-10/12 lg:w-6/12 '>
-            <div className={'mx-2 relative top-36 md:top-0 md:mx-0 md:w-full'}>
-              {!hasLoggedIn &&
-                squeals?.data?.map(publicPost => (
-                  <PublicChannelsPost
-                    key={publicPost.id}
-                    post={publicPost}
-                    disableReaction={true}
-                  />
-                ))}
+      {/* questi non vanno qui <AuthButtonServer /> */}
+      <div className=' ml-2 max-w-4xl gap-4 left-1/4 relative md:ml-0 md:flex md:w-10/12 lg:w-6/12 '>
+        <div className={'mx-2 relative top-36 md:top-0 md:mx-0 md:w-full'}>
+          {!hasLoggedIn &&
+            squeals?.data?.map(publicPost => (
+              <PublicChannelsPost
+                key={publicPost.id}
+                post={publicPost}
+                disableReaction={true}
+              />
+            ))}
 
-              {hasLoggedIn && (
-                <div>
-                  <NewTweet profile={userObj.data[0]} />
-                  {squeals.data.map(post => (
-                    <PostCard key={post.id} post={post} />
-                  ))}
-                </div>
-              )}
+          {hasLoggedIn && (
+            <div>
+              <NewTweet profile={userObj.data[0]} />
+              {squeals.data.map(post => (
+                <PostCard key={post.id} post={post} />
+              ))}
             </div>
-          </div>
-          <div className='left-1/4 relative ml-2'>
-            <SideWidget publicChannels={publicChannelsList.data} />
-          </div>
-        </Layout>
-      </body>
-    </html>
+          )}
+        </div>
+      </div>
+      <div className='left-1/4 relative ml-2'>
+        <SideWidget publicChannels={publicChannelsList.data} />
+      </div>
+    </Layout>
   )
 }
