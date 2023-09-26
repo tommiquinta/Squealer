@@ -19,7 +19,7 @@ export async function uploadUserProfileImage(
                 return;
             }
 
-            console.log("Upload result:", uploadResult);
+          //  console.log("Upload result:", uploadResult);
 
             const url = process.env.NEXT_PUBLIC_SUPABASE_URL + `/storage/v1/object/public/${buckets}/` + uploadResult.data.path;
 

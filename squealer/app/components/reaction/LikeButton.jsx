@@ -12,8 +12,8 @@ function LikeButton({ hasLiked, handleLikes, count, toDisable }) {
 
     // Aggiorna lo state 'active' quando 'hasLiked' cambia
     useEffect(() => {
-        console.log('hasLiked:', hasLiked);
-        console.log('active:', active);
+      //  console.log('hasLiked:', hasLiked);
+      //  console.log('active:', active);
 
         setActive(hasLiked);
     }, [hasLiked]);

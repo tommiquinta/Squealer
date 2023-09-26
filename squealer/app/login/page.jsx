@@ -1,5 +1,5 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+//import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import AuthButtonClient from "../auth/auth-components/auth-button-client";
 

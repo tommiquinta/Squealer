@@ -11,11 +11,11 @@ function Reaction({ numLikes, numDislikes, hasLiked, hasDisliked, like, dislike,
 
     function handleDislike(isDiliked){
         if(isDiliked){
-            console.log("qui gestisci che deve aggiungere un dislike");
+            //console.log("qui gestisci che deve aggiungere un dislike");
             //aggiungi dislike
             handleLike(false)
         } else {
-            console.log("qui gestisci il fatto che ha tolto il dislike");
+         //   console.log("qui gestisci il fatto che ha tolto il dislike");
             //rimuovi dislike
             setIsDisliked(false);
             console.log("dislike: "+isDiliked);
@@ -24,11 +24,11 @@ function Reaction({ numLikes, numDislikes, hasLiked, hasDisliked, like, dislike,
 
     function handleLike(isLiked){
         if(isLiked){
-            console.log("qui gestisci che deve aggiungere un like");
+          //  console.log("qui gestisci che deve aggiungere un like");
             //aggiungi like
             handleDislike(false)
         } else {
-            console.log("qui gestisci il fatto che ha tolto il like");
+         //   console.log("qui gestisci il fatto che ha tolto il like");
             //rimuovi like
             setIsLiked(false);
             console.log("like: "+isLiked);
