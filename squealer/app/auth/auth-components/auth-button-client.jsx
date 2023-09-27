@@ -3,10 +3,13 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useRouter } from "next/navigation"
 import Card from '../../components/Card';
+import LoginForm from '../../Components/login-form/LoginForm';
+import { useState } from "react";
 
 export default function AuthButtonClient({ session }) {
     const supabase = createClientComponentClient()
     const router = useRouter()
+    const [showLogIn, setShowLogin] = useState(true);
 
     const handleSignOut = async () => {
         await supabase.auth.signOut()
@@ -52,11 +55,59 @@ export default function AuthButtonClient({ session }) {
         })
     }
 
-    return session ? (
-        <button onClick={handleSignOut}>Logout</button>
-    ) : (
-        <div className="flex gap-2.5">
-            <Card>
+    async function login(email, pw){
+        if((!email) || (!pw)) return; //probabilmente dovrebbe mostrare errore
+        
+        console.log('Email:', email);
+        console.log('Password:', pw);
+
+        /*
+        const { data, error } = await supabase.auth.signUp({
+            email,
+            pw,
+            options: {
+                data: {
+                    full_name: name,
+                    avatar_url: avatar,
+                    username: username
+                }
+            }
+        }) */
+    }
+
+    if(session){
+        return (<button onClick={handleSignOut}>Logout</button>);
+    }
+
+
+
+    return (
+        <div className="flex-col gap-2.5 items-center justify-center w-8/12 h-full mx-auto">
+            <h1 className="text-5xl subpixel-antialiased font-medium text-center text-gray-400 my-2 mt-20">Login or Signup</h1>
+
+            { showLogIn && (
+                <div className="py-3 w-10/12 mx-auto">
+                    <LoginForm logIn={login}/>
+                    <p onClick={()=> setShowLogin(false)} className="text-gray-400 text-center">You don't have an account? <u className="cursor-pointer text-socialBlue">Click here to sign up</u></p>
+                </div>
+
+            )
+
+            }
+            {!showLogIn && (
+            <div className="py-3">
+                <Card>
+                    <button onClick={() => signUpWithEmail()} 
+                    className='flex gap-5 items-center text-center text-stone-600' >Sign up with email</button>
+                </Card>
+                <p onClick={()=> setShowLogin(true)} className="text-gray-400 text-center">Do you have an account already? <u className="cursor-pointer text-socialBlue">Click here to log in</u></p>
+            </div>
+            )
+
+            }    
+
+            <div className="flex gap-2 justify-center">
+            <Card className="w-fit">
                 <button
                     onClick={() => handleProviderSignIn("github")}
                     className='flex gap-5 items-center text-center text-stone-600'
@@ -73,7 +124,7 @@ export default function AuthButtonClient({ session }) {
                 </button>
             </Card>
 
-            <Card>
+            <Card className="w-fit">
                 <button
                     onClick={() => handleProviderSignIn("google")}
                     className='flex gap-5 items-center text-center text-stone-600'
@@ -89,10 +140,7 @@ export default function AuthButtonClient({ session }) {
                     Login with Google
                 </button>
             </Card>
-            <Card>
-                <button onClick={() => signUpWithEmail()} 
-                className='flex gap-5 items-center text-center text-stone-600' >Login with email</button>
-            </Card>
+            </div>
         </div >
 
     )
