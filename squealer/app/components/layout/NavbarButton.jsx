@@ -1,4 +1,6 @@
 'use client'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createClient } from '@supabase/supabase-js'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -13,23 +15,30 @@ function NavbarButton ({ name, url, icon, logout }) {
   const nonActivePage =
     'text-black flex gap-2 mx-2 py-1 px-2 md:py-3 hover:bg-socialBlue hover:bg-opacity-20 md:-mx-10 md:px-10 rounded-md hover:shadow-md shadow-gray-300 transition-all hover:scale-110'
 
-  if (logout) {
-    return (
-      <div onClick={() => logout()}>
-        <Link href={url} className={isActive ? activePage : nonActivePage}>
-          {icon}
-          <p className='hidden md:block'>{name}</p>
-        </Link>
-      </div>
-    )
+  const supabase = createClientComponentClient()
+
+  async function handleSignOut () {
+    await supabase.auth.signOut()
+    location.reload();
   }
 
-  return (
-    <Link href={url} className={isActive ? activePage : nonActivePage}>
-      {icon}
-      <p className='hidden md:block'>{name}</p>
-    </Link>
-  )
+  if (name == 'Logout') {
+    return (
+      <button
+        className='text-white bg-red-500 px-4 py-2 rounded-md shadow-md'
+        onClick={handleSignOut}
+      >
+        Logout
+      </button>
+    )
+  } else {
+    return (
+      <Link href={url} className={isActive ? activePage : nonActivePage}>
+        {icon}
+        <p className='hidden md:block'>{name}</p>
+      </Link>
+    )
+  }
 }
 
 export default NavbarButton
