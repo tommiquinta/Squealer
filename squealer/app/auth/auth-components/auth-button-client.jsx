@@ -44,8 +44,8 @@ export default function AuthButtonClient({ session }) {
             return
         }
         const { data, error } = await supabase.auth.signUp({
-            email,
-            password,
+            email: email,
+            password: password,
             options: {
                 data: {
                     full_name: fullname,
@@ -62,15 +62,13 @@ export default function AuthButtonClient({ session }) {
     }
 
     async function login(email, pw){
-        if((!email) || (!pw)) return; //probabilmente dovrebbe mostrare errore
-        
-        console.log('Email:', email);
-        console.log('Password:', pw);
-
-
+        if((!email) || (!pw)){
+            alert("Insert your credentials please")
+            return ; //probabilmente dovrebbe mostrare errore
+        }
         const { data, error } = await supabase.auth.signInWithPassword({
-            email,
-            pw,
+            email: email,
+            password: pw,
             options: {
                 redirectTo: "http://localhost:3000/auth/callback",
             }
