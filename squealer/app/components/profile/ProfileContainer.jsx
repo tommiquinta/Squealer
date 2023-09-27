@@ -80,7 +80,7 @@ export default function ProfileContainer({squeals, user, isMyUser, isModerator})
                         destination={"/settings"}
                         icon={
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <g fill="none" stroke="currentColor" stroke-width="1.5">
+                            <g fill="none" stroke="currentColor" strokeWidth="1.5">
                                 <circle cx="12" cy="12" r="3"/>
                                 <path d="M13.765 2.152C13.398 2 12.932 2 12 2c-.932 0-1.398 0-1.765.152a2 2 0 0 
                                 0-1.083 1.083c-.092.223-.129.484-.143.863a1.617 1.617 0 0 1-.79 1.353a1.617 1.617 

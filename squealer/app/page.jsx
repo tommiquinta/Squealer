@@ -5,6 +5,7 @@ import PostCard from './components/media/PostCard'
 import PublicChannelsPost from './components/media/PublicChannelsPost'
 import NavigationBar from './components/layout/Navbar'
 import SideWidget from './components/layout/SideWidget'
+import PostFormCard from './components/media/PostFormCard'
 
 //const inter = Inter({ subsets: ['latin'] })
 
@@ -65,7 +66,8 @@ export default async function Home () {
 
           {hasLoggedIn && (
             <div>
-              <NewTweet profile={userObj.data[0]} />
+              <PostFormCard profile={userObj.data[0]} />
+
               {squeals.data.map(post => (
                 <PostCard key={post.id} post={post} />
               ))}

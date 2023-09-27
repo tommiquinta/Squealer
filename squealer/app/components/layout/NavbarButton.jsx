@@ -7,9 +7,9 @@ import { usePathname } from 'next/navigation'
 function NavbarButton ({ name, url, icon, logout }) {
   var pathname = usePathname()
   var isActive = pathname === url
-  console.log('isActive')
+/*   console.log('isActive')
   console.log(isActive)
-
+ */
   const activePage =
     'text-white flex gap-2 py-1 px-2 mx-1 md:gap-2 md:py-3 bg-socialBlue md:-mx-10 md:px-10 rounded-md shadow-md shadow-gray-300 '
   const nonActivePage =
@@ -19,7 +19,7 @@ function NavbarButton ({ name, url, icon, logout }) {
 
   async function handleSignOut () {
     await supabase.auth.signOut()
-    location.reload();
+    location.reload()
   }
 
   if (name == 'Logout') {

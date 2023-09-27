@@ -1,50 +1,26 @@
-import { useSupabaseClient } from '@supabase/auth-helpers-react'
-import { useSession } from '@supabase/auth-helpers-react'
+'use client'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-
+import { cookies } from 'next/navigation'
 import Avatar from '../Avatar'
 import Card from '../Card'
 import Preloader from '../Preloader'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
-//https://fzhzqznaucvfclbaadpa.supabase.co/storage/v1/object/public/photos/1691597003355ChallengingMario.jpeg?t=2023-08-09T16%3A03%3A50.136Z
+//https://fzhzqznaucvfclbaadpa. supabase.co/storage/v1/object/public/photos/1691597003355ChallengingMario.jpeg?t=2023-08-09T16%3A03%3A50.136Z
 
-export default function PostFormCard({ onPost }) {
-  const [profile, setProfile] = useState(null)
+export default function PostFormCard ({ profile, onPost }) {
   const [daily_quota, setDaily_quota] = useState()
   const [uploads, setUploads] = useState([])
   const [isUploading, setIsUploading] = useState(false)
   const [content, setContent] = useState()
-  
-  const supabase = useSupabaseClient()
-  const session = useSession()
-  const router = useRouter()
+
+  const supabase = createClientComponentClient({ cookies })
 
   useEffect(() => {
-     if (!session) {
-      router.push('/login')
-    } 
-    if (session?.user) {
-      supabase
-        .from('profiles')
-        .select()
-        .eq('id', session.user.id)
-        .then(result => {
-          if (result.data.length) {
-            setProfile(result.data[0])
-            setDaily_quota(result.data[0].daily_quota)
-          }
-        })
-        .catch(error => {
-          console.error('Error fetching profile data:', error)
-        })
-    }
-  }, [session])
+    setDaily_quota(profile.daily_quota)
+  }, [profile])
 
-
-
-
-  async function createPost() {
+  async function createPost () {
     if (content && content.trim() !== '') {
       if (content.includes('@')) {
         const regex = /@(\w+)/
@@ -52,16 +28,16 @@ export default function PostFormCard({ onPost }) {
         const match = regex.exec(content)
         if (match) {
           const receiverHandle = match[1]
-          supabase
+            supabase
             .from('profiles')
             .select()
             .eq('username', receiverHandle)
             .then(response => {
               if (!response.error) {
-                supabase
+                  supabase
                   .from('direct_messages')
                   .insert({
-                    author: session.user.id,
+                    author: profile.id,
                     receiver: response.data[0].id,
                     content: content,
                     photos: uploads
@@ -87,16 +63,16 @@ export default function PostFormCard({ onPost }) {
         if (match) {
           const receiverHandle = match[1]
 
-          supabase
+            supabase
             .from('public_channels')
             .select()
             .eq('handle', receiverHandle)
             .then(response => {
               if (!response.error) {
-                supabase
+                 supabase
                   .from('posts')
                   .insert({
-                    author: session.user.id,
+                    author: profile.id,
                     public_channel: response.data[0].id,
                     content: content,
                     photos: uploads
@@ -105,7 +81,6 @@ export default function PostFormCard({ onPost }) {
                     if (!response.error) {
                       setContent('')
                       setUploads([])
-
                     }
                   })
               } else {
@@ -115,10 +90,10 @@ export default function PostFormCard({ onPost }) {
         }
       } else {
         // cheack if the post is not empty
-        supabase
+         supabase
           .from('posts')
           .insert({
-            author: session.user.id, // in the database rules we have a check to control who actually clicks on "share"
+            author: profile.id, // in the database rules we have a check to control who actually clicks on "share"
             content,
             photos: uploads
           })
@@ -130,12 +105,12 @@ export default function PostFormCard({ onPost }) {
               const newDailyQuota =
                 profile.daily_quota - content.length - uploads.length * 125
 
-              supabase
+               supabase
                 .from('profiles')
                 .update({
                   daily_quota: newDailyQuota
                 })
-                .eq('id', session.user.id)
+                .eq('id', profile.id)
                 .then(response => {
                   if (!response.error) {
                     setDaily_quota(newDailyQuota) // update local dailyQuota
@@ -155,19 +130,19 @@ export default function PostFormCard({ onPost }) {
     }
   }
 
-  async function addPhotos(ev) {
+  async function addPhotos (ev) {
     const files = ev.target.files
     if (files.length > 0) {
       setIsUploading(true)
       for (const file of files) {
         const newName = Date.now() + file.name
-        const result = await supabase.storage
+        const result =    supabase.storage
           .from('photos')
           .upload(newName, file)
 
         if (result.data) {
           const url =
-            process.env.NEXT_PUBLIC_SUPABASE_URL +
+            process.env.NEXT_PUBLIC_supabase_URL +
             '/storage/v1/object/public/photos/' +
             result.data.path
 
@@ -260,7 +235,7 @@ export default function PostFormCard({ onPost }) {
           </div>
         )}
 
-        <div className=' flex gap-6 items-center mt-2'>
+        <div className='flex gap-6 items-center mt-2'>
           <div>
             <label className='flex gap-1'>
               <input
@@ -273,13 +248,13 @@ export default function PostFormCard({ onPost }) {
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
                 viewBox='0 0 24 24'
-                stroke-width='1.5'
+                strokeWidth='1.5'
                 stroke='currentColor'
-                class='w-6 h-6'
+                className='w-6 h-6'
               >
                 <path
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
                   d='M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z'
                 />
               </svg>
@@ -292,12 +267,12 @@ export default function PostFormCard({ onPost }) {
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
                 viewBox='0 0 24 24'
-                stroke-width='1.5'
+                strokeWidth='1.5'
                 stroke='currentColor'
-                class='w-6 h-6'
+                className='w-6 h-6'
               >
                 <path
-                  stroke-linecap='round'
+                  strokeLinecap='round'
                   d='M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z'
                 />
               </svg>
@@ -310,18 +285,18 @@ export default function PostFormCard({ onPost }) {
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
                 viewBox='0 0 24 24'
-                stroke-width='1.5'
+                strokeWidth='1.5'
                 stroke='currentColor'
-                class='w-6 h-6'
+                className='w-6 h-6'
               >
                 <path
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
                   d='M15 10.5a3 3 0 11-6 0 3 3 0 016 0z'
                 />
                 <path
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
                   d='M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z'
                 />
               </svg>
@@ -331,8 +306,9 @@ export default function PostFormCard({ onPost }) {
 
           <div>
             <a
-              className={`flex gap-1 ml-8 ${daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'
-                }`}
+              className={`flex gap-1 ml-8 ${
+                daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'
+              }`}
             >
               Daily Quota: {daily_quota}
             </a>

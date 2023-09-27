@@ -1,43 +1,38 @@
-import Card from '../Card';
-import moment from 'moment';
-import Reaction from '../reaction/Reaction';
-import Avatar from '../Avatar';
-import Link from 'next/link';
+import Card from '../Card'
+import moment from 'moment'
+import Reaction from '../reaction/Reaction'
+import Avatar from '../Avatar'
+import Link from 'next/link'
 
-
-export default function PostCard({post}) {
-  
-   return (
+export default function PostCard ({ post }) {
+  return (
     <Card>
-
       <div className='flex gap-3'>
         <div>
-        <Link href={`/profiles/${post?.username}`} >
+          <Link href={`/profiles/${post?.username}`}>
             <span className='cursor-pointer'>
               <Avatar url={post?.avatar} />
             </span>
-           </Link>
-         </div>
+          </Link>
+        </div>
         <div className='flex flex-col'>
           <p>
-          <Link href={`/profiles/${post?.username}`} >
-             <span className='font-semibold hover:underline cursor-pointer '>
+            <Link href={`/profiles/${post?.username}`}>
+              <span className='font-semibold hover:underline cursor-pointer '>
                 {post?.username}
               </span>{' '}
               shared a squeal
-             </Link>
-         </p>
+            </Link>
+          </p>
           <p className='text-gray-500 text-sm'>
             {moment(post?.created_at).fromNow()}
           </p>
         </div>
       </div>
 
- <div className='my-4'>
-        <p className='my-3 text-md'>
-          {post?.content}
-        </p>
- {/*
+      <div className='my-4'>
+        <p className='my-3 text-md'>{post?.content}</p>
+        {/*
         <div className=''>
           {photos.length > 0 && (
             <div className='mt-4 flex justify-center items-center'>
@@ -74,20 +69,17 @@ export default function PostCard({post}) {
         </div>
  */}
       </div>
-      
 
-    <div className=''>
+      <div className=''>
         <Reaction
           id={post.id}
           numLikes={post.likes}
           numDislikes={post.dislikes}
-          hasLiked ={post.hasLiked}
+          hasLiked={post.hasLiked}
           hasDisliked={post.hasDisliked}
-          disable ={false}
+          disable={false}
         />
-      </div> 
-
-    </Card >
+      </div>
+    </Card>
   )
 }
-  

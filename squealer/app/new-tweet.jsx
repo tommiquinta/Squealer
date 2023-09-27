@@ -3,8 +3,7 @@ import { cookies } from 'next/headers'
 import Card from './components/Card'
 import Avatar from './components/Avatar'
 
-export default function NewTweet ({profile}) {
-
+export default function NewTweet ({ profile }) {
   async function addTweet (formData) {
     'use server'
     const content = formData.get('content')
@@ -21,7 +20,7 @@ export default function NewTweet ({profile}) {
     }
   }
 
-  var daily_quota = profile.daily_quota;
+  var daily_quota = profile.daily_quota
   return (
     <div className='mb-5'>
       <Card>
@@ -41,9 +40,10 @@ export default function NewTweet ({profile}) {
 
       <div className='grow text-right'>
         <button
-/*           onClick={createPost}
- */          className='bg-blue-500 text-white px-6 py-1 rounded-md'
-           disabled={daily_quota < 0} >
+          /*           onClick={createPost}
+           */ className='bg-blue-500 text-white px-6 py-1 rounded-md'
+          disabled={daily_quota < 0}
+        >
           Squeal
         </button>
       </div>
