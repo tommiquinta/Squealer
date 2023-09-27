@@ -6,8 +6,6 @@ import Card from '../Card'
 import Preloader from '../Preloader'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
-//https://fzhzqznaucvfclbaadpa. supabase.co/storage/v1/object/public/photos/1691597003355ChallengingMario.jpeg?t=2023-08-09T16%3A03%3A50.136Z
-
 export default function PostFormCard ({ profile, onPost }) {
   const [daily_quota, setDaily_quota] = useState()
   const [uploads, setUploads] = useState([])

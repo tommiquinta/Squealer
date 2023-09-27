@@ -22,7 +22,9 @@ export default async function Home () {
   var userObj = null //oggetto per passare le informazioni dell'user ai figli della home
 
   var squeals = null
-
+  async function fetchPosts () {
+    await supabase.rpc('get_public_only')
+  }
   const publicSqueals = await supabase.rpc('get_public_only')
   const publicChannelsList = await supabase.rpc('get_public_list')
   if (!hasLoggedIn) {
@@ -66,7 +68,7 @@ export default async function Home () {
 
           {hasLoggedIn && (
             <div>
-              <PostFormCard profile={userObj.data[0]} />
+              <PostFormCard profile={userObj.data[0]}/*  onPost={fetchPosts} */ />
 
               {squeals.data.map(post => (
                 <PostCard key={post.id} post={post} />
