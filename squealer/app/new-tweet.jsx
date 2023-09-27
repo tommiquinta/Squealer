@@ -36,9 +36,7 @@ export default function NewTweet ({ profile }) {
             placeholder={`What's on your mind ${profile.username}?`}
           />
         </div>
-      </Card>
-
-      <div className='grow text-right'>
+        <div className='grow text-right mt-2'>
         <button
           /*           onClick={createPost}
            */ className='bg-blue-500 text-white px-6 py-1 rounded-md'
@@ -47,6 +45,10 @@ export default function NewTweet ({ profile }) {
           Squeal
         </button>
       </div>
+
+      </Card>
+
+      
     </div>
   )
 }

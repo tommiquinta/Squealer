@@ -4,6 +4,7 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import ProfileContainer from './ProfileContainer'
 
+
 export default async function ProfilePage ({ children, profile, isMyUser }) {
   const supabase = createServerComponentClient({ cookies })
   const {
@@ -31,6 +32,12 @@ export default async function ProfilePage ({ children, profile, isMyUser }) {
     profile_username: user?.username
   })
 
+
+  var moderator =false;
+  if(isMyUser){
+    moderator = await supabase.from('moderators').select('*').eq('username', user.username);
+  }
+
   return (
     <div className='w-[85%]'>
       {children}
@@ -38,7 +45,9 @@ export default async function ProfilePage ({ children, profile, isMyUser }) {
         squeals={squeals}
         user={user}
         isMyUser={isMyUser}
-      ></ProfileContainer>
+        isModerator={moderator}
+      >
+      </ProfileContainer>
     </div>
   )
 }

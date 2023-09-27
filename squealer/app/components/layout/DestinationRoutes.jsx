@@ -2,9 +2,11 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import AllSqueals from './AllSqueals'
 import Card from '../Card'
+import ModeratorSection from './ModeratorSection'
+import Settings from '../profile/Settings'
 
-export default function DestinationRoutes ({ user, squeals }) {
-  console.log('destination')
+export default function DestinationRoutes ({ user, squeals, settings }) {
+  
   return (
     <Routes>
       <Route index path={`/`} element={<AllSqueals squeals={squeals} />} />
@@ -16,10 +18,13 @@ export default function DestinationRoutes ({ user, squeals }) {
         path={`/settings`}
         element={
           <Card>
-            <p>impostazioni utente</p>
+            <Settings />
           </Card>
         }
       />
+
+    <Route index path={`/moderator`} element={<ModeratorSection />} />
+
     </Routes>
   )
 }

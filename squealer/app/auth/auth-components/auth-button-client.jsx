@@ -64,8 +64,12 @@ export default function AuthButtonClient({ session }) {
     async function login(email, pw){
         if((!email) || (!pw)){
             alert("Insert your credentials please")
-            return ; //probabilmente dovrebbe mostrare errore
+            return ; 
         }
+
+        console.log(email);
+        console.log(pw);
+
         const { data, error } = await supabase.auth.signInWithPassword({
             email: email,
             password: pw,

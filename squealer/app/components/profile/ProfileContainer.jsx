@@ -7,6 +7,8 @@ import DestinationRoutes from "../layout/DestinationRoutes";
 import { BrowserRouter } from "react-router-dom";
 
 export default function ProfileContainer({squeals, user, isMyUser, isModerator}){
+
+    console.log("moderator: "+ isModerator);
    
     return(
         <div className="ml-2 left-1/4 relative"> 
@@ -100,6 +102,16 @@ export default function ProfileContainer({squeals, user, isMyUser, isModerator})
                         }
                         />
                     )}
+
+                    { isModerator && (
+                        <SectionButton name={"Moderator"} isSelected={false} destination={"/moderator"}
+                        icon={<svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 256 256" stroke-width="1.5">
+                            <path fill="currentColor" d="M208 36H48a20 20 0 0 0-20 20v58.8c0 92.36 78.1 123 93.76 128.18a19.6 19.6 0 0 0 12.48 0C149.9 237.78 
+                            228 207.16 228 114.8V56a20 20 0 0 0-20-20Zm-4 78.8c0 73.56-60.53 99.53-76 105c-15.47-5.42-76-31.39-76-104.95V60h152Z"/></svg>
+                        }/>
+                    )
+
+                    }
 
                     {isMyUser && (
                         <div className='mt-10 place-items-center self-center text-gray-400 float-right'>

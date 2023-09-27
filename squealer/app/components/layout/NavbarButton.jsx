@@ -25,7 +25,7 @@ function NavbarButton ({ name, url, icon, logout }) {
   if (name == 'Logout') {
     return (
       <button
-        className='text-white bg-red-500 px-4 py-2 rounded-md shadow-md'
+        className='nonActivePage'
         onClick={handleSignOut}
       >
         Logout
