@@ -3,9 +3,9 @@ import { useSession } from '@supabase/auth-helpers-react'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
-import Avatar from '../../Avatar'
-import Card from './Card'
-import Preloader from './Preloader'
+import Avatar from '../Avatar'
+import Card from '../Card'
+import Preloader from '../Preloader'
 
 //https://fzhzqznaucvfclbaadpa.supabase.co/storage/v1/object/public/photos/1691597003355ChallengingMario.jpeg?t=2023-08-09T16%3A03%3A50.136Z
 

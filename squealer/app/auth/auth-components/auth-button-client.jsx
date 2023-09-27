@@ -3,9 +3,9 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { redirect, useRouter } from "next/navigation"
 import Card from '../../components/Card';
-import LoginForm from '../../Components/login-form/LoginForm';
+import LoginForm from '../../components/login-form/LoginForm';
 import { useState } from "react";
-import SignUpForm from '../../Components/login-form/SignupForm';
+import SignUpForm from '../../components/login-form/SignupForm';
 
 export default function AuthButtonClient({ session }) {
     const supabase = createClientComponentClient()
