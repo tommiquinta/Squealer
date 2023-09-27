@@ -1,10 +1,11 @@
 "use client"
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
-import { useRouter } from "next/navigation"
+import { redirect, useRouter } from "next/navigation"
 import Card from '../../components/Card';
 import LoginForm from '../../Components/login-form/LoginForm';
 import { useState } from "react";
+import SignUpForm from '../../Components/login-form/SignupForm';
 
 export default function AuthButtonClient({ session }) {
     const supabase = createClientComponentClient()
@@ -25,7 +26,7 @@ export default function AuthButtonClient({ session }) {
         })
     }
 
-    async function signUpWithEmail() {
+    async function signUpWithEmail(email, username, password, avatar, fullname ) {
         if (!email) {
             alert('You can not sign in without an email!')
             return
@@ -47,12 +48,17 @@ export default function AuthButtonClient({ session }) {
             password,
             options: {
                 data: {
-                    full_name: name,
+                    full_name: fullname,
                     avatar_url: avatar,
                     username: username
                 }
             }
-        })
+        }) 
+
+        if(error){
+            alert(error);
+        }
+
     }
 
     async function login(email, pw){
@@ -61,18 +67,20 @@ export default function AuthButtonClient({ session }) {
         console.log('Email:', email);
         console.log('Password:', pw);
 
-        /*
-        const { data, error } = await supabase.auth.signUp({
+
+        const { data, error } = await supabase.auth.signInWithPassword({
             email,
             pw,
             options: {
-                data: {
-                    full_name: name,
-                    avatar_url: avatar,
-                    username: username
-                }
+                redirectTo: "http://localhost:3000/auth/callback",
             }
-        }) */
+        });
+
+        if(error){
+            alert(error);
+        }
+
+
     }
 
     if(session){
@@ -95,11 +103,8 @@ export default function AuthButtonClient({ session }) {
 
             }
             {!showLogIn && (
-            <div className="py-3">
-                <Card>
-                    <button onClick={() => signUpWithEmail()} 
-                    className='flex gap-5 items-center text-center text-stone-600' >Sign up with email</button>
-                </Card>
+            <div className="py-3 w-10/12 mx-auto">
+                <SignUpForm signUp={signUpWithEmail}/>
                 <p onClick={()=> setShowLogin(true)} className="text-gray-400 text-center">Do you have an account already? <u className="cursor-pointer text-socialBlue">Click here to log in</u></p>
             </div>
             )
