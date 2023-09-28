@@ -26,13 +26,13 @@ export default function PostFormCard ({ profile, onPost }) {
         const match = regex.exec(content)
         if (match) {
           const receiverHandle = match[1]
-            supabase
+          supabase
             .from('profiles')
             .select()
             .eq('username', receiverHandle)
             .then(response => {
               if (!response.error) {
-                  supabase
+                supabase
                   .from('direct_messages')
                   .insert({
                     author: profile.id,
@@ -61,13 +61,13 @@ export default function PostFormCard ({ profile, onPost }) {
         if (match) {
           const receiverHandle = match[1]
 
-            supabase
+          supabase
             .from('public_channels')
             .select()
             .eq('handle', receiverHandle)
             .then(response => {
               if (!response.error) {
-                 supabase
+                supabase
                   .from('posts')
                   .insert({
                     author: profile.id,
@@ -88,7 +88,7 @@ export default function PostFormCard ({ profile, onPost }) {
         }
       } else {
         // cheack if the post is not empty
-         supabase
+        supabase
           .from('posts')
           .insert({
             author: profile.id, // in the database rules we have a check to control who actually clicks on "share"
@@ -103,7 +103,7 @@ export default function PostFormCard ({ profile, onPost }) {
               const newDailyQuota =
                 profile.daily_quota - content.length - uploads.length * 125
 
-               supabase
+              supabase
                 .from('profiles')
                 .update({
                   daily_quota: newDailyQuota
@@ -112,6 +112,7 @@ export default function PostFormCard ({ profile, onPost }) {
                 .then(response => {
                   if (!response.error) {
                     setDaily_quota(newDailyQuota) // update local dailyQuota
+                    location.reload(); // penso si possa fare meglio di così
                   } else {
                     console.error('daily quota update error.', response.error)
                   }
@@ -134,9 +135,7 @@ export default function PostFormCard ({ profile, onPost }) {
       setIsUploading(true)
       for (const file of files) {
         const newName = Date.now() + file.name
-        const result =    supabase.storage
-          .from('photos')
-          .upload(newName, file)
+        const result = supabase.storage.from('photos').upload(newName, file)
 
         if (result.data) {
           const url =

@@ -1,6 +1,5 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
-import NewTweet from './new-tweet'
 import PostCard from './components/media/PostCard'
 import PublicChannelsPost from './components/media/PublicChannelsPost'
 import NavigationBar from './components/layout/Navbar'
@@ -68,7 +67,7 @@ export default async function Home () {
 
           {hasLoggedIn && (
             <div>
-              <PostFormCard profile={userObj.data[0]}/*  onPost={fetchPosts} */ />
+              <PostFormCard profile={userObj.data[0]} />
 
               {squeals.data.map(post => (
                 <PostCard key={post.id} post={post} />
