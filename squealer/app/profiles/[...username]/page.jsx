@@ -1,8 +1,8 @@
-import NavigationBar from '../../components/layout/Navbar'
-import ProfilePage from '../../components/profile/ProfilePage'
+import NavigationBar from '../../Components/layout/Navbar'
+import ProfilePage from '../../Components/profile/ProfilePage'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
-import { redirect, usePathname } from 'next/navigation'
+import { redirect } from 'next/navigation'
 
 export default async function Username ({ params }) {
   const supabase = createServerComponentClient({ cookies })

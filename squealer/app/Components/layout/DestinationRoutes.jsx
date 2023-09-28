@@ -1,5 +1,5 @@
 'use client'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import AllSqueals from './AllSqueals'
 import Card from '../Card'
 import ModeratorSection from './ModeratorSection'

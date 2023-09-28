@@ -1,7 +1,7 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
-import Card from './components/Card'
-import Avatar from './components/Avatar'
+import Card from './Components/Card'
+import Avatar from './Components/Avatar'
 
 export default function NewTweet ({ profile }) {
   async function addTweet (formData) {
