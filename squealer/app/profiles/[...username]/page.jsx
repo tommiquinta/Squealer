@@ -17,6 +17,8 @@ export default async function Username ({ params }) {
   var profile = params.username[0]
   var loggedUserInfo = null
 
+  console.log('YOSHI? ' + profile)
+
   try {
     if (!loggedUserInfo) {
       loggedUserInfo = await supabase
@@ -28,12 +30,12 @@ export default async function Username ({ params }) {
   } catch (error) {
     return <p>Error! {error}</p>
   }
-
+  /* 
   console.log('loggedUserInfo')
   console.log(loggedUserInfo)
   console.log('profile')
   console.log(profile)
-
+ */
   return (
     <>
       <ProfilePage profile={profile} isMyUser={loggedUserInfo === profile}>
@@ -42,4 +44,3 @@ export default async function Username ({ params }) {
     </>
   )
 }
-

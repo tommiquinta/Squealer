@@ -6,16 +6,19 @@ import ModeratorSection from './ModeratorSection'
 import Settings from '../profile/Settings'
 
 export default function DestinationRoutes ({ user, squeals, settings }) {
-  
   return (
     <Routes>
-      <Route index path={`/`} element={<AllSqueals squeals={squeals} />} />
       <Route
-        path={`/channels`}
+        index
+        path={user + `/allsqueals`}
+        element={<AllSqueals squeals={squeals} />}
+      />
+      <Route
+        path={user + `/channels`}
         element={'Tommi devi inserire la gestione dei canali privati qui'}
       />
       <Route
-        path={`/settings`}
+        path={user + `/settings`}
         element={
           <Card>
             <Settings />
@@ -23,8 +26,7 @@ export default function DestinationRoutes ({ user, squeals, settings }) {
         }
       />
 
-    <Route index path={`/moderator`} element={<ModeratorSection />} />
-
+      <Route index path={`/moderator`} element={<ModeratorSection />} />
     </Routes>
   )
 }

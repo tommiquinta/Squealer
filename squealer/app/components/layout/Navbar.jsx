@@ -10,6 +10,7 @@ export default function NavigationBar ({
   sessionUsername
 }) {
   var userpage = `/profiles/${sessionUsername}`
+  console.log(userpage)
 
   function handleClick () {
     redirect('/')
@@ -24,7 +25,7 @@ export default function NavigationBar ({
       <div className='px-4 py-2 w-screen md:w-fit '>
         <div className='flex gap-2 leading-9 justify-center mb-3'>
           <Link href='/'>
-            <img src='yoshi-logo-empty.png' alt='logo' className='w-8 h-8' />
+            <img src='/yoshi-logo-empty.png' alt='logo' className='w-8 h-8' />
           </Link>
 
           <h2 className='text-gray-400 text-center text-3xl'>Squealer</h2>
