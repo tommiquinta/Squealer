@@ -1,6 +1,5 @@
 'use client'
 
-import React, { useEffect, useState } from 'react';
 import { useSpring, animated } from 'react-spring';
 import { FaThumbsDown } from 'react-icons/fa';
 import '../../../styles/DisLikeButton.css';
@@ -19,7 +18,7 @@ function DisLikeButton({ hasDisliked, handleDislike, count, toDisable }) {
  
   return (
     <animated.button
-      onClick={() => clickDislikes()}
+      onClick={clickDislikes}
       style={thumbAnimation}
       className="dislike-button flex gap-1 items-center"
       disabled={toDisable}

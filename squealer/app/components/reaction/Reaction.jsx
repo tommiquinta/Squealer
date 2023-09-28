@@ -1,7 +1,6 @@
 'use client'
 import LikeButton from './LikeButton.jsx';
 import DislikeButton from './DisLikeButton.jsx';
-import dynamic from 'next/dynamic.js';
 import { useEffect, useState } from 'react';
 
 function Reaction({ numLikes, numDislikes, hasLiked, hasDisliked, like, dislike, disable }) {
@@ -11,11 +10,12 @@ function Reaction({ numLikes, numDislikes, hasLiked, hasDisliked, like, dislike,
 
     function handleDislike(isDiliked){
         if(isDiliked){
-            //console.log("qui gestisci che deve aggiungere un dislike");
+            console.log("qui gestisci che deve aggiungere un dislike");
             //aggiungi dislike
-            handleLike(false)
+            setIsDisliked(true);
+            handleLike(false);
         } else {
-         //   console.log("qui gestisci il fatto che ha tolto il dislike");
+            console.log("qui gestisci il fatto che ha tolto il dislike");
             //rimuovi dislike
             setIsDisliked(false);
             console.log("dislike: "+isDiliked);
@@ -24,11 +24,12 @@ function Reaction({ numLikes, numDislikes, hasLiked, hasDisliked, like, dislike,
 
     function handleLike(isLiked){
         if(isLiked){
-          //  console.log("qui gestisci che deve aggiungere un like");
+            console.log("qui gestisci che deve aggiungere un like");
             //aggiungi like
+            setIsLiked(true)
             handleDislike(false)
         } else {
-         //   console.log("qui gestisci il fatto che ha tolto il like");
+           console.log("qui gestisci il fatto che ha tolto il like");
             //rimuovi like
             setIsLiked(false);
             console.log("like: "+isLiked);
@@ -105,14 +106,14 @@ function Reaction({ numLikes, numDislikes, hasLiked, hasDisliked, like, dislike,
         <div className='w-full h-[30px] gap-2 flex items-center'>
             <LikeButton
                 hasLiked={isLiked}
-                handleLikes={() => handleLike(!isLiked)}
+                handleLikes={handleLike}
                 count = {numLikes} 
                 toDisable={disable}
                />
             <DislikeButton
                 key={isDisliked}
                 hasDisliked={isDisliked}
-                handleDislike={() => handleDislike(!isDisliked)} 
+                handleDislike={handleDislike} 
                 count={numDislikes}
                 toDisable={disable}/>
             {/* inserisci views */}

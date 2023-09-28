@@ -1,31 +1,24 @@
 'use client'
 
-import React, { useEffect, useState } from 'react';
 import { useSpring, animated } from 'react-spring';
 import { FaThumbsUp } from 'react-icons/fa';
 import '../../../styles/LikeButton.css';
 
 
 function LikeButton({ hasLiked, handleLikes, count, toDisable }) {
-    const [active, setActive] = useState();
-
-    useEffect(() => {
-        setActive(hasLiked);
-    }, [hasLiked]);
 
     const thumbAnimation = useSpring({
-        transform: active ? 'scale(1.2)' : 'scale(1)',
-        color: active ? 'green' : 'gray',
+        transform: hasLiked ? 'scale(1.2)' : 'scale(1)',
+        color: hasLiked ? 'green' : 'gray',
     });
 
     function clickLike(){ 
-        setActive(active => !active);
-        handleLikes(!active);
+        handleLikes(!hasLiked);
     }
 
     return (
         <animated.button
-            onClick={() => clickLike()}
+            onClick={clickLike}
             style={thumbAnimation}
             className="like-button flex gap-1 items-center"
             disabled={toDisable}
