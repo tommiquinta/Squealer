@@ -3,6 +3,8 @@ import ProfilePage from '../../Components/profile/ProfilePage'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { Suspense } from 'react';
+import Preloader from '../../Components/Preloader';
 
 export default async function Username({ params }) {
   const supabase = createServerComponentClient({ cookies })
