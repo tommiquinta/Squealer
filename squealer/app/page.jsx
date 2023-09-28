@@ -44,7 +44,6 @@ export default async function Home () {
     // hasLiked (boolean true se l'utente ha messo like), hasDisliked (boolean true se l'utente ha messo dislike)
   }
 
-  console.log(userObj)
 
   return (
     <>

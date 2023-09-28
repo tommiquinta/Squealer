@@ -4,7 +4,7 @@ import moment from 'moment'
 import Reaction from '../reaction/Reaction'
 import Avatar from '../Avatar'
 import Link from 'next/link'
-import Media from '../media/Media'
+import Media from './Media'
 
 export default function PostCard({ post }) {
   const uploads = post?.photos
