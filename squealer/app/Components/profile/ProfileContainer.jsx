@@ -6,7 +6,7 @@ import SectionButton from './SectionButton'
 import DestinationRoutes from '../layout/DestinationRoutes'
 import { BrowserRouter } from 'react-router-dom'
 
-export default function ProfileContainer ({
+export default function ProfileContainer({
   squeals,
   user,
   isMyUser,
@@ -53,7 +53,7 @@ export default function ProfileContainer ({
                   <SectionButton
                     name={'Squeals'}
                     isSelected={true}
-                    destination={basename+'/allsqueals'}
+                    destination={basename + '/allsqueals'}
                     icon={
                       <svg
                         xmlns='http://www.w3.org/2000/svg'
@@ -78,7 +78,7 @@ export default function ProfileContainer ({
                     <SectionButton
                       name={'Private Channels'}
                       isSelected={false}
-                      destination={basename+'/channels'}
+                      destination={basename + '/channels'}
                       icon={
                         <svg
                           xmlns='http://www.w3.org/2000/svg'
@@ -105,7 +105,7 @@ export default function ProfileContainer ({
                     <SectionButton
                       name={'Settings'}
                       isSelected={false}
-                      destination={basename+'/settings'}
+                      destination={basename + '/settings'}
                       icon={
                         <svg
                           xmlns='http://www.w3.org/2000/svg'

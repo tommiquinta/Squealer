@@ -3,8 +3,8 @@ import { cookies } from 'next/headers'
 import Card from './Components/Card'
 import Avatar from './Components/Avatar'
 
-export default function NewTweet ({ profile }) {
-  async function addTweet (formData) {
+export default function NewTweet({ profile }) {
+  async function addTweet(formData) {
     'use server'
     const content = formData.get('content')
     const supabase = createServerComponentClient({ cookies })
@@ -37,18 +37,18 @@ export default function NewTweet ({ profile }) {
           />
         </div>
         <div className='grow text-right mt-2'>
-        <button
+          <button
           /*           onClick={createPost}
            */ className='bg-blue-500 text-white px-6 py-1 rounded-md'
-          disabled={daily_quota < 0}
-        >
-          Squeal
-        </button>
-      </div>
+            disabled={daily_quota < 0}
+          >
+            Squeal
+          </button>
+        </div>
 
       </Card>
 
-      
+
     </div>
   )
 }

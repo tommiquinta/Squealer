@@ -5,12 +5,12 @@ import { useState } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Preloader from '../Preloader'
 
-export default function UpdateImgBtn () {
+export default function UpdateImgBtn() {
   const supabase = createClientComponentClient()
   const session = useSession()
   const [isUploading, setIsUploading] = useState(false)
 
-  async function updateAvatar (ev) {
+  async function updateAvatar(ev) {
     try {
       const file = ev.target.files?.[0]
       if (file) {

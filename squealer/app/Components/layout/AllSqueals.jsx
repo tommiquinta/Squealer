@@ -1,4 +1,3 @@
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import PostCard from "../media/PostCard";
 
 export default function AllSqueals({squeals}){

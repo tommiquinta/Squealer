@@ -5,7 +5,7 @@ import Card from '../Card'
 import ModeratorSection from './ModeratorSection'
 import Settings from '../profile/Settings'
 
-export default function DestinationRoutes ({ user, squeals, settings }) {
+export default function DestinationRoutes({ user, squeals, settings }) {
   return (
     <Routes>
       <Route
