@@ -1,10 +1,13 @@
+"use client"
 import Card from '../Card'
 import moment from 'moment'
 import Reaction from '../reaction/Reaction'
 import Avatar from '../Avatar'
 import Link from 'next/link'
+import Media from '../media/Media'
 
-export default function PostCard ({ post }) {
+export default function PostCard({ post }) {
+  const uploads = post?.photos
   return (
     <Card>
       <div className='flex gap-3'>
@@ -32,42 +35,19 @@ export default function PostCard ({ post }) {
 
       <div className='my-4'>
         <p className='my-3 text-md'>{post?.content}</p>
-        {/*
-        <div className=''>
-          {photos.length > 0 && (
-            <div className='mt-4 flex justify-center items-center'>
-              {photos.length === 4 ? (
-                <table className="w-full">
-                  <tbody>
-                    <tr>
-                      <td className="p-2">
-                        <img src={photos[0]} className="w-full h-auto rounded-md object-cover" alt="" />
-                      </td>
-                      <td className="p-2">
-                        <img src={photos[1]} className="w-full h-auto rounded-md object-cover" alt="" />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="p-2">
-                        <img src={photos[2]} className="w-full h-auto rounded-md object-cover" alt="" />
-                      </td>
-                      <td className="p-2">
-                        <img src={photos[3]} className="w-full h-auto rounded-md object-cover" alt="" />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              ) : (
-                <div className='flex gap-2.5'>
-                  <div className='flex justify-center items-center'>
-                    <img src={photos[0]} className="w-auto rounded-md object-cover" alt="" />
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
- */}
+
+        {uploads?.length > 0 && (
+          <div
+            style={{
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: 'container',
+            }}
+            className='w-full h-full rounded-2xl bg-center'>
+
+            <Media uploads={uploads} />
+          </div>
+        )}
+
       </div>
 
       <div className=''>
