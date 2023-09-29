@@ -2,7 +2,7 @@
 
 import { BrowserRouter, Link } from 'react-router-dom'
 
-export default function SectionButton ({ name, destination, icon, isSelected }) {
+export default function SectionButton({ name, destination, icon, isSelected }) {
   const selected = 'bg-blue w-[5px]'
 
   return (

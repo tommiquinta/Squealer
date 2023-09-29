@@ -6,10 +6,10 @@ export const metadata = {
     'La nuova versione di Squealer, il social network per eccellenza.'
 }
 
-export default function RootLayout ({ children }) {
+export default function RootLayout({ children }) {
   return (
     <html lang='en'>
-    {/*   {}
+      {/*   {}
       <head /> */}
       <body className='md:mx-[15%] 2xl:mx-[20%] flex mt-4 gap-9'>{children}</body>
     </html>

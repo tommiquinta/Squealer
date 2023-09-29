@@ -3,7 +3,7 @@
 import Card from '../Card'
 import Avatar from '../Avatar'
 
-export default function ChannelContainer ({ channelInfo, channelHandle }) {
+export default function ChannelContainer({ channelInfo, channelHandle }) {
   return (
     <div className='ml-8 left-1/4 relative'>
       <Card noPadding={true}>

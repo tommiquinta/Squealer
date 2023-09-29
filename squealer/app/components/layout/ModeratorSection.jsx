@@ -2,7 +2,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import Card from "../Card";
 import PublicChannelsWidget from "./PublicChannelsWidget";
 
-export default async function ModeratorSection(){
+export default async function ModeratorSection() {
 
     const supabase = createServerComponentClient();
 
@@ -11,12 +11,12 @@ export default async function ModeratorSection(){
     const squeals = resultSqueals.data;
     //visualizza trend
 
-    return(
+    return (
         <div>
             <Card>
                 <p>qui canali pubblici</p>
-                {squeals && squeals.map( publicChannel =>
-                        <PublicChannelsWidget channel={publicChannel}/>
+                {squeals && squeals.map(publicChannel =>
+                    <PublicChannelsWidget channel={publicChannel} />
                 )}
             </Card>
             <Card>

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export default function PublicChannelsWidget ({ channel }) {
+export default function PublicChannelsWidget({ channel }) {
   return (
     <div className='items-center'>
       <Link href={`/channels/${channel.id}`}>

@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 import ProfileContainer from './ProfileContainer'
 
 
-export default async function ProfilePage ({ children, profile, isMyUser }) {
+export default async function ProfilePage({ children, profile, isMyUser }) {
   const supabase = createServerComponentClient({ cookies })
   const {
     data: { session }
@@ -33,8 +33,8 @@ export default async function ProfilePage ({ children, profile, isMyUser }) {
   })
 
 
-  var moderator =false;
-  if(isMyUser){
+  var moderator = false;
+  if (isMyUser) {
     moderator = await supabase.from('moderators').select('*').eq('username', user.username);
   }
 

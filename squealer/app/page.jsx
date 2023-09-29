@@ -12,7 +12,7 @@ import Reaction from './components/reaction/Reaction'
 
 //const inter = Inter({ subsets: ['latin'] })
 
-export default async function Home () {
+export default async function Home() {
   // Crea un oggetto supabase utilizzando createServerComponentClient e passa l'oggetto cookies come argomento
   const supabase = createServerComponentClient({ cookies })
 
@@ -25,7 +25,7 @@ export default async function Home () {
   var userObj = null //oggetto per passare le informazioni dell'user ai figli della home
 
   var squeals = null
-  async function fetchPosts () {
+  async function fetchPosts() {
     await supabase.rpc('get_public_only')
   }
   const publicSqueals = await supabase.rpc('get_public_only')
@@ -49,7 +49,7 @@ export default async function Home () {
   }
 
   //queste due necessitano di un form -> server actions
-  async function addLike(post_id){
+  async function addLike(post_id) {
     'use server';
     await supabase.rpc('add_likes', {
       postid: post_id,
@@ -58,14 +58,14 @@ export default async function Home () {
     return null;
   }
 
-  async function addDislike(post_id){
+  async function addDislike(post_id) {
     'use server';
     await supabase.rpc('add_dislikes', {
       postid: post_id,
       userid: session?.user.id
     });
     return null;
-  } 
+  }
 
   return (
     <>

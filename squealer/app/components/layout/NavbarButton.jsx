@@ -1,9 +1,10 @@
 'use client'
+
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-function NavbarButton ({ name, url, icon, logout }) {
+function NavbarButton({ name, url, icon, logout }) {
   var pathname = usePathname()
   var isActive = pathname === url
 
@@ -14,7 +15,7 @@ function NavbarButton ({ name, url, icon, logout }) {
 
   const supabase = createClientComponentClient()
 
-  async function handleSignOut () {
+  async function handleSignOut() {
     await supabase.auth.signOut()
     location.reload()
   }

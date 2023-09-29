@@ -2,7 +2,7 @@
 
 import { useSpring, animated } from 'react-spring';
 import { FaThumbsDown } from 'react-icons/fa';
-import '../../../styles/DisLikeButton.css';
+import '/styles/DisLikeButton.css';
 
 
 
@@ -15,7 +15,7 @@ function DisLikeButton({ hasDisliked, handleDislike, count, toDisable }) {
   function clickDislikes() {
     handleDislike(!hasDisliked);
   }
- 
+
   return (
     <animated.button
       onClick={clickDislikes}

@@ -1,12 +1,13 @@
 //pagina che visualizza l'elenco di tutti gli utenti
 //vecchia userList
+
+import Preloader from '../components/Preloader'
+import UsersList from '../components/profile/UsersList'
+import NavigationBar from '../components/layout/Navbar'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import UsersList from '../Components/profile/UsersList'
-import NavigationBar from '../Components/layout/Navbar'
 import { Suspense } from 'react'
-import Preloader from '../Components/Preloader'
 
 export default async function UsersListPage() {
   const supabase = createServerComponentClient({ cookies })
@@ -33,7 +34,7 @@ export default async function UsersListPage() {
 
   return (
     <>
-      <Suspense fallback={<Preloader />}>
+      <Suspense fallback={<Preloader/>}>
         <NavigationBar
           hasLoggedIn={true}
           sessionUsername={username?.data[0].username}

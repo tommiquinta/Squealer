@@ -1,4 +1,5 @@
 'use client'
+
 import { Route, Routes } from 'react-router-dom'
 import AllSqueals from './AllSqueals'
 import Card from '../Card'

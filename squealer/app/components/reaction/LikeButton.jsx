@@ -2,7 +2,7 @@
 
 import { useSpring, animated } from 'react-spring';
 import { FaThumbsUp } from 'react-icons/fa';
-import '../../../styles/LikeButton.css';
+import '/styles/LikeButton.css';
 
 
 function LikeButton({ hasLiked, handleLikes, count, toDisable }) {
@@ -12,7 +12,7 @@ function LikeButton({ hasLiked, handleLikes, count, toDisable }) {
         color: hasLiked ? 'green' : 'gray',
     });
 
-    function clickLike(){ 
+    function clickLike() {
         handleLikes(!hasLiked);
     }
 

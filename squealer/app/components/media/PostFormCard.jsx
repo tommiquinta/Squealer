@@ -1,4 +1,5 @@
 'use client'
+
 import { useEffect, useState } from 'react'
 import { cookies } from 'next/navigation'
 import Avatar from '../Avatar'
@@ -6,7 +7,7 @@ import Card from '../Card'
 import Preloader from '../Preloader'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
-export default function PostFormCard ({ profile, onPost }) {
+export default function PostFormCard({ profile, onPost }) {
   const [daily_quota, setDaily_quota] = useState()
   const [uploads, setUploads] = useState([])
   const [isUploading, setIsUploading] = useState(false)
@@ -18,7 +19,7 @@ export default function PostFormCard ({ profile, onPost }) {
     setDaily_quota(profile.daily_quota)
   }, [profile])
 
-  async function createPost () {
+  async function createPost() {
     if (content && content.trim() !== '') {
       if (content.includes('@')) {
         const regex = /@(\w+)/
@@ -129,7 +130,7 @@ export default function PostFormCard ({ profile, onPost }) {
     }
   }
 
-  async function addPhotos (ev) {
+  async function addPhotos(ev) {
     const files = ev.target.files
     if (files.length > 0) {
       setIsUploading(true)
@@ -303,9 +304,8 @@ export default function PostFormCard ({ profile, onPost }) {
 
           <div>
             <a
-              className={`flex gap-1 ml-8 ${
-                daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'
-              }`}
+              className={`flex gap-1 ml-8 ${daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'
+                }`}
             >
               Daily Quota: {daily_quota}
             </a>

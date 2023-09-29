@@ -7,37 +7,37 @@ import Reaction from '../reaction/Reaction';
 
 
 export default async function PublicChannelsPost(
-  { post, disableReaction}
+  { post, disableReaction }
 ) {
-    const supabase = createServerComponentClient({ cookies });
+  const supabase = createServerComponentClient({ cookies });
 
-    //se è un canale, metto le info del canale
-    var info = null;
-    if(post.channel_id == null){
-        info = await supabase.from('profiles').select('username, avatar').eq('uuid', post.author);
-    } else {
-      info = await supabase.from('public_channels').select("name, avatar").eq('id', post.channel_id);
-    }
-    info = info.data[0];
+  //se è un canale, metto le info del canale
+  var info = null;
+  if (post.channel_id == null) {
+    info = await supabase.from('profiles').select('username, avatar').eq('uuid', post.author);
+  } else {
+    info = await supabase.from('public_channels').select("name, avatar").eq('id', post.channel_id);
+  }
+  info = info.data[0];
 
-   return (
+  return (
     <Card>
       <div className='flex gap-3'>
         <div>
-{/*           <Link href={'/profile/' + authorProfiles?.id}>
+          {/*           <Link href={'/profile/' + authorProfiles?.id}>
  */}            <span className='cursor-pointer'>
-              <Avatar url={info?.avatar} />
-            </span>
-{/*           </Link>
+            <Avatar url={info?.avatar} />
+          </span>
+          {/*           </Link>
  */}        </div>
         <div className='flex flex-col'>
           <p>
-{/*             <Link href={'/profile/' + authorProfiles?.id}>
+            {/*             <Link href={'/profile/' + authorProfiles?.id}>
  */}              <span className='font-semibold hover:underline cursor-pointer '>
-                {info?.name ? info.name : info.username}
-              </span>{' '}
-              shared a squeal
-{/*             </Link>
+              {info?.name ? info.name : info.username}
+            </span>{' '}
+            shared a squeal
+            {/*             </Link>
  */}          </p>
           <p className='text-gray-500 text-sm'>
             {moment(post.created_at).fromNow()}
@@ -45,7 +45,7 @@ export default async function PublicChannelsPost(
         </div>
       </div>
 
- <div className='my-4'>
+      <div className='my-4'>
         <p className='my-3 text-md'>
           {post.content}
         </p>
@@ -85,18 +85,18 @@ export default async function PublicChannelsPost(
           )}
         </div>
 
-    </div>
-      
-     <div className=''>
+      </div>
+
+      <div className=''>
         <Reaction
           id={post.id}
           numLikes={post.likes}
           numDislikes={post.dislikes}
-          disable = {disableReaction} 
+          disable={disableReaction}
         />
-      </div> 
+      </div>
 
     </Card >
   )
 }
-  
+

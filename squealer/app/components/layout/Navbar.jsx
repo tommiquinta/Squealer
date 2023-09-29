@@ -4,14 +4,14 @@ import Card from '../Card'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
-export default function NavigationBar ({
+export default function NavigationBar({
   hasLoggedIn,
   hidden,
   sessionUsername
 }) {
   var userpage = `/profiles/${sessionUsername}`
 
-  function handleClick () {
+  function handleClick() {
     redirect('/')
   }
 

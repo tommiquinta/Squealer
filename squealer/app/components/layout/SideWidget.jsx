@@ -1,7 +1,7 @@
 import Card from '../Card'
 import PublicChannelsWidget from './PublicChannelsWidget'
 
-export default function SideWidget ({ publicChannels }) {
+export default function SideWidget({ publicChannels }) {
   return (
     <Card>
       <h2 className='text-gray-500'>Public Channels</h2>

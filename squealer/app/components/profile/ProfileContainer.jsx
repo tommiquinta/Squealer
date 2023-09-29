@@ -1,4 +1,5 @@
 'use client'
+
 import Avatar from '../../components/Avatar'
 import Card from '../../components/Card'
 import Cover from './Cover'
@@ -6,7 +7,7 @@ import SectionButton from './SectionButton'
 import DestinationRoutes from '../layout/DestinationRoutes'
 import { BrowserRouter } from 'react-router-dom'
 
-export default function ProfileContainer ({
+export default function ProfileContainer({
   squeals,
   user,
   isMyUser,

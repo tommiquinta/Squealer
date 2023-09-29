@@ -3,7 +3,7 @@ import ChannelContainer from './ChannelContainer'
 import { cookies } from 'next/headers'
 import PostCard from '../media/PostCard'
 
-export default async function ChannelPage ({ channelId, children, user_uuid }) {
+export default async function ChannelPage({ channelId, children, user_uuid }) {
   var channelInfo = null
   var channelHandle = null
   const supabase = createClientComponentClient({ cookies })

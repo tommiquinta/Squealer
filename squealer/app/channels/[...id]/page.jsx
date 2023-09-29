@@ -1,9 +1,9 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
-import ChannelPage from '../../components/channel/ChannelPage'
-import NavigationBar from '../../components/layout/Navbar'
+import ChannelPage from '../components/channel/ChannelPage'
+import NavigationBar from '../components/layout/Navbar'
 
-export default async function Channel ({ children, params }) {
+export default async function Channel({ children, params }) {
   const channelId = params.id[0]
 
   const supabase = createServerComponentClient({ cookies })
