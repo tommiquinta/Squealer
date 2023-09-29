@@ -10,7 +10,6 @@ export default function NavigationBar ({
   sessionUsername
 }) {
   var userpage = `/profiles/${sessionUsername}`
-  console.log(userpage)
 
   function handleClick () {
     redirect('/')

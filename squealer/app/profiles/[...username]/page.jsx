@@ -1,10 +1,10 @@
-import NavigationBar from '../../Components/layout/Navbar'
+import NavigationBar from '../../components/layout/Navbar'
 import ProfilePage from '../../Components/profile/ProfilePage'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { Suspense } from 'react';
-import Preloader from '../../Components/Preloader';
+
 
 export default async function Username({ params }) {
   const supabase = createServerComponentClient({ cookies })
@@ -16,10 +16,8 @@ export default async function Username({ params }) {
   }
 
   //prendo l'username per creare la pagina profilo
-  var profile = params.username[0]
-  var loggedUserInfo = null
-
-  console.log('YOSHI? ' + profile)
+  var profile = params.username[0];
+  var loggedUserInfo = null;
 
   try {
     if (!loggedUserInfo) {

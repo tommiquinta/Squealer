@@ -1,12 +1,12 @@
 'use client'
-import Avatar from '../Avatar'
-import Card from '../Card'
+import Avatar from '../../components/Avatar'
+import Card from '../../components/Card'
 import Cover from './Cover'
 import SectionButton from './SectionButton'
 import DestinationRoutes from '../layout/DestinationRoutes'
 import { BrowserRouter } from 'react-router-dom'
 
-export default function ProfileContainer({
+export default function ProfileContainer ({
   squeals,
   user,
   isMyUser,
@@ -21,7 +21,7 @@ export default function ProfileContainer({
   console.log(basename)
 
   return (
-    <div className='ml-2 left-1/4 relative'>
+    <div className='ml-6 left-1/4 relative'>
       {/*       <BrowserRouter basename={basename}>
        */}{' '}
       <BrowserRouter>

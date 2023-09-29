@@ -1,16 +1,15 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
-import PostCard from './Components/media/PostCard'
-import PublicChannelsPost from './Components/media/PublicChannelsPost'
-import NavigationBar from './Components/layout/Navbar'
-import SideWidget from './Components/layout/SideWidget'
-import PostFormCard from './Components/media/PostFormCard'
+import PostCard from './components/media/PostCard'
+import PublicChannelsPost from './components/media/PublicChannelsPost'
+import NavigationBar from './components/layout/Navbar'
+import SideWidget from './components/layout/SideWidget'
+import PostFormCard from './components/media/PostFormCard'
 import { Suspense } from 'react'
-import Preloader from './Components/Preloader'
-
+import Preloader from './components/Preloader'
 //const inter = Inter({ subsets: ['latin'] })
 
-export default async function Home() {
+export default async function Home () {
   // Crea un oggetto supabase utilizzando createServerComponentClient e passa l'oggetto cookies come argomento
   const supabase = createServerComponentClient({ cookies })
 
@@ -23,7 +22,7 @@ export default async function Home() {
   var userObj = null //oggetto per passare le informazioni dell'user ai figli della home
 
   var squeals = null
-  async function fetchPosts() {
+  async function fetchPosts () {
     await supabase.rpc('get_public_only')
   }
   const publicSqueals = await supabase.rpc('get_public_only')
@@ -46,17 +45,16 @@ export default async function Home() {
     // hasLiked (boolean true se l'utente ha messo like), hasDisliked (boolean true se l'utente ha messo dislike)
   }
 
-
   return (
     <>
-      <Suspense fallback={<Preloader />} >
+      <Suspense fallback={<Preloader />}>
         <NavigationBar
           hasLoggedIn={hasLoggedIn}
           sessionUsername={hasLoggedIn ? userObj.data[0].username : null}
         />
 
         {/* questi non vanno qui <AuthButtonServer /> */}
-        <div className=' ml-2 max-w-4xl gap-4 left-1/4 relative md:ml-0 md:flex md:w-10/12 lg:w-6/12 '>
+        <div className=' ml-6 max-w-4xl gap-4 left-1/4 relative md:ml-0 md:flex md:w-10/12 lg:w-6/12 '>
           <div className={'mx-2 relative top-36 md:top-0 md:mx-0 md:w-full'}>
             {!hasLoggedIn &&
               squeals?.data?.map(publicPost => (
