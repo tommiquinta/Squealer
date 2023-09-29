@@ -1,12 +1,11 @@
 "use client"
 import Card from '../Card'
 import moment from 'moment'
-import Reaction from '../reaction/Reaction'
 import Avatar from '../Avatar'
 import Link from 'next/link'
 import Media from './Media'
 
-export default function PostCard({ post }) {
+export default function PostCard({ post, children }) {
   const uploads = post?.photos
   return (
     <Card>
@@ -51,14 +50,7 @@ export default function PostCard({ post }) {
       </div>
 
       <div className=''>
-        <Reaction
-          id={post.id}
-          numLikes={post.likes}
-          numDislikes={post.dislikes}
-          hasLiked={post.hasLiked}
-          hasDisliked={post.hasDisliked}
-          disable={false}
-        />
+        {children}
       </div>
     </Card>
   )

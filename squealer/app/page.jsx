@@ -1,3 +1,4 @@
+'use server';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import PostCard from './components/media/PostCard'
@@ -7,6 +8,8 @@ import SideWidget from './components/layout/SideWidget'
 import PostFormCard from './components/media/PostFormCard'
 import { Suspense } from 'react'
 import Preloader from './components/Preloader'
+import Reaction from './components/reaction/Reaction'
+
 //const inter = Inter({ subsets: ['latin'] })
 
 export default async function Home () {
@@ -45,6 +48,25 @@ export default async function Home () {
     // hasLiked (boolean true se l'utente ha messo like), hasDisliked (boolean true se l'utente ha messo dislike)
   }
 
+  //queste due necessitano di un form -> server actions
+  async function addLike(post_id){
+    'use server';
+    await supabase.rpc('add_likes', {
+      postid: post_id,
+      userid: session?.user.id
+    });
+    return null;
+  }
+
+  async function addDislike(post_id){
+    'use server';
+    await supabase.rpc('add_dislikes', {
+      postid: post_id,
+      userid: session?.user.id
+    });
+    return null;
+  } 
+
   return (
     <>
       <Suspense fallback={<Preloader />}>
@@ -70,7 +92,18 @@ export default async function Home () {
                 <PostFormCard profile={userObj.data[0]} />
 
                 {squeals.data.map(post => (
-                  <PostCard key={post.id} post={post} />
+                  <PostCard key={post.id} post={post}>
+                    <Reaction
+                      id={post.id}
+                      numLikes={post.likes}
+                      numDislikes={post.dislikes}
+                      hasLiked={post.hasLiked}
+                      hasDisliked={post.hasDisliked}
+                      //addDislike={addDislike}
+                      //addLike={addLike}
+                      disable={false}
+                    />
+                  </PostCard>
                 ))}
               </div>
             )}

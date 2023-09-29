@@ -3,11 +3,8 @@ import LikeButton from './LikeButton.jsx';
 import DislikeButton from './DisLikeButton.jsx';
 import { useEffect, useState } from 'react';
 
-function Reaction({ numLikes, numDislikes, hasLiked, hasDisliked, disable, addLike, addDislike, removeLike, removeDislike }) {
+function Reaction({id, numLikes, numDislikes, hasLiked, hasDisliked, disable, addLike, addDislike, removeLike, removeDislike }) {
 
-    //aggiungi e rimuovi like/dislike deve stare in un server component e passare la function alla reaction,
-    //posso metterlo nel post ma non so se convenga
-    //va passato nella home fino alla reaction, ma devo fare una catena quindi devo vedere se funziona
     const [isLiked, setIsLiked] = useState(hasLiked ? true : false)
     const [isDisliked, setIsDisliked] = useState(hasDisliked ? true : false)
     const [counterLikes, setCounterLikes] = useState(numLikes);
@@ -17,6 +14,8 @@ function Reaction({ numLikes, numDislikes, hasLiked, hasDisliked, disable, addLi
         if(toDislike){
             console.log("qui gestisci che deve aggiungere un dislike");
             //aggiungi dislike
+            //addDislike(id);
+            
             setIsDisliked(true);
             setCounterDislikes(counterDislikes => counterDislikes+1 );
             handleLike(false);
@@ -34,6 +33,7 @@ function Reaction({ numLikes, numDislikes, hasLiked, hasDisliked, disable, addLi
         if(toLike){
             console.log("qui gestisci che deve aggiungere un like");
             //aggiungi like
+            //addLike(id);
             setIsLiked(true)
             setCounterLikes(counterLikes => counterLikes+1);
             handleDislike(false)
