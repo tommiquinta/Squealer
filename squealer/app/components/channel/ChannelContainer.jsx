@@ -2,8 +2,13 @@
 
 import Card from '../Card'
 import Avatar from '../Avatar'
+import PostCard from '../media/PostCard'
 
-export default function ChannelContainer({ channelInfo, channelHandle }) {
+export default function ChannelContainer ({
+  channelInfo,
+  channelHandle,
+  squeals
+}) {
   return (
     <div className='ml-8 left-1/4 relative'>
       <Card noPadding={true}>
@@ -28,6 +33,22 @@ export default function ChannelContainer({ channelInfo, channelHandle }) {
           {channelInfo?.description}
         </div>
       </Card>
+      {squeals.data ? (
+        <div>
+          <div className='pb-2 font-sans text-sm text-center text-gray-400'>
+            Here below are gonna be listed all squeals shared to this channel.
+          </div>
+          <div>
+            {squeals?.data.map(post => (
+              <PostCard key={post.id} post={post} />
+            ))}
+          </div>
+        </div>
+      ) : (
+         <div className='pb-2 font-sans text-sm text-center text-gray-400'>
+          All quite here, for the moment.
+        </div>
+      )}
     </div>
   )
 }
