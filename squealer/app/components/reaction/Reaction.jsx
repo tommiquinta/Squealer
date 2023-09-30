@@ -3,10 +3,10 @@
 import LikeButton from './LikeButton.jsx';
 import DislikeButton from './DisLikeButton.jsx';
 import { useState } from 'react';
-import {addLike, addDislike} from '../../../helper/reactionServerActions.js';
+import {addLike, addDislike, removeLike, removeDislike} from '../../../helper/reactionServerActions.js';
 
 
-function Reaction({id, numLikes, numDislikes, hasLiked, hasDisliked, disable, removeLike, removeDislike }) {
+function Reaction({id, numLikes, numDislikes, hasLiked, hasDisliked, disable}) {
 
     const [isLiked, setIsLiked] = useState(hasLiked ? true : false)
     const [isDisliked, setIsDisliked] = useState(hasDisliked ? true : false)
@@ -16,41 +16,47 @@ function Reaction({id, numLikes, numDislikes, hasLiked, hasDisliked, disable, re
     //like
     async function handleLike(toLike){
         if(toLike){
-            console.log("qui gestisci che deve aggiungere un like");
             if(!isLiked){
                 setIsLiked(true);
                 setCounterLikes(counterLikes => counterLikes + 1);
                 handleDislike(false);   
                 //aggiungi like
                 await addLike(id); 
-            }  
+            } else {
+                setCounterLikes(counterLikes => counterLikes - 1);
+                setIsLiked(false);
+                //rimuovi like
+                await removeLike(id);
+            }
         } else {
-            console.log("qui gestisci il fatto che ha tolto il like");
-            //rimuovi like
+            //rimuovi solo grafica, fa da solo lato db
             if (isLiked) {
                 setCounterLikes(counterLikes => counterLikes - 1);
-            }
-            setIsLiked(false);
+                setIsLiked(false);
+            }   
         }
     }
     //dislike
     async function handleDislike(toDislike){
         if(toDislike){
-            console.log("qui gestisci che deve aggiungere un dislike");
             if(!isDisliked){
                 setIsDisliked(true);
                 setCounterDislikes(counterDislikes => counterDislikes + 1);
                 handleLike(false);  
                 //aggiungi dislike
                 await addDislike(id);  
-            }    
+            } else {
+                setCounterDislikes(counterDislikes => counterDislikes - 1);
+                setIsDisliked(false);
+                //rimuovi dislike
+                await removeDislike(id);
+            }   
         } else {
-            console.log("qui gestisci il fatto che ha tolto il dislike");
-            //rimuovi dislike
+            //rimozione gestita in lato db
             if (isDisliked) {
                 setCounterDislikes(counterDislikes => counterDislikes - 1);
+                setIsDisliked(false);
             }
-            setIsDisliked(false);
         }
     }
 

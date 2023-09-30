@@ -12,10 +12,6 @@ function LikeButton({ hasLiked, handleLikes, count, toDisable }) {
         color: hasLiked ? 'green' : 'gray',
     });
 
-    function clickLike() {
-        handleLikes(!hasLiked);
-    }
-
     return (
             <animated.button
                 style={thumbAnimation}
