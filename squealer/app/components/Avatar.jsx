@@ -1,6 +1,6 @@
 import UpdateImgBtn from './profile/UpdateImgBtn'
 
-export default function Avatar({ url, size, editable, onChange }) {
+export default function Avatar ({ url, size, editable, onChange }) {
   let sizeWidth = 'w-12 h-12'
   if (size === 'big') {
     sizeWidth = 'w-24 h-24'

@@ -6,8 +6,9 @@ import Avatar from '../Avatar'
 import Card from '../Card'
 import Preloader from '../Preloader'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import Squeal from './Squeal'
 
-export default function PostFormCard({ profile, onPost }) {
+export default function PostFormCard ({ profile, onPost }) {
   const [daily_quota, setDaily_quota] = useState()
   const [uploads, setUploads] = useState([])
   const [isUploading, setIsUploading] = useState(false)
@@ -19,7 +20,7 @@ export default function PostFormCard({ profile, onPost }) {
     setDaily_quota(profile.daily_quota)
   }, [profile])
 
-  async function createPost() {
+  async function createPost () {
     if (content && content.trim() !== '') {
       if (content.includes('@')) {
         const regex = /@(\w+)/
@@ -113,7 +114,7 @@ export default function PostFormCard({ profile, onPost }) {
                 .then(response => {
                   if (!response.error) {
                     setDaily_quota(newDailyQuota) // update local dailyQuota
-                    location.reload(); // penso si possa fare meglio di così
+                    location.reload() // penso si possa fare meglio di così
                   } else {
                     console.error('daily quota update error.', response.error)
                   }
@@ -130,7 +131,7 @@ export default function PostFormCard({ profile, onPost }) {
     }
   }
 
-  async function addPhotos(ev) {
+  async function addPhotos (ev) {
     const files = ev.target.files
     if (files.length > 0) {
       setIsUploading(true)
@@ -304,21 +305,18 @@ export default function PostFormCard({ profile, onPost }) {
 
           <div>
             <a
-              className={`flex gap-1 ml-8 ${daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'
-                }`}
+              className={`flex gap-1 ml-8 ${
+                daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'
+              }`}
             >
               Daily Quota: {daily_quota}
             </a>
           </div>
 
           <div className='grow text-right'>
-            <button
-              onClick={createPost}
-              className='bg-blue-500 text-white px-6 py-1 rounded-md'
-              disabled={daily_quota < 0}
-            >
+            <Squeal user_id={profile.id} content={content} photos={null}>
               Squeal
-            </button>
+            </Squeal>
           </div>
         </div>
       </Card>
