@@ -49,23 +49,7 @@ export default async function Home() {
   }
 
   //queste due necessitano di un form -> server actions
-  async function addLike(post_id) {
-    'use server';
-    await supabase.rpc('add_likes', {
-      postid: post_id,
-      userid: session?.user.id
-    });
-    return null;
-  }
-
-  async function addDislike(post_id) {
-    'use server';
-    await supabase.rpc('add_dislikes', {
-      postid: post_id,
-      userid: session?.user.id
-    });
-    return null;
-  }
+ 
 
   return (
     <>
@@ -97,10 +81,8 @@ export default async function Home() {
                       id={post.id}
                       numLikes={post.likes}
                       numDislikes={post.dislikes}
-                      hasLiked={post.hasLiked}
-                      hasDisliked={post.hasDisliked}
-                      //addDislike={addDislike}
-                      //addLike={addLike}
+                      hasLiked={post.hasliked}
+                      hasDisliked={post.hasdisliked}
                       disable={false}
                     />
                   </PostCard>

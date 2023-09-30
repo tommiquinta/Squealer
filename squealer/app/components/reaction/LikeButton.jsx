@@ -17,15 +17,15 @@ function LikeButton({ hasLiked, handleLikes, count, toDisable }) {
     }
 
     return (
-        <animated.button
-            onClick={clickLike}
-            style={thumbAnimation}
-            className="like-button flex gap-1 items-center"
-            disabled={toDisable}
-        >
-            <FaThumbsUp />
-            {count}
-        </animated.button>
+            <animated.button
+                style={thumbAnimation}
+                className="like-button flex gap-1 items-center"
+                disabled={toDisable}
+                type="submit" value={!hasLiked}
+            >
+                <FaThumbsUp />
+                {count}
+            </animated.button>
     );
 }
 

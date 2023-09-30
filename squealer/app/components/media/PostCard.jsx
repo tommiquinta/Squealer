@@ -7,7 +7,8 @@ import Link from 'next/link'
 import Media from './Media'
 
 export default function PostCard({ post, children }) {
-  const uploads = post?.photos
+  const uploads = post?.photos;
+  
   return (
     <Card>
       <div className='flex gap-3'>
