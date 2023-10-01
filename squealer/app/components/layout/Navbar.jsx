@@ -7,7 +7,8 @@ import Link from 'next/link'
 export default function NavigationBar ({
   hasLoggedIn,
   hidden,
-  sessionUsername
+  sessionUsername,
+  move
 }) {
   var userpage = `/profiles/${sessionUsername}`
 
@@ -19,8 +20,10 @@ export default function NavigationBar ({
     return <div></div>
   }
 
+  move = move ? 'md:left-[7%]' : '';
+
   return (
-    <Card isNavbar={true}>
+    <Card isNavbar={true} add={move}>
       <div className='px-4 py-2 w-screen md:w-fit '>
         <div className='flex gap-2 leading-9 justify-center mb-3'>
           <Link href='/'>

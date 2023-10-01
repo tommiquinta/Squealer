@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom'
 import AllSqueals from './AllSqueals'
 import Card from '../Card'
 import Settings from '../profile/Settings'
+import ModeratorBtn from '../profile/ModeratorBtn'
 
 export default function DestinationRoutes({ user, squeals, isMyUser }) {
   return (
