@@ -4,7 +4,6 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-
 export default async function Username({ params }) {
   const supabase = createServerComponentClient({ cookies })
   const {

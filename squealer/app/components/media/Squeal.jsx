@@ -6,9 +6,9 @@ import { createDirectMessage } from '../../../helper/squealsServerActions'
 
 function Squeal ({ content, photos }) {
   function createSqueal () {
-    if (content.includes('@')) {
+    if (content?.includes('@')) {
       createDM()
-    } else if (content.includes('§')) {
+    } else if (content?.includes('§')) {
       createChannelPost()
     } else {
       createGenericSqueal()

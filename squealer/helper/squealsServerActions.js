@@ -27,7 +27,6 @@ export async function createPost (
   return null
 }
 
-
 /*
  //tolto da PstFormCard
   async function createPost () {
