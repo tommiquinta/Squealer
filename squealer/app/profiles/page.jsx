@@ -9,7 +9,7 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
 
-export default async function UsersListPage() {
+export default async function UsersListPage () {
   const supabase = createServerComponentClient({ cookies })
 
   const {
@@ -34,7 +34,7 @@ export default async function UsersListPage() {
 
   return (
     <>
-      <Suspense fallback={<Preloader/>}>
+      <Suspense fallback={<Preloader />}>
         <NavigationBar
           hasLoggedIn={true}
           sessionUsername={username?.data[0].username}
@@ -42,6 +42,5 @@ export default async function UsersListPage() {
         <UsersList profiles={profiles.data} />
       </Suspense>
     </>
-
   )
 }
