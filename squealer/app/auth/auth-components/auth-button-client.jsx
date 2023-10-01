@@ -1,7 +1,7 @@
 "use client"
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
-import { redirect, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import Card from '../../components/Card';
 import LoginForm from '../../components/login-form/LoginForm';
 import { useState } from "react";
@@ -67,9 +67,6 @@ export default function AuthButtonClient({ session }) {
             return;
         }
 
-        console.log(email);
-        console.log(pw);
-
         const { data, error } = await supabase.auth.signInWithPassword({
             email: email,
             password: pw,
@@ -80,9 +77,26 @@ export default function AuthButtonClient({ session }) {
 
         if (error) {
             alert(error);
+        } 
+    }
+
+    async function loginMod(email, pw) {
+        if ((!email) || (!pw)) {
+            alert("Insert your credentials please")
+            return;
         }
 
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: pw,
+            options: {
+                redirectTo: "http://localhost:3000/auth/callback-moderator",
+            }
+        });
 
+        if (error) {
+            alert(error);
+        } 
     }
 
     if (session) {
@@ -97,7 +111,7 @@ export default function AuthButtonClient({ session }) {
 
             {showLogIn && (
                 <div className="py-3 w-10/12 mx-auto">
-                    <LoginForm logIn={login} />
+                    <LoginForm logIn={login} modLogIn={loginMod}/>
                     <p onClick={() => setShowLogin(false)} className="text-gray-400 text-center">You don't have an account? <u className="cursor-pointer text-socialBlue">Click here to sign up</u></p>
                 </div>
 

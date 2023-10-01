@@ -29,12 +29,7 @@ export default async function Username({ params }) {
   } catch (error) {
     return <p>Error! {error}</p>
   }
-  /* 
-  console.log('loggedUserInfo')
-  console.log(loggedUserInfo)
-  console.log('profile')
-  console.log(profile)
- */
+  
   return (
     <>
       <ProfilePage profile={profile} isMyUser={loggedUserInfo === profile}>

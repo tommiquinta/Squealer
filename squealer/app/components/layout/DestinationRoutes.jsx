@@ -3,10 +3,9 @@
 import { Route, Routes } from 'react-router-dom'
 import AllSqueals from './AllSqueals'
 import Card from '../Card'
-import ModeratorSection from './ModeratorSection'
 import Settings from '../profile/Settings'
 
-export default function DestinationRoutes({ user, squeals, settings }) {
+export default function DestinationRoutes({ user, squeals, isMyUser }) {
   return (
     <Routes>
       <Route
@@ -18,7 +17,8 @@ export default function DestinationRoutes({ user, squeals, settings }) {
         path={user + `/channels`}
         element={'Tommi devi inserire la gestione dei canali privati qui'}
       />
-      <Route
+      {isMyUser && (
+        <Route
         path={user + `/settings`}
         element={
           <Card>
@@ -26,8 +26,10 @@ export default function DestinationRoutes({ user, squeals, settings }) {
           </Card>
         }
       />
-
-      <Route index path={`/moderator`} element={<ModeratorSection />} />
+      )}
+      { isMyUser && (
+          <Route index path={user+`/moderator`} element={<ModeratorBtn />} />
+      )}
     </Routes>
   )
 }

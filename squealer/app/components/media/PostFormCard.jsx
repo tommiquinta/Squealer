@@ -7,6 +7,8 @@ import Card from '../Card'
 import Preloader from '../Preloader'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Squeal from './Squeal'
+import { createPost } from '../../../helper/squealsServerActions'
+
 
 export default function PostFormCard ({ profile, onPost }) {
   const [daily_quota, setDaily_quota] = useState()
@@ -20,114 +22,14 @@ export default function PostFormCard ({ profile, onPost }) {
     setDaily_quota(profile.daily_quota)
   }, [profile])
 
-  async function createPost () {
-    if (content && content.trim() !== '') {
-      if (content.includes('@')) {
-        const regex = /@(\w+)/
 
-        const match = regex.exec(content)
-        if (match) {
-          const receiverHandle = match[1]
-          supabase
-            .from('profiles')
-            .select()
-            .eq('username', receiverHandle)
-            .then(response => {
-              if (!response.error) {
-                supabase
-                  .from('direct_messages')
-                  .insert({
-                    author: profile.id,
-                    receiver: response.data[0].id,
-                    content: content,
-                    photos: uploads
-                  })
-                  .then(response => {
-                    if (!response.error) {
-                      setContent('')
-                      setUploads([])
-                    }
-                  })
-              } else {
-                console.log(response.error) // TO-DO: handle error
-              }
-            })
-        }
-      }
-
-      if (content.includes('§')) {
-        const regex = /§(\w+)/
-
-        const match = regex.exec(content)
-
-        if (match) {
-          const receiverHandle = match[1]
-
-          supabase
-            .from('public_channels')
-            .select()
-            .eq('handle', receiverHandle)
-            .then(response => {
-              if (!response.error) {
-                supabase
-                  .from('posts')
-                  .insert({
-                    author: profile.id,
-                    public_channel: response.data[0].id,
-                    content: content,
-                    photos: uploads
-                  })
-                  .then(response => {
-                    if (!response.error) {
-                      setContent('')
-                      setUploads([])
-                    }
-                  })
-              } else {
-                console.log(response.error) // TO-DO: handle error
-              }
-            })
-        }
-      } else {
-        // cheack if the post is not empty
-        supabase
-          .from('posts')
-          .insert({
-            author: profile.id, // in the database rules we have a check to control who actually clicks on "share"
-            content,
-            photos: uploads
-          })
-          .then(response => {
-            if (!response.error) {
-              setContent('')
-              setUploads([])
-
-              const newDailyQuota =
-                profile.daily_quota - content.length - uploads.length * 125
-
-              supabase
-                .from('profiles')
-                .update({
-                  daily_quota: newDailyQuota
-                })
-                .eq('id', profile.id)
-                .then(response => {
-                  if (!response.error) {
-                    setDaily_quota(newDailyQuota) // update local dailyQuota
-                    location.reload() // penso si possa fare meglio di così
-                  } else {
-                    console.error('daily quota update error.', response.error)
-                  }
-                })
-
-              if (onPost) {
-                onPost() // function to fill home with posts in index.js
-              }
-            }
-          })
-      }
-    } else {
+  async function createSqueal() {
+    if (!content) {
       alert("A squeal with no content is a little useless, isn't it?")
+      return
+    } else {
+      await createPost(content, photos, receiver_channel, receiver_user)
+      location.reload()
     }
   }
 
@@ -158,7 +60,7 @@ export default function PostFormCard ({ profile, onPost }) {
   return (
     <div className='mb-5'>
       <Card>
-        <div className='flex gap-3'>
+        <div className='flex gap-3 p-2'>
           {profile && <Avatar size={'medium'} url={profile.avatar} />}
           <textarea
             value={content}
@@ -234,7 +136,7 @@ export default function PostFormCard ({ profile, onPost }) {
           </div>
         )}
 
-        <div className='flex gap-6 items-center mt-2'>
+        <div className='flex gap-6 items-center my-3'>
           <div>
             <label className='flex gap-1'>
               <input
@@ -260,7 +162,7 @@ export default function PostFormCard ({ profile, onPost }) {
               Image
             </label>
           </div>
-          <div>
+        
             <button className='flex gap-1'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -277,8 +179,7 @@ export default function PostFormCard ({ profile, onPost }) {
               </svg>
               Video
             </button>
-          </div>
-          <div>
+         
             <button className='flex gap-1'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -301,24 +202,23 @@ export default function PostFormCard ({ profile, onPost }) {
               </svg>
               Location
             </button>
-          </div>
-
-          <div>
-            <a
-              className={`flex gap-1 ml-8 ${
+         
+            <label
+              className={`flex gap-1  ${
                 daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'
               }`}
             >
               Daily Quota: {daily_quota}
-            </a>
-          </div>
-
-          <div className='grow text-right'>
-            <Squeal user_id={profile.id} content={content} photos={null}>
+            </label>
+          
+        </div>
+        <div className='grow text-right'>
+        <form action={createSqueal}>
+            <Squeal >
               Squeal
             </Squeal>
+          </form>
           </div>
-        </div>
       </Card>
       <hr></hr>
     </div>
