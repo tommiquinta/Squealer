@@ -9,7 +9,6 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Squeal from './Squeal'
 import { createPost } from '../../../helper/squealsServerActions'
 
-
 export default function PostFormCard ({ profile, onPost }) {
   const [daily_quota, setDaily_quota] = useState()
   const [uploads, setUploads] = useState([])
@@ -21,17 +20,6 @@ export default function PostFormCard ({ profile, onPost }) {
   useEffect(() => {
     setDaily_quota(profile.daily_quota)
   }, [profile])
-
-
-  async function createSqueal() {
-    if (!content) {
-      alert("A squeal with no content is a little useless, isn't it?")
-      return
-    } else {
-      await createPost(content, photos, receiver_channel, receiver_user)
-      location.reload()
-    }
-  }
 
   async function addPhotos (ev) {
     const files = ev.target.files
@@ -162,63 +150,60 @@ export default function PostFormCard ({ profile, onPost }) {
               Image
             </label>
           </div>
-        
-            <button className='flex gap-1'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth='1.5'
-                stroke='currentColor'
-                className='w-6 h-6'
-              >
-                <path
-                  strokeLinecap='round'
-                  d='M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z'
-                />
-              </svg>
-              Video
-            </button>
-         
-            <button className='flex gap-1'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth='1.5'
-                stroke='currentColor'
-                className='w-6 h-6'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M15 10.5a3 3 0 11-6 0 3 3 0 016 0z'
-                />
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z'
-                />
-              </svg>
-              Location
-            </button>
-         
-            <label
-              className={`flex gap-1  ${
-                daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'
-              }`}
+
+          <button className='flex gap-1'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              viewBox='0 0 24 24'
+              strokeWidth='1.5'
+              stroke='currentColor'
+              className='w-6 h-6'
             >
-              Daily Quota: {daily_quota}
-            </label>
-          
+              <path
+                strokeLinecap='round'
+                d='M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z'
+              />
+            </svg>
+            Video
+          </button>
+
+          <button className='flex gap-1'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              viewBox='0 0 24 24'
+              strokeWidth='1.5'
+              stroke='currentColor'
+              className='w-6 h-6'
+            >
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M15 10.5a3 3 0 11-6 0 3 3 0 016 0z'
+              />
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z'
+              />
+            </svg>
+            Location
+          </button>
+
+          <label
+            className={`flex gap-1  ${
+              daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'
+            }`}
+          >
+            Daily Quota: {daily_quota}
+          </label>
         </div>
         <div className='grow text-right'>
-        <form action={createSqueal}>
-            <Squeal >
-              Squeal
-            </Squeal>
-          </form>
-          </div>
+          <Squeal content={content} photos={uploads}>
+            Squeal
+          </Squeal>
+        </div>
       </Card>
       <hr></hr>
     </div>
