@@ -26,20 +26,25 @@ export default async function Message ({ children, params }) {
     return <p>Error! {error}</p>
   }
 
+  var receiver_uuid = null
   try {
     recevier_info = await supabase
       .from('profiles')
-      .select('id')
+      .select()
       .eq('username', recevierHandle)
-    recevier_info = recevier_info.data[0].id
+    receiver_uuid = recevier_info.data[0].id
+
   } catch (error) {
     return <p>Error! {error}</p>
   }
 
+
   return (
     <PrivateMessagePage
       user_uuid={session.user.id}
-      reveiver_uuid={recevier_info}
+      reveiver_uuid={receiver_uuid}
+      receiver_handle={recevierHandle}
+      recevier_info={recevier_info.data}
     >
       <NavigationBar hasLoggedIn={true} sessionUsername={loggedUserInfo} />
     </PrivateMessagePage>

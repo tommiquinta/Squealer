@@ -7,20 +7,17 @@ import SectionButton from './SectionButton'
 import DestinationRoutes from '../layout/DestinationRoutes'
 import { BrowserRouter } from 'react-router-dom'
 
-export default function ProfileContainer({
+export default function ProfileContainer ({
   squeals,
   user,
   isMyUser,
   isModerator
 }) {
-
-
   const username = user?.username
   const basename = '/profiles/' + username
 
   return (
     <div className='ml-6 left-1/4 relative'>
-      
       <BrowserRouter>
         <Card noPadding={true}>
           <div className='relative'>
@@ -141,7 +138,7 @@ export default function ProfileContainer({
                     <SectionButton
                       name={'Moderator'}
                       isSelected={false}
-                      destination={basename +'/moderator'}
+                      destination={basename + '/moderator'}
                       icon={
                         <svg
                           xmlns='http://www.w3.org/2000/svg'
@@ -170,7 +167,11 @@ export default function ProfileContainer({
             </div>
           </div>
         </Card>
-        <DestinationRoutes user={basename} squeals={squeals.data} isMyUser={isMyUser}/>
+        <DestinationRoutes
+          user={basename}
+          squeals={squeals.data}
+          isMyUser={isMyUser}
+        />
       </BrowserRouter>
     </div>
   )

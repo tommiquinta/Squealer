@@ -1,4 +1,4 @@
-'use server';
+'use server'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import PostCard from './components/media/PostCard'
@@ -12,7 +12,7 @@ import Reaction from './components/reaction/Reaction'
 
 //const inter = Inter({ subsets: ['latin'] })
 
-export default async function Home() {
+export default async function Home () {
   // Crea un oggetto supabase utilizzando createServerComponentClient e passa l'oggetto cookies come argomento
   const supabase = createServerComponentClient({ cookies })
 
@@ -25,7 +25,7 @@ export default async function Home() {
   var userObj = null //oggetto per passare le informazioni dell'user ai figli della home
 
   var squeals = null
-  async function fetchPosts() {
+  async function fetchPosts () {
     await supabase.rpc('get_public_only')
   }
   const publicSqueals = await supabase.rpc('get_public_only')
@@ -49,7 +49,6 @@ export default async function Home() {
   }
 
   //queste due necessitano di un form -> server actions
- 
 
   return (
     <>
@@ -74,6 +73,7 @@ export default async function Home() {
             {hasLoggedIn && (
               <div>
                 <PostFormCard profile={userObj.data[0]} />
+                <hr className='mb-5' />
 
                 {squeals.data.map(post => (
                   <PostCard key={post.id} post={post}>

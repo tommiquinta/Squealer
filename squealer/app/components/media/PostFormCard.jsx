@@ -9,7 +9,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Squeal from './Squeal'
 import { createPost } from '../../../helper/squealsServerActions'
 
-export default function PostFormCard ({ profile, onPost }) {
+export default function PostFormCard ({ profile, onPost, isDM, DM_receiver }) {
   const [daily_quota, setDaily_quota] = useState()
   const [uploads, setUploads] = useState([])
   const [isUploading, setIsUploading] = useState(false)
@@ -17,10 +17,11 @@ export default function PostFormCard ({ profile, onPost }) {
 
   const supabase = createClientComponentClient({ cookies })
 
-  useEffect(() => {
-    setDaily_quota(profile.daily_quota)
-  }, [profile])
-
+  if (!isDM) {
+    useEffect(() => {
+      setDaily_quota(profile.daily_quota)
+    }, [profile])
+  }
   async function addPhotos (ev) {
     const files = ev.target.files
     if (files.length > 0) {
@@ -45,6 +46,11 @@ export default function PostFormCard ({ profile, onPost }) {
     }
   }
 
+  // placeholder condition wether it's in homepage or in DM page
+  let placeholderText = !isDM
+    ? `What's on your mind, ${profile && profile.username}?`
+    : `Squeal something to ${DM_receiver}!`
+
   return (
     <div className='mb-5'>
       <Card>
@@ -54,10 +60,12 @@ export default function PostFormCard ({ profile, onPost }) {
             value={content}
             onChange={e => {
               setContent(e.target.value)
-              setDaily_quota(profile.daily_quota - e.target.value.length)
+              if (!isDM) {
+                setDaily_quota(profile.daily_quota - e.target.value.length)
+              }
             }}
             className='grow p-3 h-18 resize-none'
-            placeholder={`What's on your mind, ${profile && profile.username}?`}
+            placeholder={placeholderText}
           />
         </div>
 
@@ -191,21 +199,22 @@ export default function PostFormCard ({ profile, onPost }) {
             Location
           </button>
 
-          <label
-            className={`flex gap-1  ${
-              daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'
-            }`}
-          >
-            Daily Quota: {daily_quota}
-          </label>
+          {!isDM ? (
+            <label
+              className={`flex gap-1  ${
+                daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'
+              }`}
+            >
+              Daily Quota: {daily_quota}
+            </label>
+          ) : null}
         </div>
         <div className='grow text-right'>
-          <Squeal content={content} photos={uploads}>
+          <Squeal content={content} photos={uploads} DM_receiver={DM_receiver}>
             Squeal
           </Squeal>
         </div>
       </Card>
-      <hr></hr>
     </div>
   )
 }

@@ -1,9 +1,14 @@
 'use client'
-import PostCard from '../media/PostCard'
-export default function PrivateMessageComtainer ({ squeals }) {
+
+import MessageCard from '../messages/MessageCard'
+export default function PrivateMessageComtainer ({ squeals, author_uuid }) {
   {
     return squeals.data.map(post => (
-      <PostCard key={post.id} post={post}></PostCard>
+      <MessageCard
+        key={post.id}
+        post={post}
+        author_uuid={author_uuid}
+      ></MessageCard>
     ))
   }
 }

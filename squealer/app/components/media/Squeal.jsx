@@ -4,9 +4,9 @@ import { useState } from 'react'
 import { createPost } from '../../../helper/squealsServerActions'
 import { createDirectMessage } from '../../../helper/squealsServerActions'
 
-function Squeal ({ content, photos }) {
+function Squeal ({ content, photos, DM_receiver }) {
   function createSqueal () {
-    if (content?.includes('@')) {
+    if (content?.includes('@') || DM_receiver) {
       createDM()
     } else if (content?.includes('§')) {
       createChannelPost()
@@ -16,16 +16,28 @@ function Squeal ({ content, photos }) {
   }
 
   async function createDM () {
-    const regex = /@(\w+)/
-    const match = regex.exec(content)
-    if (match) {
-      const receiverHandle = match[1]
-      if (content.trim.length - receiverHandle.length - 1 <= 0) {
-        alert("A squeal with no content is a little useless, isn't it?")
+    if (DM_receiver) {
+      if (content.trim().length <= 0) {
+        alert("A squeaaaaal with no content is a little useless, isn't it?")
         return
       } else {
-        await createDirectMessage(content, photos, receiverHandle)
+        await createDirectMessage(content, photos, DM_receiver)
         location.reload()
+      }
+    } else {
+      const regex = /@(\w+)/
+      const match = regex.exec(content)
+
+      if (match) {
+        const receiverHandle = match[1]
+
+        if (content.trim.length - receiverHandle.length - 1 >= 0) {
+          alert("A squeal with no content is a little useless, isn't it?")
+          return
+        } else {
+          await createDirectMessage(content, photos, receiverHandle)
+          location.reload()
+        }
       }
     }
   }

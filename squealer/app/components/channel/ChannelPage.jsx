@@ -3,7 +3,7 @@ import ChannelContainer from './ChannelContainer'
 import { cookies } from 'next/headers'
 import PostCard from '../media/PostCard'
 
-export default async function ChannelPage({ channelId, children, user_uuid }) {
+export default async function ChannelPage ({ channelId, children, user_uuid }) {
   var channelInfo = null
   var channelHandle = null
   const supabase = createClientComponentClient({ cookies })
@@ -37,20 +37,17 @@ export default async function ChannelPage({ channelId, children, user_uuid }) {
     channelid: channelId,
     user_uuid: user_uuid
   })
-  console.log(squeals)
 
-    return (
-      <div className='w-[85%]'>
-        {children}
-        <div className='flex-col'>
-          <ChannelContainer
-            channelInfo={channelInfo}
-            channelHandle={channelHandle}
-            squeals={squeals}
-          ></ChannelContainer>
-          
-        </div>
+  return (
+    <div className='w-[85%]'>
+      {children}
+      <div className='flex-col'>
+        <ChannelContainer
+          channelInfo={channelInfo}
+          channelHandle={channelHandle}
+          squeals={squeals}
+        ></ChannelContainer>
       </div>
-    )
- 
+    </div>
+  )
 }
