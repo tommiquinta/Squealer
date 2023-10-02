@@ -13,7 +13,7 @@ export default function PostFormCard ({ profile, onPost, isDM, DM_receiver }) {
   const [daily_quota, setDaily_quota] = useState()
   const [uploads, setUploads] = useState([])
   const [isUploading, setIsUploading] = useState(false)
-  const [content, setContent] = useState()
+  const [content, setContent] = useState('')
 
   const supabase = createClientComponentClient({ cookies })
 
@@ -23,26 +23,35 @@ export default function PostFormCard ({ profile, onPost, isDM, DM_receiver }) {
     }, [profile])
   }
   async function addPhotos (ev) {
-    const files = ev.target.files
-    if (files.length > 0) {
-      setIsUploading(true)
-      for (const file of files) {
-        const newName = Date.now() + file.name
-        const result = supabase.storage.from('photos').upload(newName, file)
+    try {
+      const files = ev.target.files
+      if (files.length > 0) {
+        setIsUploading(true)
 
-        if (result.data) {
-          const url =
-            process.env.NEXT_PUBLIC_supabase_URL +
-            '/storage/v1/object/public/photos/' +
-            result.data.path
+        // TODO aggiustare utilizzando l'helper uploadOnSupabase (ex user.js ma che potrebbe essere usata per tutti gli upldoad),
+        // il problema è la lista degli URL che non viene passata e quindi non può essere vista la preview delle foto postate
+        for (const file of files) {
+          const newName = Date.now() + file.name
+          const result = await supabase.storage
+            .from('photos')
+            .upload(newName, file)
+          if (result.data) {
+            const url =
+              process.env.NEXT_PUBLIC_SUPABASE_URL +
+              '/storage/v1/object/public/photos/' +
+              result.data.path
 
-          setUploads(prevUploads => [...prevUploads, url])
-          setDaily_quota(daily_quota - 125)
-        } else {
-          console.log(result)
+            setUploads(prevUploads => [...prevUploads, url])
+
+            setDaily_quota(daily_quota - 125)
+          } else {
+            console.log(result)
+          }
         }
+        setIsUploading(false)
       }
-      setIsUploading(false)
+    } catch (error) {
+      console.log(error + 'errore in addPhotos in FormPostCard')
     }
   }
 
@@ -59,9 +68,11 @@ export default function PostFormCard ({ profile, onPost, isDM, DM_receiver }) {
           <textarea
             value={content}
             onChange={e => {
-              setContent(e.target.value)
+              const newValue = e.target.value
+              setContent(newValue)
               if (!isDM) {
-                setDaily_quota(profile.daily_quota - e.target.value.length)
+                const charDifference = newValue.length - content.length
+                setDaily_quota(daily_quota - charDifference)
               }
             }}
             className='grow p-3 h-18 resize-none'

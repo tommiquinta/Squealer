@@ -17,7 +17,7 @@ function Squeal ({ content, photos, DM_receiver }) {
 
   async function createDM () {
     if (DM_receiver) {
-      if (content.trim().length <= 0) {
+      if (content.trim().length <= 0 && photos.length==0) {
         alert("A squeaaaaal with no content is a little useless, isn't it?")
         return
       } else {
@@ -31,7 +31,7 @@ function Squeal ({ content, photos, DM_receiver }) {
       if (match) {
         const receiverHandle = match[1]
 
-        if (content.trim.length - receiverHandle.length - 1 >= 0) {
+        if (content.trim.length - receiverHandle.length - 1 >= 0 && photos.length==0) {
           alert("A squeal with no content is a little useless, isn't it?")
           return
         } else {
@@ -45,7 +45,7 @@ function Squeal ({ content, photos, DM_receiver }) {
   async function createChannelPost () {}
 
   async function createGenericSqueal () {
-    if (!content) {
+    if (!content && photos.length<0) {
       alert("A squeal with no content is a little useless, isn't it?")
       return
     } else {
