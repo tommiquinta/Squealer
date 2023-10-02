@@ -2,7 +2,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import PrivateMessagePage from '../../components/messages/PrivateMessagePage'
 import NavigationBar from '../../components/layout/Navbar'
-export default async function Message ({ children, params }) {
+export default async function Message ({  params }) {
   const recevierHandle = params.id[0]
 
   const supabase = createServerComponentClient({ cookies })

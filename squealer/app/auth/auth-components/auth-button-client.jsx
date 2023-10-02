@@ -112,7 +112,7 @@ export default function AuthButtonClient({ session }) {
             {showLogIn && (
                 <div className="py-3 w-10/12 mx-auto">
                     <LoginForm logIn={login} modLogIn={loginMod}/>
-                    <p onClick={() => setShowLogin(false)} className="text-gray-400 text-center">You don't have an account? <u className="cursor-pointer text-socialBlue">Click here to sign up</u></p>
+                    <p onClick={() => setShowLogin(false)} className="text-gray-400 text-center">You don`&apos;`t have an account? <u className="cursor-pointer text-socialBlue">Click here to sign up</u></p>
                 </div>
 
             )

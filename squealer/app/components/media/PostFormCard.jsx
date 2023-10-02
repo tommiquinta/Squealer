@@ -17,11 +17,10 @@ export default function PostFormCard ({ profile, onPost, isDM, DM_receiver }) {
 
   const supabase = createClientComponentClient({ cookies })
 
-  if (!isDM) {
-    useEffect(() => {
-      setDaily_quota(profile.daily_quota)
-    }, [profile])
-  }
+  useEffect(() => {
+    setDaily_quota(profile.daily_quota)
+  }, [profile])
+
   async function addPhotos (ev) {
     try {
       const files = ev.target.files

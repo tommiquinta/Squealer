@@ -2,8 +2,9 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import ChannelPage from '../../components/channel/ChannelPage'
 import NavigationBar from '../../components/layout/Navbar'
-export default async function Channel({ children, params }) {
-  const channelId = params.id[0]
+
+export default async function Channel ({ params }) {
+  const channelId = params?.id[0]
 
   const supabase = createServerComponentClient({ cookies })
 
@@ -11,7 +12,6 @@ export default async function Channel({ children, params }) {
     data: { session }
   } = await supabase.auth.getSession()
 
-  var profile = session.user.id
   var loggedUserInfo = null
 
   try {

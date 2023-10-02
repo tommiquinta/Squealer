@@ -24,7 +24,7 @@ export default async function ProfilePage({ children, profile, isMyUser }) {
     profileDB.data && profileDB.data.length > 0 ? profileDB.data[0] : null
 
   if (!user) {
-    return <p>i've got no user</p>
+    return <p>i`&apos;`ve got no user</p>
   }
   //prendi solo gli squeals dell'utente
   var squeals = await supabase.rpc('get_user_posts', {

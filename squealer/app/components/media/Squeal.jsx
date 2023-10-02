@@ -18,7 +18,7 @@ function Squeal ({ content, photos, DM_receiver }) {
   async function createDM () {
     if (DM_receiver) {
       if (content.trim().length <= 0 && photos.length==0) {
-        alert("A squeaaaaal with no content is a little useless, isn't it?")
+        alert("A squeal with no content is a little useless, isn't it?")
         return
       } else {
         await createDirectMessage(content, photos, DM_receiver)
