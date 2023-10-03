@@ -149,6 +149,7 @@ export default function PostFormCard ({ profile, onPost, isDM, DM_receiver }) {
                 type='file'
                 className='hidden'
                 multiple
+                accept='image/*'
                 onChange={addPhotos}
               />
               <svg
