@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Preloader from '../Preloader'
 
-export default function UpdateImgBtn() {
+export default function UpdateImgBtn({add}) {
   const supabase = createClientComponentClient()
   const session = useSession()
   const [isUploading, setIsUploading] = useState(false)
@@ -41,8 +41,10 @@ export default function UpdateImgBtn() {
     )
   }
 
+  const position = 'bg-white rounded-full absolute right-0 p-2 bottom-0 shadow-black shadow-md cursor-pointer';
+
   return (
-    <label className='bg-white rounded-full absolute right-0 p-2 bottom-0 shadow-black shadow-md cursor-pointer'>
+    <label className={`${position} ${add}`}>
       <input type='file' className='hidden' onChange={updateAvatar} />
       <svg
         xmlns='http://www.w3.org/2000/svg'

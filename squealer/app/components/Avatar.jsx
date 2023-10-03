@@ -28,7 +28,7 @@ export default function Avatar ({ url, size, editable, onChange }) {
         </div>
       </div>
 
-      {editable && <UpdateImgBtn />}
+      {editable && <UpdateImgBtn add={'right-[unset]'}/>}
     </div>
   )
 }

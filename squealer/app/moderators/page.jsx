@@ -8,7 +8,7 @@ import NavigationBar from '../components/layout/Navbar';
 
 export default async function ModeratorSection () {
   const supabase = createServerComponentClient({cookies});
-
+  
   const {
     data: { session }
   } = await supabase.auth.getSession();
@@ -16,8 +16,6 @@ export default async function ModeratorSection () {
   if(!session){
     redirect("/");
   }
-
-
 
   const moderator = await supabase.rpc("get_moderator", {
     user_uuid: session?.user.id
