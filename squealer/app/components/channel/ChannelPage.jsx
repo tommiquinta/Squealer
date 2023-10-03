@@ -9,12 +9,14 @@ export default async function ChannelPage ({ channelId, children, user_uuid, isP
 
   var channelInfo = null; 
   var squeals = null;
+  var isModerator = null;
 
   if(user_uuid){
     squeals = await supabase.rpc('get_specific_public_channel_posts', {
       channelid: channelId,
       user_uuid: user_uuid
-    })
+    });
+    isModerator = await supabase.from('moderators').select('*').eq('id', user_uuid);
   } else {
     squeals = await supabase.rpc('get_single_channel', {id_channel : channelId});
   } 
@@ -37,32 +39,60 @@ export default async function ChannelPage ({ channelId, children, user_uuid, isP
     <div className='w-[85%]'>
       {children}
       <div className='flex-col'>
-        { !user_uuid && (
-          <ChannelContainer
-          channelInfo={channelInfo?.data[0]}
-          channelHandle={channelInfo?.data[0]?.channels.handle}
-          squeals={squeals} 
-          isPublic={!isPrivate}>
+        { //non loggato e canale pubblico
+          !user_uuid && (
+          !isPrivate && (
+            <ChannelContainer
+              channelInfo={channelInfo?.data[0]}
+              channelHandle={channelInfo?.data[0]?.channels.handle}
+              squeals={squeals} 
+              isPublic={!isPrivate}>
 
-            {squeals?.data?.map(publicPost => (
-                <PublicChannelsPost
-                  key={publicPost.id}
-                  post={publicPost}
-                  disableReaction={true}
-                />
-              ))}
+                {squeals?.data?.map(publicPost => (
+                    <PublicChannelsPost
+                      key={publicPost.id}
+                      post={publicPost}
+                      disableReaction={true}
+                    />
+                  ))}
 
-          </ChannelContainer>
+              </ChannelContainer>
+          )
         )}
 
-        { user_uuid && (
+        { //loggato e canale pubblico
+          user_uuid && (
+          !isPrivate && (
+            <ChannelContainer
+              channelInfo={channelInfo?.data[0]}
+              channelHandle={channelInfo?.data[0]?.channels.handle}
+              squeals={squeals} 
+              isPublic={!isPrivate}>
+
+                {squeals?.data?.map(publicPost => (
+                    <PublicChannelsPost
+                      key={publicPost.id}
+                      post={publicPost}
+                      disableReaction={false}
+                      moderator={isModerator?.data.length > 0 ? true : false}
+                    />
+                  ))}
+
+              </ChannelContainer>
+          )
+        )}
+
+        { //loggato e canale privato
+          user_uuid && (
+          isPrivate && (   
           <ChannelContainer
           channelInfo={channelInfo?.data[0]}
           channelHandle={channelInfo?.data[0]?.channels.handle}
           squeals={squeals}
           isPublic={!isPrivate}
         ></ChannelContainer>
-        )}
+        ))}
+
       </div>
     </div>
   )

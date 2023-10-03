@@ -5,7 +5,7 @@ import moment from 'moment'
 import Avatar from '../Avatar'
 import Reaction from '../reaction/Reaction'
 
-export default async function PublicChannelsPost ({ post, disableReaction }) {
+export default async function PublicChannelsPost ({ post, disableReaction, moderator}) {
   const supabase = createServerComponentClient({ cookies })
 
   //se è un canale, metto le info del canale
@@ -111,13 +111,17 @@ export default async function PublicChannelsPost ({ post, disableReaction }) {
         </div>
       </div>
 
-      <div className=''>
+      <div className='flex'>
         <Reaction
           id={post.id}
           numLikes={post.likes}
           numDislikes={post.dislikes}
           disable={disableReaction}
         />
+        {moderator && (
+            //<DeleteBtn id={post.id}/>
+            <p>Elimina</p>
+        )}
       </div>
     </Card>
   )

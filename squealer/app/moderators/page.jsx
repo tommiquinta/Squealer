@@ -25,8 +25,6 @@ export default async function ModeratorSection () {
     redirect("/");
   }
 
-  //trend
-  //canali pubblici + modifica + aggiungi squeal + rimuovi squeal
   //elenco utenti + ricerca
   //elenco post + ricerca
   //elenco canali privati
