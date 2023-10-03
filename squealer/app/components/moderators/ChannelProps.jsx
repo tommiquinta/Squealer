@@ -16,7 +16,7 @@ export default function ChannelProps({channelName, channelDescription, handle, e
 
             <div className="flex gap-3">
                 <label className="font-bold" htmlFor="channelDescription">Description:</label>
-                <textarea value={description} className={`${editableClasses} h-12`} type="text" id="channelDescription" disabled={!editable} onChange={(e) => setDescription(e.target.value)}/>
+                <textarea value={description} className={`${editableClasses} h-20`} type="text" id="channelDescription" disabled={!editable} onChange={(e) => setDescription(e.target.value)}/>
             </div>
 
             <p className="font-bold flex gap-3">Handle: <span className="font-normal">{handle}</span></p>

@@ -5,10 +5,11 @@ import ChannelInfo from './ChannelInfo';
 import ChannelProps from './ChannelProps';
 import Link from 'next/link';
 import {updatePublicChannel, deleteChannel} from '../../../helper/moderatorServerActions.js';
+import { useRouter } from 'next/navigation';
 
 
 export default function ChannelView({channel}){
-
+    const router = useRouter();
     const [edit, setEdit] = useState(false);
 
     const buttonClasses = "text-white flex gap-2 py-1 px-2 md:px-4 mt-3 bg-socialBlue hover:bg-opacity-20 hover:text-black rounded-md hover:shadow-md shadow-gray-300 transition-all"
@@ -28,6 +29,8 @@ export default function ChannelView({channel}){
         const result = await deleteChannel(channel.id);
         if(result){
             alert("Deleted Successfully!");
+            
+            router.refresh();
         } else {
             alert("Something went wrong!");
         }
