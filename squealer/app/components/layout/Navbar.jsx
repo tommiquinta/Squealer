@@ -3,8 +3,9 @@ import Card from '../Card'
 
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 
-export default function NavigationBar ({
+export default function NavigationBar({
   hasLoggedIn,
   hidden,
   sessionUsername,
@@ -12,7 +13,7 @@ export default function NavigationBar ({
 }) {
   var userpage = `/profiles/${sessionUsername}`
 
-  function handleClick () {
+  function handleClick() {
     redirect('/')
   }
 
@@ -27,7 +28,7 @@ export default function NavigationBar ({
       <div className='px-4 py-2 w-screen md:w-fit '>
         <div className='flex gap-2 leading-9 justify-center mb-3'>
           <Link href='/'>
-            <img src='/yoshi-logo-empty.png' alt='logo' className='w-8 h-8' />
+            <Image src='/yoshi-logo-empty.png' alt='logo' className='w-8 h-8' width="300" height="300" />
           </Link>
 
           <h2 className='text-gray-400 text-center text-3xl'>Squealer</h2>

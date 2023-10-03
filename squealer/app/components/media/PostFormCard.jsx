@@ -8,20 +8,35 @@ import Preloader from '../Preloader'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Squeal from './Squeal'
 import { createPost } from '../../../helper/squealsServerActions'
+import dynamic from 'next/dynamic'
+import Image from 'next/image'
 
-export default function PostFormCard ({ profile, onPost, isDM, DM_receiver }) {
+export default function PostFormCard({ profile, onPost, isDM, DM_receiver }) {
   const [daily_quota, setDaily_quota] = useState()
   const [uploads, setUploads] = useState([])
   const [isUploading, setIsUploading] = useState(false)
   const [content, setContent] = useState('')
-
   const supabase = createClientComponentClient({ cookies })
+  const [showMap, setShowMap] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
+
+  const Mappa = dynamic(() => import('./Mappa'), { ssr: false })
 
   useEffect(() => {
-    setDaily_quota(profile.daily_quota)
-  }, [profile])
+    setIsMounted(true)
+    if (!isDM) {
+      setDaily_quota(profile.daily_quota)
+    }
+  }, [profile, isDM])
 
-  async function addPhotos (ev) {
+
+  async function changeMap() {
+    setShowMap(!showMap)
+    console.log("la mappa è aperta: ", showMap)
+  }
+
+
+  async function addPhotos(ev) {
     try {
       const files = ev.target.files
       if (files.length > 0) {
@@ -87,14 +102,14 @@ export default function PostFormCard ({ profile, onPost, isDM, DM_receiver }) {
                   <tbody>
                     <tr>
                       <td className='p-2'>
-                        <img
+                        <Image
                           src={uploads[0]}
                           className='w-full h-auto rounded-md object-cover'
                           alt=''
                         />
                       </td>
                       <td className='p-2'>
-                        <img
+                        <Image
                           src={uploads[1]}
                           className='w-full h-auto rounded-md object-cover'
                           alt=''
@@ -103,14 +118,14 @@ export default function PostFormCard ({ profile, onPost, isDM, DM_receiver }) {
                     </tr>
                     <tr>
                       <td className='p-2'>
-                        <img
+                        <Image
                           src={uploads[2]}
                           className='w-full h-auto rounded-md object-cover'
                           alt=''
                         />
                       </td>
                       <td className='p-2'>
-                        <img
+                        <Image
                           src={uploads[3]}
                           className='w-full h-auto rounded-md object-cover'
                           alt=''
@@ -123,7 +138,7 @@ export default function PostFormCard ({ profile, onPost, isDM, DM_receiver }) {
                 <div className='flex gap-2.5'>
                   {uploads.map(upload => (
                     <div className='' key={upload}>
-                      <img
+                      <Image
                         src={upload}
                         className='w-auto h-40 rounded-md object-cover'
                         alt=''
@@ -143,6 +158,7 @@ export default function PostFormCard ({ profile, onPost, isDM, DM_receiver }) {
         )}
 
         <div className='flex gap-6 items-center my-3'>
+          {/* Image */}
           <div>
             <label className='flex gap-1'>
               <input
@@ -169,58 +185,64 @@ export default function PostFormCard ({ profile, onPost, isDM, DM_receiver }) {
               Image
             </label>
           </div>
+          {/* Video */}
+          <div>
+            <button className='flex gap-1'>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth='1.5'
+                stroke='currentColor'
+                className='w-6 h-6'
+              >
+                <path
+                  strokeLinecap='round'
+                  d='M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z'
+                />
+              </svg>
+              Video
+            </button>
+          </div>
+          {/* Location */}
+          <div>
+            <button className='flex gap-1' onClick={() => changeMap()}>
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                fill='none'
+                viewBox='0 0 24 24'
+                strokeWidth='1.5'
+                stroke='currentColor'
+                className='w-6 h-6'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='M15 10.5a3 3 0 11-6 0 3 3 0 016 0z'
+                />
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  d='M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z'
+                />
+              </svg>
+              {showMap && isMounted ? 'Hide mappa' : 'Show map'}
+            </button>
+          </div>
 
-          <button className='flex gap-1'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              fill='none'
-              viewBox='0 0 24 24'
-              strokeWidth='1.5'
-              stroke='currentColor'
-              className='w-6 h-6'
-            >
-              <path
-                strokeLinecap='round'
-                d='M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z'
-              />
-            </svg>
-            Video
-          </button>
-
-          <button className='flex gap-1'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              fill='none'
-              viewBox='0 0 24 24'
-              strokeWidth='1.5'
-              stroke='currentColor'
-              className='w-6 h-6'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                d='M15 10.5a3 3 0 11-6 0 3 3 0 016 0z'
-              />
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                d='M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z'
-              />
-            </svg>
-            Location
-          </button>
+          {/* Mappa */}
 
           {!isDM ? (
-            <label
-              className={`flex gap-1  ${
-                daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'
-              }`}
-            >
+            <label className={`flex gap-1  ${daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'}`}>
               Daily Quota: {daily_quota}
             </label>
           ) : null}
         </div>
-        <div className='grow text-right'>
+
+        {/* Mappa per la geolocalizzazione */}
+        {showMap && isMounted && <Mappa />}
+
+        <div className='grow text-right top-10'>
           <Squeal content={content} photos={uploads} DM_receiver={DM_receiver}>
             Squeal
           </Squeal>

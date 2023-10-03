@@ -9,6 +9,9 @@ import PostFormCard from './components/media/PostFormCard'
 import { Suspense } from 'react'
 import Preloader from './components/Preloader'
 import Reaction from './components/reaction/Reaction'
+import 'leaflet/dist/images/marker-icon-2x.png'
+import 'leaflet/dist/images/marker-icon.png'
+import 'leaflet/dist/images/marker-shadow.png'
 
 //const inter = Inter({ subsets: ['latin'] })
 

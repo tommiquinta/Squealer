@@ -45,15 +45,20 @@ export default function Media({ uploads }) {
                         backgroundRepeat: 'no-repeat',
                     }}
                     className='w-full h-full rounded-2xl bg-center bg-contain duration-500'
-                ></div>
-            ) : (
+                />
+            ) : slides[currentIndex].type === 'video' ? (
                 // Mostra un elemento video se il tipo è 'video'
                 <video
                     src={slides[currentIndex].url}
                     className='w-full h-full rounded-2xl bg-center bg-contain duration-500'
                     controls // Mostra i controlli del video
-                ></video>
+                />
+            ) : (null //mostra la mappa della geolocalizzazione
+                
             )}
+            {/* Da completare aggiungendo la stampa della mappa di maps */}
+
+
 
             {slides.length > 1 && (
                 <div className=''>

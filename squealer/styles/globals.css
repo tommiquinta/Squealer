@@ -31,3 +31,22 @@ body {
 .colored {
   color: blue;
 }
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+}
+
+.map-container {
+  height: 38rem;
+  width: 100%;
+}
+
+/* Default icon URLs */
+/* .leaflet-default-icon-path {
+  background-image: url(../public/assets/marker-icon.png);
+}
+
+.leaflet-default-shadow-path {
+  background-image: url(../public/assets/marker-shadow.png);
+} */ 

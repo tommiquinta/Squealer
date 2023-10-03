@@ -1,5 +1,3 @@
-'use client'
-
 import { Route, Routes } from 'react-router-dom'
 import AllSqueals from './AllSqueals'
 import Card from '../Card'
@@ -20,16 +18,16 @@ export default function DestinationRoutes({ user, squeals, isMyUser }) {
       />
       {isMyUser && (
         <Route
-        path={user + `/settings`}
-        element={
-          <Card>
-            <Settings />
-          </Card>
-        }
-      />
+          path={user + `/settings`}
+          element={
+            <Card>
+              <Settings />
+            </Card>
+          }
+        />
       )}
-      { isMyUser && (
-          <Route index path={user+`/moderator`} element={<ModeratorBtn />} />
+      {isMyUser && (
+        <Route index path={user + `/moderator`} element={<ModeratorBtn />} />
       )}
     </Routes>
   )
