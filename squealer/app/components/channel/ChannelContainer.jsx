@@ -41,34 +41,34 @@ export default function ChannelContainer ({
         </div>
       </Card>
 
-      {squeals.data ? (
-          <div>
-            <div className='pb-2 font-sans text-sm text-center text-gray-400'>
-              Here below are gonna be listed all squeals shared to this channel.
-            </div>
+      { isPublic ? (children) : (
+        <div>
+          {squeals.data ? (  
             <div>
-              { isPublic ? (children) :(
-                    squeals?.data.map(post => (
-                      <PostCard key={post.id} post={post}>
-                        <Reaction
-                            id={post.id}
-                            numLikes={post.likes}
-                            numDislikes={post.dislikes}
-                            hasLiked={post.hasliked}
-                            hasDisliked={post.hasdisliked}
-                            disable={false}
-                          />
-                      </PostCard>
-                    ))
-              )}
-              
-            </div>
-          </div>
-        ) : (
-          <div className='pb-2 font-sans text-sm text-center text-gray-400'>
-            All quite here, for the moment.
-          </div>
-        )}
+                <div className='pb-2 font-sans text-sm text-center text-gray-400'>
+                  Here below are gonna be listed all squeals shared to this channel.
+                </div>
+                <div>
+                      {  squeals?.data.map(post => (
+                          <PostCard key={post.id} post={post}>
+                            <Reaction
+                                id={post.id}
+                                numLikes={post.likes}
+                                numDislikes={post.dislikes}
+                                hasLiked={post.hasliked}
+                                hasDisliked={post.hasdisliked}
+                                disable={false}
+                              />
+                          </PostCard>
+                        ))}
+                </div>
+              </div>
+            ) : (
+              <div className='pb-2 font-sans text-sm text-center text-gray-400'>
+                All quite here, for the moment.
+              </div>
+            )} 
+        </div>)}
     </div>
   )
 }
