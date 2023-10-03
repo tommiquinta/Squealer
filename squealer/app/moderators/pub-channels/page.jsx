@@ -1,13 +1,10 @@
-/*Qui ci vano i canali publlici gestiti dai moderatori, 
-quindi voglio un modificarne le info ed eventualmente scrivere un nuovo squeal lì dentro, oppure rimuoverlo */
-//voglio poter aggiungere e rimuovere un canale
 'use server';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import {cookies} from 'next/headers';
 import { redirect } from 'next/navigation';
 import NavigationBar from '../../components/layout/Navbar';
 import Link from 'next/link';
-import ChannelView from '../../components/moderators/ChannelView';
+import PublicChannelView from '../../components/moderators/PublicChannelView';
 import AddChannel from '../../components/moderators/AddChannel';
 
 
@@ -44,7 +41,7 @@ export default async function PubChannels(){
             </div>
             <div className='flex-col gap-8 md:ml-[5%] w-9/12'>
                 {channelsData && channelsData.data.map(
-                    singleChannel => <ChannelView channel={singleChannel} key={singleChannel.id}/>
+                    singleChannel => <PublicChannelView channel={singleChannel} key={singleChannel.id}/>
                 )}
             </div>
             <div className='md:ml-3 md:-mr-32 w-4/12'>

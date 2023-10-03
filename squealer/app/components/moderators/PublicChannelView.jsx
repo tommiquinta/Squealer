@@ -8,7 +8,7 @@ import {updatePublicChannel, deleteChannel} from '../../../helper/moderatorServe
 import { useRouter } from 'next/navigation';
 
 
-export default function ChannelView({channel}){
+export default function PublicChannelView({channel}){
     const router = useRouter();
     const [edit, setEdit] = useState(false);
 

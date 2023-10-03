@@ -17,18 +17,15 @@ export default async function Username({ params }) {
   var profile = params.username[0];
   var loggedUserInfo = null;
 
-  try {
-    if (!loggedUserInfo) {
-      loggedUserInfo = await supabase
-        .from('profiles')
-        .select('id, username')
-        .eq('id', session.user.id)
-      loggedUserInfo = loggedUserInfo.data[0].username
-    }
-  } catch (error) {
-    return <p>Error! {error}</p>
+
+  if (!loggedUserInfo) {
+    loggedUserInfo = await supabase
+      .from('profiles')
+      .select('id, username')
+      .eq('id', session.user.id)
+    loggedUserInfo = loggedUserInfo.data[0].username
   }
-  
+
   return (
     <>
       <ProfilePage profile={profile} isMyUser={loggedUserInfo === profile}>

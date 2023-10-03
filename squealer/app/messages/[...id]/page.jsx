@@ -14,29 +14,22 @@ export default async function Message ({  params }) {
   var profile = session.user.id
   var loggedUserInfo = null
   var recevier_info = null
-  try {
-    if (!loggedUserInfo) {
-      loggedUserInfo = await supabase
-        .from('profiles')
-        .select('id, username')
-        .eq('id', session.user.id)
-      loggedUserInfo = loggedUserInfo.data[0].username
-    }
-  } catch (error) {
-    return <p>Error! {error}</p>
+
+  if (profile) {
+    loggedUserInfo = await supabase
+      .from('profiles')
+      .select('id, username')
+      .eq('id', session?.user.id)
+    loggedUserInfo = loggedUserInfo.data[0].username
   }
+ 
 
   var receiver_uuid = null
-  try {
-    recevier_info = await supabase
-      .from('profiles')
-      .select()
-      .eq('username', recevierHandle)
-    receiver_uuid = recevier_info.data[0].id
-
-  } catch (error) {
-    return <p>Error! {error}</p>
-  }
+  recevier_info = await supabase
+    .from('profiles')
+    .select()
+    .eq('username', recevierHandle)
+  receiver_uuid = recevier_info.data[0].id
 
 
   return (
@@ -46,7 +39,7 @@ export default async function Message ({  params }) {
       receiver_handle={recevierHandle}
       recevier_info={recevier_info.data}
     >
-      <NavigationBar hasLoggedIn={true} sessionUsername={loggedUserInfo} />
+      <NavigationBar hasLoggedIn={profile ? true : false} sessionUsername={loggedUserInfo} />
     </PrivateMessagePage>
   )
 }
