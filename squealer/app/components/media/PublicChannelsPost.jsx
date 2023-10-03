@@ -4,6 +4,7 @@ import Card from '../Card'
 import moment from 'moment'
 import Avatar from '../Avatar'
 import Reaction from '../reaction/Reaction'
+import DeleteBtn from '../moderators/DeleteBtn'
 
 export default async function PublicChannelsPost ({ post, disableReaction, moderator}) {
   const supabase = createServerComponentClient({ cookies })
@@ -119,8 +120,7 @@ export default async function PublicChannelsPost ({ post, disableReaction, moder
           disable={disableReaction}
         />
         {moderator && (
-            //<DeleteBtn id={post.id}/>
-            <p>Elimina</p>
+            <DeleteBtn id={post.id}/>
         )}
       </div>
     </Card>

@@ -3,6 +3,7 @@ import ChannelContainer from './ChannelContainer'
 import { cookies } from 'next/headers'
 import Reaction from '../reaction/Reaction'
 import PublicChannelsPost from '../media/PublicChannelsPost'
+import PublicPostFormCard from '../moderators/PublicPostFormCard'
 
 export default async function ChannelPage ({ channelId, children, user_uuid, isPrivate }) {
   const supabase = createClientComponentClient({ cookies })
@@ -16,7 +17,9 @@ export default async function ChannelPage ({ channelId, children, user_uuid, isP
       channelid: channelId,
       user_uuid: user_uuid
     });
-    isModerator = await supabase.from('moderators').select('*').eq('id', user_uuid);
+    const existModerator = await supabase.from('moderators').select('*').eq('id', user_uuid);
+    isModerator = existModerator?.data.length > 0 ? true : false;
+
   } else {
     squeals = await supabase.rpc('get_single_channel', {id_channel : channelId});
   } 
@@ -34,7 +37,7 @@ export default async function ChannelPage ({ channelId, children, user_uuid, isP
       .eq('id', channelId);
   }
 
-
+console.log(isModerator);
   return (
     <div className='w-[85%]'>
       {children}
@@ -68,13 +71,19 @@ export default async function ChannelPage ({ channelId, children, user_uuid, isP
               channelHandle={channelInfo?.data[0]?.channels.handle}
               squeals={squeals} 
               isPublic={!isPrivate}>
+                {isModerator && (
+                  <div>
+                    <PublicPostFormCard channel={channelInfo?.data[0]} handle={channelInfo?.data[0]?.channels.handle}/>
+                    <hr className='mb-5' />
+                  </div>
+                )}
 
                 {squeals?.data?.map(publicPost => (
                     <PublicChannelsPost
                       key={publicPost.id}
                       post={publicPost}
                       disableReaction={false}
-                      moderator={isModerator?.data.length > 0 ? true : false}
+                      moderator={isModerator}
                     />
                   ))}
 

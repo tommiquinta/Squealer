@@ -69,3 +69,24 @@ export async function insertPublicChannel (newName, newDescription, newHandle, n
   
     return true;
   }
+
+export async function deletePost (post_id) {
+  const supabase = createServerComponentClient({ cookies })
+  const {
+    data: { session }
+  } = await supabase.auth.getSession()
+
+  const response = await supabase
+  .from('posts')
+  .delete()
+  .eq('id', post_id);
+
+  console.log(response);
+
+  if(response.error){
+    console.log(error);
+    return false;
+  }
+
+  return true;
+}

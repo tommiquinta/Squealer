@@ -42,7 +42,9 @@ function Squeal ({ content, photos, DM_receiver }) {
     }
   }
 
-  async function createChannelPost () {}
+  async function createChannelPost () {
+    
+  }
 
   async function createGenericSqueal () {
     if (!content && photos.length<0) {
