@@ -1,9 +1,6 @@
 'use client';
-import UsersList from "../profile/UsersList";
 import { useState } from "react";
 import Card from '../Card';
-
-//questo deve avere gli stati dei filtri e mandarli al filter container per far si che userslist si aggiorni
 
 export default function UserFilter({filter}){
 

@@ -33,7 +33,7 @@ export default function UsersCard (profile) {
                   <hr className='mt-2'/>
                   <EditQuota quota={profile.daily_quota} userId={profile.id}/>
                   <hr className='my-2'/>
-                  <BlockBtn id={profile.id}/>
+                  <BlockBtn id={profile.id} blocked={profile.blocked}/>
                 </div>
             ) : null }
           </div>

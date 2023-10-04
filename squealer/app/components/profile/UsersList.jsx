@@ -2,10 +2,6 @@
 import UsersCard from "./UsersCard";
 
 export default function UsersList({profiles, add, hasFilters, byName, isModerator}){
-  console.log("--------")
-  console.log(byName);
-  console.log(isModerator);
-
 
   if(hasFilters){
     return(

@@ -5,6 +5,7 @@ import {cookies} from 'next/headers';
 import NavigationBar from '../../components/layout/Navbar';
 import Link from 'next/link';
 import FilterContainer from '../../components/moderators/FilterContainer';
+import { checkIfBlocked, listAll } from '../../../helper/moderatorServerActions';
 
 export default async function UsersModerator(){
     const supabase = createServerComponentClient({cookies});
@@ -26,6 +27,22 @@ export default async function UsersModerator(){
     }
 
     const profiles = await supabase.rpc('get_users_for_moderators',{ user_uuid: session?.user.id} );
+    const users = await listAll();
+
+    function checkIfBlocked(p){
+        for(let i = 0; i< users.users.length; i++){
+          
+          if(users.users[i].id === p.id){
+            console.log("i'm in")
+            if(users.users[i].banned_until != undefined){
+              p.blocked = true;
+            }
+          }
+        }
+    }
+
+    profiles.data.forEach(checkIfBlocked);
+
 
     return(
         <div className='flex gap-4'>

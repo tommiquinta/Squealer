@@ -2,6 +2,7 @@
 
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
+import { createClient } from '@supabase/supabase-js'
 
 export async function updatePublicChannel (channel_id, newName, newDescription) {
   const supabase = createServerComponentClient({ cookies })
@@ -92,25 +93,39 @@ export async function deletePost (post_id) {
 }
 
 export async function blockUserById(user_id){
-  const supabase = createServerComponentClient({ cookies })
-  const {
-    data: { session }
-  } = await supabase.auth.getSession();
-
-  const adminAuthClient = supabase.auth.admin;
-  
+  const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SB_SERVICE_ROLE, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false
+    }
+  });
 
   const { data: user, error } = await supabase.auth.admin.updateUserById( user_id,
-    { ban_duration : '48h' });
-
-  console.log(user);
-  console.log(error);
+    { ban_duration : '24h' });
 
   if(error){
     return false;
   }
 
   return true;
+}
+
+
+export async function listAll(){
+  const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SB_SERVICE_ROLE, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false
+    }
+  });
+
+  const { data: users, error } = await supabase.auth.admin.listUsers();
+
+  if(error){
+    console.log(error);
+  }
+
+  return users;
 }
 
 export async function updateQuota(user_id, newQuota){
