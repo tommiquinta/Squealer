@@ -1,11 +1,11 @@
-//Devo inserire filtri di ricerca
 'use server';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import {cookies} from 'next/headers';
 import NavigationBar from '../../components/layout/Navbar';
 import Link from 'next/link';
 import FilterContainer from '../../components/moderators/FilterContainer';
-import { checkIfBlocked, listAll } from '../../../helper/moderatorServerActions';
+import { listAll } from '../../../helper/moderatorServerActions';
+import EditDefaultQuota from '../../components/moderators/EditDefaultQuota';
 
 export default async function UsersModerator(){
     const supabase = createServerComponentClient({cookies});
@@ -26,6 +26,8 @@ export default async function UsersModerator(){
       redirect("/");
     }
 
+    const defaultValue = await supabase.from('envs').select('value').eq('name', 'daily_quota');
+
     const profiles = await supabase.rpc('get_users_for_moderators',{ user_uuid: session?.user.id} );
     const users = await listAll();
 
@@ -33,7 +35,6 @@ export default async function UsersModerator(){
         for(let i = 0; i< users.users.length; i++){
           
           if(users.users[i].id === p.id){
-            console.log("i'm in")
             if(users.users[i].banned_until != undefined){
               p.blocked = true;
             }
@@ -56,9 +57,8 @@ export default async function UsersModerator(){
 
           <FilterContainer profiles={profiles}/>
 
-          <div className=''>
+         <EditDefaultQuota value={defaultValue.data}/>
 
-          </div>
         </div>
     );
 }

@@ -6,9 +6,6 @@ import { createClient } from '@supabase/supabase-js'
 
 export async function updatePublicChannel (channel_id, newName, newDescription) {
   const supabase = createServerComponentClient({ cookies })
-  const {
-    data: { session }
-  } = await supabase.auth.getSession()
 
   const { error } = await supabase
   .from('public_channels')
@@ -137,6 +134,21 @@ export async function updateQuota(user_id, newQuota){
   const result = await supabase.from('profiles').update({ daily_quota : newQuota }).eq('id', user_id);
 
   if(result.error){
+    return false;
+  }
+
+  return true;
+}
+
+
+export async function updateDefaultValue (newQuota) {
+  const supabase = createServerComponentClient({ cookies })
+
+
+  const { error } = await supabase.from('envs').update({ value : newQuota}).eq('name', 'daily_quota');
+
+  if(error){
+    console.log(error);
     return false;
   }
 
