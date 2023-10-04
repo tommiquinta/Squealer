@@ -12,5 +12,7 @@ export async function GET(req) {
         await supabase.auth.exchangeCodeForSession(code)
     }
 
+    console.log(requestURL.origin);
+
     return NextResponse.redirect(new URL(requestURL.origin+"/moderators"));
 }

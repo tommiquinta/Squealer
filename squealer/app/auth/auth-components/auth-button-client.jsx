@@ -93,9 +93,12 @@ export default function AuthButtonClient ({ session }) {
       email: email,
       password: pw,
       options: {
-        redirectTo: 'http://localhost:3000/auth/callback-moderator'
+        redirectTo: 'http://localhost:3000/auth/callback-moderators'
       }
     })
+
+    router.refresh()
+    router.push('/moderators');
 
     if (error) {
       alert(error)

@@ -1,0 +1,36 @@
+'use client';
+import UsersList from "../profile/UsersList";
+import { useState } from "react";
+import Card from '../Card';
+
+//questo deve avere gli stati dei filtri e mandarli al filter container per far si che userslist si aggiorni
+
+export default function UserFilter({filter}){
+
+    const [filterName, setFilterName] = useState('');
+    const [filterModerator, setFilterModerator]=useState(false);
+
+    function sendSearch(){
+        filter(filterName, filterModerator);
+    }
+
+    return(
+        <div className="fixed right-0">
+            <Card >
+                <div className="flex flex-col gap-2 p-2">
+                    <p className="text-center">Filter user's list</p>
+                <label className="text-sm text-slate-400">Search by name or username:</label>
+                <input type="text" value={filterName} placeholder="Insert name" onChange={(e) => setFilterName(e.target.value)}
+                className="border-2 rounded border-slate-200 px-2"/>
+                
+                <div className="flex gap-2 items-center">
+                <label className="text-sm text-slate-400">Show only moderators:</label>
+                <input type="checkbox" name="areModerators" value={filterModerator} onClick={() => setFilterModerator(!filterModerator)}/>
+                </div>
+                <button type="submit" onClick={sendSearch} className="text-white bg-socialBlue rounded w-fit mx-auto px-2 py-1 ">Search using filter</button>
+                </div>
+            </Card>
+        </div>
+
+    );
+}

@@ -90,3 +90,40 @@ export async function deletePost (post_id) {
 
   return true;
 }
+
+export async function blockUserById(user_id){
+  const supabase = createServerComponentClient({ cookies })
+  const {
+    data: { session }
+  } = await supabase.auth.getSession();
+
+  const adminAuthClient = supabase.auth.admin;
+  
+
+  const { data: user, error } = await supabase.auth.admin.updateUserById( user_id,
+    { ban_duration : '48h' });
+
+  console.log(user);
+  console.log(error);
+
+  if(error){
+    return false;
+  }
+
+  return true;
+}
+
+export async function updateQuota(user_id, newQuota){
+  const supabase = createServerComponentClient({ cookies })
+  const {
+    data: { session }
+  } = await supabase.auth.getSession()
+  
+  const result = await supabase.from('profiles').update({ daily_quota : newQuota }).eq('id', user_id);
+
+  if(result.error){
+    return false;
+  }
+
+  return true;
+}

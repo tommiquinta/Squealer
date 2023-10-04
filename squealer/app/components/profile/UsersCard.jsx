@@ -3,8 +3,11 @@
 import Avatar from '../Avatar'
 import Card from '../Card'
 import Link from 'next/link'
+import EditQuota from '../moderators/EditQuota'
+import BlockBtn from '../moderators/BlockBtn';
 
 export default function UsersCard (profile) {
+
   return (
     <div className='grow'>
       <Card>
@@ -21,10 +24,18 @@ export default function UsersCard (profile) {
           </div>
 
           <hr />
-          <div className='text-center mt-3 mb-10 text-gray-400 text-sm'>
+          <div className='text-center mt-3 mb-10 text-gray-400 text-sm flex-col'>
             <Link href={`/profiles/${profile.username}`}>
               @{profile?.username}
             </Link>
+            {profile.is_moderator != undefined ? (
+                <div className='flex flex-col'> 
+                  <hr className='mt-2'/>
+                  <EditQuota quota={profile.daily_quota} userId={profile.id}/>
+                  <hr className='my-2'/>
+                  <BlockBtn id={profile.id}/>
+                </div>
+            ) : null }
           </div>
           <div className='mt-2 items-center text-center'>
             <Link

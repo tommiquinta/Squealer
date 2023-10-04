@@ -13,7 +13,6 @@ export default function AddChannel(){
     const [avatar, setAvatar] = useState('');
     const [cover, setCover] = useState('');
 
-
     const labelClasses = "text-sm text-slate-500 mt-2";
     const inputClasses ="border-2 border-slate-300 rounded p-2" ;
 
