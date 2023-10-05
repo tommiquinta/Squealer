@@ -58,6 +58,7 @@ export default function ChannelContainer ({
                                 hasLiked={post.hasliked}
                                 hasDisliked={post.hasdisliked}
                                 disable={false}
+                                views={post.views}
                               />
                           </PostCard>
                         ))}

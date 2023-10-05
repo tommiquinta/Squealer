@@ -13,7 +13,6 @@ import 'leaflet/dist/images/marker-icon-2x.png'
 import 'leaflet/dist/images/marker-icon.png'
 import 'leaflet/dist/images/marker-shadow.png'
 
-//const inter = Inter({ subsets: ['latin'] })
 
 export default async function Home () {
   // Crea un oggetto supabase utilizzando createServerComponentClient e passa l'oggetto cookies come argomento
@@ -28,9 +27,7 @@ export default async function Home () {
   var userObj = null //oggetto per passare le informazioni dell'user ai figli della home
 
   var squeals = null
-  async function fetchPosts () {
-    await supabase.rpc('get_public_only')
-  }
+  
   const publicSqueals = await supabase.rpc('get_public_only')
   const publicChannelsList = await supabase.rpc('get_public_list')
   if (!hasLoggedIn) {
@@ -44,7 +41,8 @@ export default async function Home () {
     squeals = await supabase.rpc('get_posts', {
       user_uuid: user.id
     })
-
+ 
+    
     // squeals ora contiene in data un array json con:
     // id, created_at, username, avatar, content, photos,
     // channel_id, likes (ovvero numero dei like per post), dislike (numero dei dislike per post),
@@ -78,7 +76,7 @@ export default async function Home () {
                 <PostFormCard profile={userObj.data[0]} />
                 <hr className='mb-5' />
 
-                {squeals.data.map(post => (
+                {squeals?.data?.map(post => (
                   <PostCard key={post.id} post={post}>
                     <Reaction
                       id={post.id}
@@ -87,6 +85,7 @@ export default async function Home () {
                       hasLiked={post.hasliked}
                       hasDisliked={post.hasdisliked}
                       disable={false}
+                      views={post.views}
                     />
                   </PostCard>
                 ))}

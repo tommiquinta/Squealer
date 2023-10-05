@@ -61,7 +61,8 @@ export default async function Trends(){
                         numDislikes={pop.dislikes}
                         hasLiked={pop.hasliked}
                         hasDisliked={pop.hasdisliked}
-                        disable={false} />
+                        disable={false}
+                        views={pop.views} />
                     </PostCard>)
                 )}
             </div>
@@ -81,7 +82,8 @@ export default async function Trends(){
                         numDislikes={unpop.dislikes}
                         hasLiked={unpop.hasliked}
                         hasDisliked={unpop.hasdisliked}
-                        disable={false} />
+                        disable={false}
+                        views={unpop.views} />
                     </PostCard>)
                 )}
             </div>

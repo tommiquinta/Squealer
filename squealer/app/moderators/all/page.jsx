@@ -51,6 +51,7 @@ export default async function All(){
                 hasLiked={post.hasliked}
                 hasDisliked={post.hasdisliked}
                 disable={false}
+                views={post.views}
             />
           </PostCard>
 

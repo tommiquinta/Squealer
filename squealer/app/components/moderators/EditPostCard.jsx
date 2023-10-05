@@ -5,16 +5,9 @@ import moment from 'moment'
 import Avatar from '../Avatar'
 import Link from 'next/link'
 import Media from './Media'
-import PostContent from './PostContent'
-import { updateView } from '../../../helper/squealsServerActions'
 
-export default function PostCard({ post, children }) {
+export default function EditPostCard({ post, children }) {
   const uploads = post?.photos;
-
-
-  function increaseViews(){
-      updateView(post?.id);
-  }
   
   return (
     <Card>
@@ -42,11 +35,7 @@ export default function PostCard({ post, children }) {
       </div>
 
       <div className='my-4'>
-      
-          <PostContent callbackFn={increaseViews}>
-            {post?.content}
-          </PostContent>
-
+      <textarea className='my-3 text-md'>{post?.content}</textarea>
 
         {uploads?.length > 0 && (
           <div

@@ -161,3 +161,35 @@ export async function createDirectMessage (content, photos, receiver_user) {
 
   return null
 }
+
+
+
+export async function updateView(postId){
+  const supabase = createServerComponentClient({ cookies })
+  const {
+    data: { session }
+  } = await supabase.auth.getSession();
+
+  if(!session){
+    const { data, error} = await supabase.from('impressions').insert({post_id : postId});
+
+    if(error){
+      console.log(error);
+      return false;
+    } 
+    return true;
+  } else {
+    const { data, error} = await supabase.from('impressions').insert({post_id : postId, viewer_id : session.user.id});
+
+    if(error){
+      if(error.code === '23505'){
+        //means is duplicate key, and that's correct
+        //so the user's view will not be saved twice
+        return true;
+      }
+      console.log(error);
+      return false;
+    } 
+    return true;
+  }
+}

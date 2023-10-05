@@ -118,6 +118,7 @@ export default async function PublicChannelsPost ({ post, disableReaction, moder
           numLikes={post.likes}
           numDislikes={post.dislikes}
           disable={disableReaction}
+          views={post.views}
         />
         {moderator && (
             <DeleteBtn id={post.id}/>
