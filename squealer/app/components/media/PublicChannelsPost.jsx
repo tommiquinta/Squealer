@@ -5,6 +5,8 @@ import moment from 'moment'
 import Avatar from '../Avatar'
 import Reaction from '../reaction/Reaction'
 import DeleteBtn from '../moderators/DeleteBtn'
+import PostContent from './PostContent'
+import { updateView } from '../../../helper/squealsServerActions'
 
 export default async function PublicChannelsPost ({
   post,
@@ -26,7 +28,12 @@ export default async function PublicChannelsPost ({
       .select('name, avatar')
       .eq('id', post.channel_id)
   }
-  info = info.data[0]
+  info = info.data[0];
+
+  async function increaseViews(){
+    'use server';
+    updateView(post?.id);
+  }
 
   return (
     <Card>
@@ -58,7 +65,11 @@ export default async function PublicChannelsPost ({
       </div>
 
       <div className='my-4'>
-        <p className='my-3 text-md'>{post.content}</p>
+          <PostContent callbackFn={increaseViews}>
+            {post.content}
+          </PostContent>
+          
+         
 
         <div className=''>
           {post.photos?.length > 0 && (

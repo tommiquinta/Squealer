@@ -15,46 +15,43 @@ import 'leaflet/dist/images/marker-shadow.png'
 
 export default async function Home () {
   // Crea un oggetto supabase utilizzando createServerComponentClient e passa l'oggetto cookies come argomento
-  const supabase = createServerComponentClient({ cookies })
+  const supabase = createServerComponentClient({ cookies });
 
   // Ottieni la sessione utente corrente da Supabase
   const {
     data: { session }
-  } = await supabase.auth.getSession()
+  } = await supabase.auth.getSession();
 
-  const hasLoggedIn = session ? true : false
-  var userObj = null //oggetto per passare le informazioni dell'user ai figli della home
+  console.log(session);
 
-  var squeals = null
+  const hasLoggedIn = session ? true : false;
+  var userObj = null; //oggetto per passare le informazioni dell'user ai figli della home
 
-  const publicSqueals = await supabase.rpc('get_public_only')
-  const publicChannelsList = await supabase.rpc('get_public_list')
+  var squeals = null;
+  
+  const publicSqueals = await supabase.rpc('get_public_only');
+  const publicChannelsList = await supabase.rpc('get_public_list');
   if (!hasLoggedIn) {
-    squeals = publicSqueals
+    squeals = publicSqueals;
   } else {
-    var user = session.user
+    var user = session.user;
 
     userObj = await supabase.rpc('get_logged_user', {
       user_uuid: user.id
-    })
+    });
     squeals = await supabase.rpc('get_posts', {
       user_uuid: user.id
-    })
-
-    // squeals ora contiene in data un array json con:
-    // id, created_at, username, avatar, content, photos,
-    // channel_id, likes (ovvero numero dei like per post), dislike (numero dei dislike per post),
-    // hasLiked (boolean true se l'utente ha messo like), hasDisliked (boolean true se l'utente ha messo dislike)
+    });
+    
   }
 
-  //queste due necessitano di un form -> server actions
 
   return (
     <>
       <Suspense fallback={<Preloader />}>
         <NavigationBar
           hasLoggedIn={hasLoggedIn}
-          sessionUsername={hasLoggedIn ? userObj.data[0].username : null}
+          sessionUsername={hasLoggedIn ? (userObj.data ? userObj.data[0].username : null ) : null}
         />
 
         {/* questi non vanno qui <AuthButtonServer /> */}
@@ -70,6 +67,7 @@ export default async function Home () {
               ))}
 
             {hasLoggedIn && (
+              userObj.data &&(
               <div>
                 <PostFormCard profile={userObj.data[0]} />
                 <hr className='mb-5' />
@@ -88,7 +86,7 @@ export default async function Home () {
                   </PostCard>
                 ))}
               </div>
-            )}
+            ))}
           </div>
         </div>
         <div className='left-1/4 relative ml-2'>

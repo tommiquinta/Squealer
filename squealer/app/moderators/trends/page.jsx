@@ -44,13 +44,13 @@ export default async function Trends(){
                 <NavigationBar hasLoggedIn={true} sessionUsername={moderator.data[0].username} move={true}/>
                 <Link href="/moderators" className='text-white flex gap-2 mx-2 py-1 px-2 md:py-3 bg-socialBlue hover:bg-opacity-20 hover:text-black md:-mx-10 md:-ml-12 md:px-10 rounded-md hover:shadow-md shadow-gray-300 transition-all hover:scale-110 md:mt-80' >
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512">
-                    <path fill="none" stroke="currentColor" stroke-linecap="round" strokeLinejoin="round" strokeWidth="48" d="M244 400L100 256l144-144M120 256h292"/></svg>
+                    <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="48" d="M244 400L100 256l144-144M120 256h292"/></svg>
                 Back</Link>
             </div>
             <div className='flex-col gap-2 md:w-5/12 md:ml-24'>
                 <p className='text-slate-500 text-lg my-4 text-center flex gap-2 items-center justify-center'>Most Popular Posts
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 14 14">
-                        <g fill="none" stroke="currentColor" stroke-linecap="round" strokeLinejoin="round">
+                        <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M9.5 3.5h4v4"/><path d="M13.5 3.5L7.85 9.15a.5.5 0 0 1-.7 0l-2.3-2.3a.5.5 0 0 0-.7 0L.5 10.5"/>
                         </g></svg></p>
                 {popular && (
@@ -70,7 +70,7 @@ export default async function Trends(){
             <div className='flex-col gap-2 w-5/12 '>
                 <p className='text-slate-500 text-lg my-4 text-center flex gap-2 items-center justify-center'>Most Unpopular Posts
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 14 14">
-                    <g fill="none" stroke="currentColor" stroke-linecap="round" strokeLinejoin="round">
+                    <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M9.5 10.5h4v-4"/>
                         <path d="M13.5 10.5L7.85 4.85a.5.5 0 0 0-.7 0l-2.3 2.3a.5.5 0 0 1-.7 0L.5 3.5"/>
                         </g></svg></p>

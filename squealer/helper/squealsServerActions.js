@@ -90,11 +90,13 @@ export async function updateView (postId) {
       .from('impressions')
       .insert({ post_id: postId })
 
+      
     if (error) {
-      console.log(error)
+      console.log(error);
       return false
     }
     return true
+
   } else {
     const { data, error } = await supabase
       .from('impressions')

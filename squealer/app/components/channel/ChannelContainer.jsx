@@ -14,7 +14,11 @@ export default function ChannelContainer ({
   isSubscribed,
   children
 }) {
-  console.log()
+
+
+  //inserisci controllo: se l'handle è dei gattini o elonmusk e l'ultimo post di questi canali ha più di 24 ore, fai una chiamata
+
+
   return (
     <div className='ml-8 left-1/4 relative'>
       <Card noPadding={true}>

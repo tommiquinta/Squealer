@@ -47,13 +47,13 @@ export default function LoginForm ({ logIn, modLogIn }) {
           <button
             type='button'
             onClick={handleLogin}
-            className='shadow-sm shadow-slate-300 bg-socialBlue w-fit p-2 px-3 mt-3 -mb-3 ml-3 rounded text-white self-center'
+            className='shadow-sm shadow-slate-300 bg-socialBlue w-fit p-2 px-3 mt-3 -mb-3 mr-3 rounded text-white self-center'
           >
             Login
           </button>
           <button
             type='button'
-            onClick={handleLogin}
+            onClick={handleLoginModerator}
             className='shadow-sm shadow-slate-300 w-fit p-2 px-3 mt-3 -mb-3 text-slate-400 rounded self-center'
           >
             Login as Moderator
