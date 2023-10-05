@@ -6,7 +6,11 @@ import Avatar from '../Avatar'
 import Reaction from '../reaction/Reaction'
 import DeleteBtn from '../moderators/DeleteBtn'
 
-export default async function PublicChannelsPost ({ post, disableReaction, moderator}) {
+export default async function PublicChannelsPost ({
+  post,
+  disableReaction,
+  moderator
+}) {
   const supabase = createServerComponentClient({ cookies })
 
   //se è un canale, metto le info del canale
@@ -41,7 +45,7 @@ export default async function PublicChannelsPost ({ post, disableReaction, moder
             {/*             <Link href={'/profile/' + authorProfiles?.id}>
              */}{' '}
             <span className='font-semibold hover:underline cursor-pointer '>
-              {info?.name ? info.name : info.username}
+              {info?.name ? info?.name : info?.username}
             </span>{' '}
             shared a squeal
             {/*             </Link>
@@ -120,9 +124,7 @@ export default async function PublicChannelsPost ({ post, disableReaction, moder
           disable={disableReaction}
           views={post.views}
         />
-        {moderator && (
-            <DeleteBtn id={post.id}/>
-        )}
+        {moderator && <DeleteBtn id={post.id} />}
       </div>
     </Card>
   )

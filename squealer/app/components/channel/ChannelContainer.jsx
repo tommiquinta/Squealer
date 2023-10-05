@@ -4,18 +4,17 @@ import Card from '../Card'
 import Avatar from '../Avatar'
 import PostCard from '../media/PostCard'
 import Reaction from '../reaction/Reaction'
-
+import SubscribeButton from './SubscribeButton'
 
 export default function ChannelContainer ({
   channelInfo,
   channelHandle,
   squeals,
   isPublic,
+  isSubscribed,
   children
 }) {
-
-
-
+  console.log()
   return (
     <div className='ml-8 left-1/4 relative'>
       <Card noPadding={true}>
@@ -39,37 +38,64 @@ export default function ChannelContainer ({
         <div className='pt-2 pb-2 font-sans text-md text-center text-gray-400'>
           {channelInfo?.description}
         </div>
+        <div className='text-center'>
+          <SubscribeButton channel_id={channelInfo.id} isSubscribed={isSubscribed}>
+            Subscribe
+          </SubscribeButton>
+        </div>
       </Card>
 
-      { isPublic ? (children) : (
+      {isPublic ? (
+        children
+      ) : isSubscribed ? (
         <div>
-          {squeals.data ? (  
+          {squeals.data ? (
             <div>
+              <div>
                 <div className='pb-2 font-sans text-sm text-center text-gray-400'>
-                  Here below are gonna be listed all squeals shared to this channel.
+                  Here below are gonna be listed all squeals shared to this
+                  channel.
                 </div>
-                <div>
-                      {  squeals?.data.map(post => (
-                          <PostCard key={post.id} post={post}>
-                            <Reaction
-                                id={post.id}
-                                numLikes={post.likes}
-                                numDislikes={post.dislikes}
-                                hasLiked={post.hasliked}
-                                hasDisliked={post.hasdisliked}
-                                disable={false}
-                                views={post.views}
-                              />
-                          </PostCard>
-                        ))}
-                </div>
+                {squeals?.data.map(post => (
+                  <PostCard key={post.id} post={post}>
+                    <Reaction
+                      id={post.id}
+                      numLikes={post.likes}
+                      numDislikes={post.dislikes}
+                      hasLiked={post.hasliked}
+                      hasDisliked={post.hasdisliked}
+                      disable={false}
+                      views={post.views}
+                    />
+                  </PostCard>
+                ))}
               </div>
-            ) : (
-              <div className='pb-2 font-sans text-sm text-center text-gray-400'>
-                All quite here, for the moment.
-              </div>
-            )} 
-        </div>)}
+            </div>
+          ) : (
+            <div className='pb-2 font-sans text-sm text-center text-gray-400'>
+              All quite here, for the moment.
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className='pb-2 font-sans content-center text-sm text-center text-gray-400'>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+            strokeWidth={1.5}
+            stroke='currentColor'
+            className='w-6 h-6'
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              d='M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z'
+            />
+          </svg>
+          This channel is private.
+        </div>
+      )}
     </div>
   )
 }

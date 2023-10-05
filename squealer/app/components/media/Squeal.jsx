@@ -3,8 +3,9 @@
 import { useState } from 'react'
 import { createPost } from '../../../helper/squealsServerActions'
 import { createDirectMessage } from '../../../helper/squealsServerActions'
+import { createPrivateChannelSqueal } from '../../../helper/squealsServerActions'
 
-function Squeal ({ content, photos, DM_receiver }) {
+function Squeal ({ content, photos, DM_receiver, disabled }) {
   function createSqueal () {
     if (content?.includes('@') || DM_receiver) {
       createDM()
@@ -17,7 +18,7 @@ function Squeal ({ content, photos, DM_receiver }) {
 
   async function createDM () {
     if (DM_receiver) {
-      if (content.trim().length <= 0 && photos.length==0) {
+      if (content.trim().length <= 0 && photos.length == 0) {
         alert("A squeal with no content is a little useless, isn't it?")
         return
       } else {
@@ -31,7 +32,10 @@ function Squeal ({ content, photos, DM_receiver }) {
       if (match) {
         const receiverHandle = match[1]
 
-        if (content.trim.length - receiverHandle.length - 1 >= 0 && photos.length==0) {
+        if (
+          content.trim.length - receiverHandle.length - 1 >= 0 &&
+          photos.length == 0
+        ) {
           alert("A squeal with no content is a little useless, isn't it?")
           return
         } else {
@@ -43,11 +47,31 @@ function Squeal ({ content, photos, DM_receiver }) {
   }
 
   async function createChannelPost () {
-    
+    if (content.trim().length <= 0 && photos.length == 0) {
+      alert("A squeal with no content is a little useless, isn't it?")
+      return
+    } else {
+      const regex = /§(\w+)/
+      const match = regex.exec(content)
+      if (match) {
+        const receiverHandle = match[1]
+        if (
+          content.trim.length - receiverHandle.length - 1 >= 0 &&
+          photos.length == 0
+        ) {
+          alert("A squeal with no content is a little useless, isn't it?")
+          return
+        } else {
+          await createPrivateChannelSqueal(content, photos, receiverHandle)
+          location.reload()
+        }
+      }
+    }
   }
 
   async function createGenericSqueal () {
-    if (!content && photos.length<0) {
+    console.log(!content)
+    if (!content && photos.length <= 0) {
       alert("A squeal with no content is a little useless, isn't it?")
       return
     } else {
@@ -63,12 +87,21 @@ function Squeal ({ content, photos, DM_receiver }) {
         createSqueal()
       }}
     >
-      <button
-        type='submit'
-        className='bg-blue-500 text-white px-6 py-1 rounded-md'
-      >
-        Squeal
-      </button>
+      {disabled >= 0 ? (
+        <button
+          type='submit'
+          className='bg-blue-500 text-white px-6 py-1 rounded-md'
+        >
+          Squeal
+        </button>
+      ) : (
+        <button
+          disabled
+          className='bg-blue-300 text-white px-6 py-1 rounded-md'
+        >
+          Squeal
+        </button>
+      )}
     </form>
   )
 }

@@ -13,7 +13,6 @@ import 'leaflet/dist/images/marker-icon-2x.png'
 import 'leaflet/dist/images/marker-icon.png'
 import 'leaflet/dist/images/marker-shadow.png'
 
-
 export default async function Home () {
   // Crea un oggetto supabase utilizzando createServerComponentClient e passa l'oggetto cookies come argomento
   const supabase = createServerComponentClient({ cookies })
@@ -27,7 +26,7 @@ export default async function Home () {
   var userObj = null //oggetto per passare le informazioni dell'user ai figli della home
 
   var squeals = null
-  
+
   const publicSqueals = await supabase.rpc('get_public_only')
   const publicChannelsList = await supabase.rpc('get_public_list')
   if (!hasLoggedIn) {
@@ -41,8 +40,7 @@ export default async function Home () {
     squeals = await supabase.rpc('get_posts', {
       user_uuid: user.id
     })
- 
-    
+
     // squeals ora contiene in data un array json con:
     // id, created_at, username, avatar, content, photos,
     // channel_id, likes (ovvero numero dei like per post), dislike (numero dei dislike per post),

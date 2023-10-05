@@ -1,3 +1,4 @@
+
 'use client';
 import { useState } from "react";
 import Card from "../Card";
@@ -37,7 +38,7 @@ export default function AddChannel(){
         <Card>
             <form className="flex flex-col gap-2 p-3" action={createNewPublicChannel}>
                 <p className="text-center font-bold"> Create a new public channel</p>
-                <label className={labelClasses} htmlFor="channelName">Insert your new channel's name:</label>
+                <label className={labelClasses} htmlFor="channelName">Insert your new channel`&apos;`s name:</label>
                 <input value={name} type="text" id="channelName" onChange={(e) => setName(e.target.value)}
                     placeholder="Insert name" 
                     className={inputClasses}/>

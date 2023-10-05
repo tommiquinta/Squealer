@@ -5,103 +5,121 @@ import Reaction from '../reaction/Reaction'
 import PublicChannelsPost from '../media/PublicChannelsPost'
 import PublicPostFormCard from '../moderators/PublicPostFormCard'
 
-export default async function ChannelPage ({ channelId, children, user_uuid, isPrivate }) {
+export default async function ChannelPage ({
+  channelId,
+  children,
+  user_uuid,
+  isPrivate
+}) {
   const supabase = createClientComponentClient({ cookies })
 
-  var channelInfo = null; 
-  var squeals = null;
-  var isModerator = null;
+  var channelInfo = null
+  var squeals = null
+  var isModerator = null
+  var isSubscribed = null
 
-  if(user_uuid){
+  if (user_uuid) {
     squeals = await supabase.rpc('get_specific_public_channel_posts', {
       channelid: channelId,
       user_uuid: user_uuid
-    });
-    const existModerator = await supabase.from('moderators').select('*').eq('id', user_uuid);
-    isModerator = existModerator?.data.length > 0 ? true : false;
-
+    })
+    const existModerator = await supabase
+      .from('moderators')
+      .select('*')
+      .eq('id', user_uuid)
+    isModerator = existModerator?.data.length > 0 ? true : false
   } else {
-    squeals = await supabase.rpc('get_single_channel', {id_channel : channelId});
-  } 
+    squeals = await supabase.rpc('get_single_channel', {
+      id_channel: channelId
+    })
+  }
 
-  if(isPrivate){
+  if (isPrivate) {
     channelInfo = await supabase
-    .from('private_channels')
-    .select('*, channels(handle)')
-    .eq('id', channelId);
-
+      .from('private_channels')
+      .select('*, channels(handle)')
+      .eq('id', channelId)
+    isSubscribed = await supabase
+      .from('private_channel_subscription')
+      .select('*')
+      .eq('user_id', user_uuid)
+      .eq('channel', channelId)
   } else {
     channelInfo = await supabase
       .from('public_channels')
       .select('*, channels(handle)')
-      .eq('id', channelId);
+      .eq('id', channelId)
   }
+  console.log(isSubscribed)
+  isSubscribed = isSubscribed?.data.length > 0 ? true : false
 
-console.log(isModerator);
   return (
     <div className='w-[85%]'>
       {children}
       <div className='flex-col'>
-        { //non loggato e canale pubblico
-          !user_uuid && (
-          !isPrivate && (
+        {
+          //non loggato e canale pubblico
+          !user_uuid && !isPrivate && (
             <ChannelContainer
               channelInfo={channelInfo?.data[0]}
               channelHandle={channelInfo?.data[0]?.channels.handle}
-              squeals={squeals} 
-              isPublic={!isPrivate}>
-
-                {squeals?.data?.map(publicPost => (
-                    <PublicChannelsPost
-                      key={publicPost.id}
-                      post={publicPost}
-                      disableReaction={true}
-                    />
-                  ))}
-
-              </ChannelContainer>
+              squeals={squeals}
+              isPublic={!isPrivate}
+            >
+              {squeals?.data?.map(publicPost => (
+                <PublicChannelsPost
+                  key={publicPost.id}
+                  post={publicPost}
+                  disableReaction={true}
+                />
+              ))}
+            </ChannelContainer>
           )
-        )}
+        }
 
-        { //loggato e canale pubblico
-          user_uuid && (
-          !isPrivate && (
+        {
+          //loggato e canale pubblico
+          user_uuid && !isPrivate && (
             <ChannelContainer
               channelInfo={channelInfo?.data[0]}
               channelHandle={channelInfo?.data[0]?.channels.handle}
-              squeals={squeals} 
-              isPublic={!isPrivate}>
-                {isModerator && (
-                  <div>
-                    <PublicPostFormCard channel={channelInfo?.data[0]} handle={channelInfo?.data[0]?.channels.handle}/>
-                    <hr className='mb-5' />
-                  </div>
-                )}
+              squeals={squeals}
+              isPublic={!isPrivate}
+            >
+              {isModerator && (
+                <div>
+                  <PublicPostFormCard
+                    channel={channelInfo?.data[0]}
+                    handle={channelInfo?.data[0]?.channels.handle}
+                  />
+                  <hr className='mb-5' />
+                </div>
+              )}
 
-                {squeals?.data?.map(publicPost => (
-                    <PublicChannelsPost
-                      key={publicPost.id}
-                      post={publicPost}
-                      disableReaction={false}
-                      moderator={isModerator}
-                    />
-                  ))}
-
-              </ChannelContainer>
+              {squeals?.data?.map(publicPost => (
+                <PublicChannelsPost
+                  key={publicPost.id}
+                  post={publicPost}
+                  disableReaction={false}
+                  moderator={isModerator}
+                />
+              ))}
+            </ChannelContainer>
           )
-        )}
+        }
 
-        { //loggato e canale privato
-          user_uuid && (
-          isPrivate && (   
-          <ChannelContainer
-          channelInfo={channelInfo?.data[0]}
-          channelHandle={channelInfo?.data[0]?.channels.handle}
-          squeals={squeals}
-          isPublic={!isPrivate}
-        ></ChannelContainer>
-        ))}
-
+        {
+          //loggato e canale privato
+          user_uuid && isPrivate && (
+            <ChannelContainer
+              channelInfo={channelInfo?.data[0]}
+              channelHandle={channelInfo?.data[0]?.channels.handle}
+              squeals={squeals}
+              isPublic={!isPrivate}
+              isSubscribed={isSubscribed}
+            ></ChannelContainer>
+          )
+        }
       </div>
     </div>
   )
