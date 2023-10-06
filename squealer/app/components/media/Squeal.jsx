@@ -46,6 +46,7 @@ function Squeal ({ content, photos, DM_receiver, disabled }) {
     }
   }
 
+  var isSub = true
   async function createChannelPost () {
     if (content.trim().length <= 0 && photos.length == 0) {
       alert("A squeal with no content is a little useless, isn't it?")
@@ -62,8 +63,15 @@ function Squeal ({ content, photos, DM_receiver, disabled }) {
           alert("A squeal with no content is a little useless, isn't it?")
           return
         } else {
-          await createPrivateChannelSqueal(content, photos, receiverHandle)
-          location.reload()
+          isSub = (await createPrivateChannelSqueal(content, photos, receiverHandle))
+          console.log(isSub)
+          if (!isSub) {
+            alert(
+              'Subscribe to this channel to be able to share squeals in it.'
+            )
+          } else {
+            location.reload()
+          }
         }
       }
     }

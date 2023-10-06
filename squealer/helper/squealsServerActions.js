@@ -66,15 +66,33 @@ export async function createPrivateChannelSqueal (
     data: { session }
   } = await supabase.auth.getSession()
 
-  const { data, error } = await supabase.rpc('create_private_channel_squeal', {
-    author_id: session?.user.id,
-    receiver_channel: receiver_channel,
-    post_content: content,
-    post_photos: photos
+  var isSub = null // variable to check wether the user is subscripted to the channel or not
+
+  isSub = await supabase.rpc('get_private_subscription', {
+    user_uuid: session?.user.id,
+    channel_handle: receiver_channel
   })
-  if (error) {
-    console.error('Errore durante la chiamata RPC:', error.message)
-    return null
+
+  isSub = isSub.data ? true : false
+
+  if (!isSub) {
+    return false
+  } else {
+    const { data, error } = await supabase.rpc(
+      'create_private_channel_squeal',
+      {
+        author_id: session?.user.id,
+        receiver_channel: receiver_channel,
+        post_content: content,
+        post_photos: photos
+      }
+    )
+    if (error) {
+      console.error('Errore durante la chiamata RPC:', error.message)
+      return null
+    } else{
+      return true
+    }
   }
   return null
 }
@@ -90,13 +108,11 @@ export async function updateView (postId) {
       .from('impressions')
       .insert({ post_id: postId })
 
-      
     if (error) {
-      console.log(error);
+      console.log(error)
       return false
     }
     return true
-
   } else {
     const { data, error } = await supabase
       .from('impressions')

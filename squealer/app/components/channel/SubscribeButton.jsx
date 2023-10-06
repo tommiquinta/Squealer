@@ -44,7 +44,6 @@ function SubscribeButton ({ channel_id, isSubscribed }) {
             Unsubscribe
           </button>
           <p className='pt-2 pb-2 font-sans text-sm text-center text-gray-400' />
-
         </div>
       )}
     </form>
