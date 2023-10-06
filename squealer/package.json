@@ -30,6 +30,7 @@
     "leaflet-defaulticon-compatibility": "^0.1.2",
     "leaflet-image": "^0.4.0",
     "moment": "^2.29.4",
+    "newsapi": "^2.4.1",
     "next": "^13.5.4",
     "npm": "^9.8.1",
     "postcss": "8.4.27",

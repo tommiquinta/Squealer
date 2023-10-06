@@ -15,10 +15,6 @@ export default function ChannelContainer ({
   children
 }) {
 
-
-  //inserisci controllo: se l'handle è dei gattini o elonmusk e l'ultimo post di questi canali ha più di 24 ore, fai una chiamata
-
-
   return (
     <div className='ml-8 left-1/4 relative'>
       <Card noPadding={true}>
@@ -43,9 +39,11 @@ export default function ChannelContainer ({
           {channelInfo?.description}
         </div>
         <div className='text-center'>
-          <SubscribeButton channel_id={channelInfo.id} isSubscribed={isSubscribed}>
-            Subscribe
-          </SubscribeButton>
+          {!isPublic && !isSubscribed && (
+            <SubscribeButton channel_id={channelInfo.id} isSubscribed={isSubscribed}>
+              Subscribe
+            </SubscribeButton>
+          )}
         </div>
       </Card>
 

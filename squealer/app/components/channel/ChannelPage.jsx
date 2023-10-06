@@ -4,6 +4,7 @@ import { cookies } from 'next/headers'
 import Reaction from '../reaction/Reaction'
 import PublicChannelsPost from '../media/PublicChannelsPost'
 import PublicPostFormCard from '../moderators/PublicPostFormCard'
+import {checkElon, checkKitty} from '../../../helper/automaticMessages.js'
 
 export default async function ChannelPage ({
   channelId,
@@ -17,22 +18,6 @@ export default async function ChannelPage ({
   var squeals = null
   var isModerator = null
   var isSubscribed = null
-
-  if (user_uuid) {
-    squeals = await supabase.rpc('get_specific_public_channel_posts', {
-      channelid: channelId,
-      user_uuid: user_uuid
-    })
-    const existModerator = await supabase
-      .from('moderators')
-      .select('*')
-      .eq('id', user_uuid)
-    isModerator = existModerator?.data.length > 0 ? true : false
-  } else {
-    squeals = await supabase.rpc('get_single_channel', {
-      id_channel: channelId
-    })
-  }
 
   if (isPrivate) {
     channelInfo = await supabase
@@ -50,8 +35,46 @@ export default async function ChannelPage ({
       .select('*, channels(handle)')
       .eq('id', channelId)
   }
-  console.log(isSubscribed)
+ 
   isSubscribed = isSubscribed?.data.length > 0 ? true : false
+
+
+  if(!isPrivate){
+    //inserisci controllo: se l'handle è dei gattini o elonmusk e l'ultimo post di questi canali ha più di 24 ore, fai una chiamata
+
+    var channelHandle = channelInfo?.data[0]?.channels.handle;
+    if(channelHandle == 'ELONTWEET'){
+      checkElon();
+    }
+    if(channelHandle == 'MOEW'){
+
+    }
+  
+  
+  
+  }
+
+  if (user_uuid) {
+    squeals = await supabase.rpc('get_specific_public_channel_posts', {
+      channelid: channelId,
+      user_uuid: user_uuid
+    })
+    const existModerator = await supabase
+      .from('moderators')
+      .select('*')
+      .eq('id', user_uuid)
+    isModerator = existModerator?.data.length > 0 ? true : false
+  } else {
+    squeals = await supabase.rpc('get_single_channel', {
+      id_channel: channelId
+    })
+  }
+
+
+
+
+
+
 
   return (
     <div className='w-[85%]'>
