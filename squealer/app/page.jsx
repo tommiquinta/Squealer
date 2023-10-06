@@ -22,16 +22,16 @@ export default async function Home () {
     data: { session }
   } = await supabase.auth.getSession();
 
-  console.log(session);
 
   const hasLoggedIn = session ? true : false;
   var userObj = null; //oggetto per passare le informazioni dell'user ai figli della home
 
   var squeals = null;
   
-  const publicSqueals = await supabase.rpc('get_public_only');
   const publicChannelsList = await supabase.rpc('get_public_list');
   if (!hasLoggedIn) {
+    const publicSqueals = await supabase.rpc('get_public_only');
+
     squeals = publicSqueals;
   } else {
     var user = session.user;
@@ -39,7 +39,7 @@ export default async function Home () {
     userObj = await supabase.rpc('get_logged_user', {
       user_uuid: user.id
     });
-    squeals = await supabase.rpc('get_posts', {
+    squeals = await supabase.rpc('get_all_posts', {
       user_uuid: user.id
     });
     

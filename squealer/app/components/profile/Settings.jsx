@@ -10,12 +10,11 @@ export default function Settings() {
 
     async function handleClick(newPw) {
         const result =await changePassword(newPw);
-        console.log(result);
     }
 
     return (
         <form action={handleClick} className="p-3 gap-3 flex-column">
-            <p className="m-1 text-center text-slate-400">{username} `&apos;`s settings:</p>
+            <p className="m-1 text-center text-slate-400">{username}&apos;s settings:</p>
             <hr className="my-3"/>
             <ChangePw/>
         </form>

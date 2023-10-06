@@ -7,7 +7,7 @@ export default function ChannelView({avatar, banner, editable, children}){
                 <div className="w-6/12">
                     <Cover url={banner} editable={editable}/>
                     <div className="relative -mt-12 w-full">
-                        <div className="border-white border-4 rounded-full w-fit mx-auto">
+                        <div className="border-white border-4 bg-white rounded-full w-fit mx-auto">
                             <Avatar url={avatar} size='big' editable={editable}/>
                         </div>
                     </div>

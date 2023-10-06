@@ -35,7 +35,8 @@ export default async function ProfilePage({ children, profile, isMyUser }) {
 
   var moderator = false;
   if (isMyUser) {
-    moderator = await supabase.from('moderators').select('*').eq('username', user.username);
+    const exist = await supabase.from('moderators').select('*').eq('username', user.username);
+    moderator = exist.data?.length > 0 ? true :false;
   }
 
   return (

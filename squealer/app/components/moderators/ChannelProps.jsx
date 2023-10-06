@@ -19,7 +19,7 @@ export default function ChannelProps({channelName, channelDescription, handle, e
                 <textarea value={description} className={`${editableClasses} h-20`} type="text" id="channelDescription" disabled={!editable} onChange={(e) => setDescription(e.target.value)}/>
             </div>
 
-            <p className="font-bold flex gap-3">Handle: <span className="font-normal">{handle}</span></p>
+            <p className="font-bold flex gap-3">Handle: <span className="font-normal">§{handle}</span></p>
             { editable && (
                 <button type="submit" className='text-white flex gap-2 py-1 px-2 md:px-4 mt-3 bg-socialBlue hover:bg-green-700 rounded-md hover:shadow-md shadow-gray-300 transition-all float-right'>
                     Save
