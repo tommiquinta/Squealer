@@ -46,12 +46,6 @@ export default async function ChannelPage ({
     if(channelHandle == 'ELONTWEET'){
       checkElon();
     }
-    if(channelHandle == 'MOEW'){
-
-    }
-  
-  
-  
   }
 
   if (user_uuid) {
