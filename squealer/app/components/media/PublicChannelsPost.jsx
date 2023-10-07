@@ -18,17 +18,15 @@ export default async function PublicChannelsPost ({
   //se è un canale, metto le info del canale
   var info = null
   if (post.channel_id == null) {
-    info = await supabase
-      .from('profiles')
-      .select('username, avatar')
-      .eq('uuid', post.author)
+    info = { username : post.username, avatar : post.avatar};
   } else {
     info = await supabase
       .from('public_channels')
       .select('name, avatar')
-      .eq('id', post.channel_id)
+      .eq('id', post.channel_id);
+    info = info.data[0];
   }
-  info = info.data[0];
+  
 
   async function increaseViews(){
     'use server';

@@ -52,19 +52,32 @@ export default async function ChannelPage ({
   }
 
   if (user_uuid) {
-    squeals = await supabase.rpc('get_specific_public_channel_posts', {
-      channelid: channelId,
-      user_uuid: user_uuid
-    })
+    if(channelHandle == 'CONTROVERSIAL'){
+      squeals = await supabase.rpc('get_controversial_with_user', {
+        user_uuid: user_uuid
+      })
+    } else {
+      squeals = await supabase.rpc('get_specific_public_channel_posts', {
+        channelid: channelId,
+        user_uuid: user_uuid
+      })
+    }
+    
     const existModerator = await supabase
       .from('moderators')
       .select('*')
       .eq('id', user_uuid)
     isModerator = existModerator?.data.length > 0 ? true : false
+
   } else {
-    squeals = await supabase.rpc('get_single_channel', {
-      id_channel: channelId
-    })
+    if(channelHandle == 'CONTROVERSIAL'){
+      squeals = await supabase.rpc('get_controversial_general');
+    } else {
+      squeals = await supabase.rpc('get_single_channel', {
+        id_channel: channelId
+      })
+    }
+    
   }
 
 
