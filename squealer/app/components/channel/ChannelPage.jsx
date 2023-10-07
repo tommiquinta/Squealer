@@ -44,7 +44,10 @@ export default async function ChannelPage ({
 
     var channelHandle = channelInfo?.data[0]?.channels.handle;
     if(channelHandle == 'ELONTWEET'){
-      checkElon();
+      const result = await checkElon();
+      if(!result){
+        alert('Something went wrong');
+      }
     }
   }
 
@@ -63,10 +66,6 @@ export default async function ChannelPage ({
       id_channel: channelId
     })
   }
-
-
-
-
 
 
 

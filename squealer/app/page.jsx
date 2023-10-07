@@ -29,6 +29,7 @@ export default async function Home () {
   var squeals = null;
   
   const publicChannelsList = await supabase.rpc('get_public_list');
+
   if (!hasLoggedIn) {
     const publicSqueals = await supabase.rpc('get_public_only');
 
@@ -72,7 +73,14 @@ export default async function Home () {
                 <PostFormCard profile={userObj.data[0]} />
                 <hr className='mb-5' />
 
-                {squeals?.data?.map(post => (
+                {squeals?.data?.map(post => 
+                ( post.channel_id ? (
+                  <PublicChannelsPost
+                  key={post.id}
+                  post={post}
+                  disableReaction={false}
+                />
+                ) : (
                   <PostCard key={post.id} post={post}>
                     <Reaction
                       id={post.id}
@@ -84,6 +92,8 @@ export default async function Home () {
                       views={post.views}
                     />
                   </PostCard>
+                )
+                  
                 ))}
               </div>
             ))}

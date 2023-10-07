@@ -23,7 +23,13 @@ export async function checkElon(){
             photos : [datas.articles[number].urlToImage ],
             channel_id : 1
         });
+
+        if(error){
+            console.log(error);
+            return false;
+        }
     }
+    return true;
 }
 
 

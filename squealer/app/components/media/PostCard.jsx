@@ -15,9 +15,26 @@ export default function PostCard({ post, children }) {
   function increaseViews(){
       updateView(post?.id);
   }
+
+  var color= null;
+
+  switch (post.categoria){
+    case 'pop':
+      color="border-2 border-teal-700/50";
+      break;
+    case 'unpop':
+      color="border-2 border-red-800/50 ";
+      break;
+    case 'contr':
+      color="border-2 border-blue-600/50";
+      break;
+    default:
+      color=null;
+  }
+  
   
   return (
-    <Card>
+    <Card add={color}>
       <div className='flex gap-3'>
         <div>
           <Link href={`/profiles/${post?.username}`}>
