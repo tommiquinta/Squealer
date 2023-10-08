@@ -12,47 +12,49 @@ import Reaction from './components/reaction/Reaction'
 import 'leaflet/dist/images/marker-icon-2x.png'
 import 'leaflet/dist/images/marker-icon.png'
 import 'leaflet/dist/images/marker-shadow.png'
+import CommentsSection from './components/reaction/CommentsSection'
 
 export default async function Home () {
-  // Crea un oggetto supabase utilizzando createServerComponentClient e passa l'oggetto cookies come argomento
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createServerComponentClient({ cookies })
 
-  // Ottieni la sessione utente corrente da Supabase
   const {
     data: { session }
-  } = await supabase.auth.getSession();
+  } = await supabase.auth.getSession()
 
+  const hasLoggedIn = session ? true : false
+  var userObj = null //oggetto per passare le informazioni dell'user ai figli della home
 
-  const hasLoggedIn = session ? true : false;
-  var userObj = null; //oggetto per passare le informazioni dell'user ai figli della home
+  var squeals = null
 
-  var squeals = null;
-  
-  const publicChannelsList = await supabase.rpc('get_public_list');
+  const publicChannelsList = await supabase.rpc('get_public_list')
 
   if (!hasLoggedIn) {
-    const publicSqueals = await supabase.rpc('get_public_only');
+    const publicSqueals = await supabase.rpc('get_public_only')
 
-    squeals = publicSqueals;
+    squeals = publicSqueals
   } else {
-    var user = session.user;
+    var user = session.user
 
     userObj = await supabase.rpc('get_logged_user', {
       user_uuid: user.id
-    });
+    })
     squeals = await supabase.rpc('get_all_posts', {
       user_uuid: user.id
-    });
-    
+    })
   }
-
 
   return (
     <>
       <Suspense fallback={<Preloader />}>
         <NavigationBar
           hasLoggedIn={hasLoggedIn}
-          sessionUsername={hasLoggedIn ? (userObj.data ? userObj.data[0].username : null ) : null}
+          sessionUsername={
+            hasLoggedIn
+              ? userObj.data
+                ? userObj.data[0].username
+                : null
+              : null
+          }
         />
 
         {/* questi non vanno qui <AuthButtonServer /> */}
@@ -67,36 +69,38 @@ export default async function Home () {
                 />
               ))}
 
-            {hasLoggedIn && (
-              userObj.data &&(
+            {hasLoggedIn && userObj.data && (
               <div>
                 <PostFormCard profile={userObj.data[0]} />
                 <hr className='mb-5' />
 
-                {squeals?.data?.map(post => 
-                ( post.channel_id ? (
-                  <PublicChannelsPost
-                  key={post.id}
-                  post={post}
-                  disableReaction={false}
-                />
-                ) : (
-                  <PostCard key={post.id} post={post}>
-                    <Reaction
-                      id={post.id}
-                      numLikes={post.likes}
-                      numDislikes={post.dislikes}
-                      hasLiked={post.hasliked}
-                      hasDisliked={post.hasdisliked}
-                      disable={false}
-                      views={post.views}
-                    />
-                  </PostCard>
-                )
-                  
-                ))}
+                {squeals?.data?.map(post =>
+                  post.channel_id ? (
+                    <PublicChannelsPost
+                      key={post.id}
+                      post={post}
+                      disableReaction={false}
+                      profile={userObj.data[0]}
+                    ></PublicChannelsPost>
+                  ) : (
+                    <PostCard key={post.id} post={post}>
+                      <Reaction
+                        id={post.id}
+                        numLikes={post.likes}
+                        numDislikes={post.dislikes}
+                        hasLiked={post.hasliked}
+                        hasDisliked={post.hasdisliked}
+                        disable={false}
+                        views={post.views}
+                        profile={userObj.data[0]}
+                      />
+
+                      <hr />
+                    </PostCard>
+                  )
+                )}
               </div>
-            ))}
+            )}
           </div>
         </div>
         <div className='left-1/4 relative ml-2'>

@@ -5,6 +5,7 @@ import Avatar from '../Avatar'
 import PostCard from '../media/PostCard'
 import Reaction from '../reaction/Reaction'
 import SubscribeButton from './SubscribeButton'
+import PostFormCard from '../media/PostFormCard'
 
 export default function ChannelContainer ({
   channelInfo,
@@ -14,7 +15,6 @@ export default function ChannelContainer ({
   isSubscribed,
   children
 }) {
-
   return (
     <div className='ml-8 left-1/4 relative'>
       <Card noPadding={true}>
@@ -39,11 +39,12 @@ export default function ChannelContainer ({
           {channelInfo?.description}
         </div>
         <div className='text-center'>
-          {!isPublic && !isSubscribed && (
-            <SubscribeButton channel_id={channelInfo.id} isSubscribed={isSubscribed}>
-              Subscribe
-            </SubscribeButton>
-          )}
+          <SubscribeButton
+            channel_id={channelInfo.id}
+            isSubscribed={isSubscribed}
+          >
+            Subscribe
+          </SubscribeButton>
         </div>
       </Card>
 

@@ -11,26 +11,27 @@ import { updateView } from '../../../helper/squealsServerActions'
 export default async function PublicChannelsPost ({
   post,
   disableReaction,
-  moderator
+  moderator,
+  profile,
+  children
 }) {
   const supabase = createServerComponentClient({ cookies })
 
   //se è un canale, metto le info del canale
   var info = null
   if (post.channel_id == null) {
-    info = { username : post.username, avatar : post.avatar};
+    info = { username: post.username, avatar: post.avatar }
   } else {
     info = await supabase
       .from('public_channels')
       .select('name, avatar')
-      .eq('id', post.channel_id);
-    info = info.data[0];
+      .eq('id', post.channel_id)
+    info = info.data[0]
   }
-  
 
-  async function increaseViews(){
-    'use server';
-    updateView(post?.id);
+  async function increaseViews () {
+    'use server'
+    updateView(post?.id)
   }
 
   return (
@@ -63,11 +64,7 @@ export default async function PublicChannelsPost ({
       </div>
 
       <div className='my-4'>
-          <PostContent callbackFn={increaseViews}>
-            {post.content}
-          </PostContent>
-          
-         
+        <PostContent callbackFn={increaseViews}>{post.content}</PostContent>
 
         <div className=''>
           {post.photos?.length > 0 && (
@@ -132,9 +129,11 @@ export default async function PublicChannelsPost ({
           numDislikes={post.dislikes}
           disable={disableReaction}
           views={post.views}
+          profile={profile}
         />
         {moderator && <DeleteBtn id={post.id} />}
       </div>
+      {children}
     </Card>
   )
 }

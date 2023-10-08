@@ -3,12 +3,7 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 
-export async function createPost (
-  content,
-  photos,
-  receiver_channel,
-  receiver_user
-) {
+export async function createPost (content, photos) {
   const supabase = createServerComponentClient({ cookies })
   const {
     data: { session }
@@ -90,9 +85,45 @@ export async function createPrivateChannelSqueal (
     if (error) {
       console.error('Errore durante la chiamata RPC:', error.message)
       return null
-    } else{
+    } else {
       return true
     }
+  }
+  return null
+}
+
+export async function comment (content, post) {
+  const supabase = createServerComponentClient({ cookies })
+  const {
+    data: { session }
+  } = await supabase.auth.getSession()
+
+  const { data, error } = await supabase.rpc('comment', {
+    author_id: session?.user.id,
+    content: content,
+    post: post
+  })
+  if (error) {
+    console.error('Errore durante la chiamata RPC:', error.message)
+    return null
+  }
+  return null
+}
+
+export async function getComments (post) {
+  const supabase = createServerComponentClient({ cookies })
+  const {
+    data: { session }
+  } = await supabase.auth.getSession()
+
+  const { data, error } = await supabase.rpc('get_comments', {
+    post_id: post
+  })
+  if (error) {
+    console.error('Errore durante la chiamata RPC:', error.message)
+    return null
+  } else {
+    return data
   }
   return null
 }

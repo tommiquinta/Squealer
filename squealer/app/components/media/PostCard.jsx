@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import Card from '../Card'
 import moment from 'moment'
@@ -8,31 +8,29 @@ import Media from './Media'
 import PostContent from './PostContent'
 import { updateView } from '../../../helper/squealsServerActions'
 
-export default function PostCard({ post, children }) {
-  const uploads = post?.photos;
+export default function PostCard ({ post, children }) {
+  const uploads = post?.photos
 
-
-  function increaseViews(){
-      updateView(post?.id);
+  function increaseViews () {
+    updateView(post?.id)
   }
 
-  var color= null;
+  var color = null
 
-  switch (post.categoria){
+  switch (post.categoria) {
     case 'pop':
-      color="border-2 border-teal-700/50";
-      break;
+      color = 'border-2 border-teal-700/50'
+      break
     case 'unpop':
-      color="border-2 border-red-800/50 ";
-      break;
+      color = 'border-2 border-red-800/50 '
+      break
     case 'contr':
-      color="border-2 border-blue-600/50";
-      break;
+      color = 'border-2 border-blue-600/50'
+      break
     default:
-      color=null;
+      color = null
   }
-  
-  
+
   return (
     <Card add={color}>
       <div className='flex gap-3'>
@@ -59,29 +57,21 @@ export default function PostCard({ post, children }) {
       </div>
 
       <div className='my-4'>
-      
-          <PostContent callbackFn={increaseViews}>
-            {post?.content}
-          </PostContent>
-
+        <PostContent callbackFn={increaseViews}>{post?.content}</PostContent>
 
         {uploads?.length > 0 && (
           <div
             style={{
               backgroundRepeat: 'no-repeat',
-              backgroundSize: 'container',
+              backgroundSize: 'container'
             }}
-            className='w-full h-full rounded-2xl bg-center'>
-
+            className='w-full h-full rounded-2xl bg-center'
+          >
             <Media uploads={uploads} />
           </div>
         )}
-
       </div>
-
-      <div className=''>
-        {children}
-      </div>
+      <div className=''>{children}</div>
     </Card>
   )
 }

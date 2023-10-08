@@ -22,7 +22,6 @@ export default function PostFormCard ({ profile, onPost, isDM, DM_receiver }) {
     setDaily_quota(profile.daily_quota)
   }, [profile])
 
-
   async function addPhotos (ev) {
     try {
       const files = ev.target.files
@@ -229,6 +228,7 @@ export default function PostFormCard ({ profile, onPost, isDM, DM_receiver }) {
             photos={uploads}
             DM_receiver={DM_receiver}
             disabled={daily_quota}
+            onNewPost={onPost}
           >
             Squeal
           </Squeal>

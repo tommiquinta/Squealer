@@ -2,6 +2,11 @@ import UpdateImgBtn from './profile/UpdateImgBtn'
 
 export default function Avatar ({ url, size, editable, onChange }) {
   let sizeWidth = 'w-12 h-12'
+
+  if (size === 'small') {
+    sizeWidth = 'w-8 h-8'
+  }
+
   if (size === 'big') {
     sizeWidth = 'w-24 h-24'
   }
@@ -28,7 +33,7 @@ export default function Avatar ({ url, size, editable, onChange }) {
         </div>
       </div>
 
-      {editable && <UpdateImgBtn add={'right-[unset]'}/>}
+      {editable && <UpdateImgBtn add={'right-[unset]'} />}
     </div>
   )
 }
