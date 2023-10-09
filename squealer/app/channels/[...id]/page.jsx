@@ -7,7 +7,8 @@ export default async function Channel ({ params }) {
   const supabase = createServerComponentClient({ cookies })
 
   var channelId = params?.id[0]
-  if (typeof channelId != 'number') {
+
+  if (isNaN(channelId)) {
     channelId = await supabase
       .from('channels')
       .select('id')

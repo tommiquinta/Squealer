@@ -14,8 +14,8 @@ export default function PostFormCard ({ profile, onPost, isDM, DM_receiver }) {
   const [uploads, setUploads] = useState([])
   const [isUploading, setIsUploading] = useState(false)
   const [content, setContent] = useState('')
-  const [disabled, setDisabled] = useState(false);
-  const [destinatari, setDestinatari] = useState('');
+  const [disabled, setDisabled] = useState(false)
+  const [destinatari, setDestinatari] = useState('')
 
   const supabase = createClientComponentClient({ cookies })
 
@@ -145,9 +145,16 @@ export default function PostFormCard ({ profile, onPost, isDM, DM_receiver }) {
         )}
 
         <div className='flex gap-2 my-3 w-full items-center'>
-          <label htmlFor='destinatari' className='text-sm px-0 mx-0'>Send to:</label>
-          <input type='text' placeholder="Insert §<channels' handle>  or @<username>, separe with comma" className='w-10/12 text-xs py-2'
-            value={destinatari} onChange={(e) => setDestinatari(e.target.value)}/>
+          <label htmlFor='destinatari' className='text-sm px-0 mx-0'>
+            Send to:
+          </label>
+          <input
+            type='text'
+            placeholder="Insert §<channels' handle>  or @<username>, separe with comma"
+            className='w-10/12 text-xs py-2'
+            value={destinatari}
+            onChange={e => setDestinatari(e.target.value)}
+          />
         </div>
 
         <div className='flex gap-6 items-center my-3'>
@@ -235,7 +242,7 @@ export default function PostFormCard ({ profile, onPost, isDM, DM_receiver }) {
             photos={uploads}
             DM_receiver={DM_receiver}
             disabled={daily_quota}
-            sendTo ={destinatari}
+            sendTo={destinatari}
           >
             Squeal
           </Squeal>
