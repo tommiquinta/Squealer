@@ -22,6 +22,10 @@ export default function PostCard ({ post, children }) {
         const keyword = word.substring(1)
 
         return `<a href=/channels/${keyword} class="text-blue-500 hover:underline">§${keyword}</a>`
+      } else if (word.startsWith('@')) {
+        const keyword = word.substring(1)
+
+        return `<a href=/profiles/${keyword} class="text-blue-500 hover:underline">@${keyword}</a>`
       }
       return word
     })
