@@ -1,4 +1,5 @@
 'use client'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 import Card from '../Card'
 import moment from 'moment'
@@ -7,14 +8,30 @@ import Link from 'next/link'
 import Media from './Media'
 import PostContent from './PostContent'
 import { updateView } from '../../../helper/squealsServerActions'
+import { useState, useEffect } from 'react'
+import { getChannelInfo } from '../../../helper/channelServerAction'
 
 export default function PostCard ({ post, children }) {
   const uploads = post?.photos
+  var postContent = post.content
+
+  function createMentions (content) {
+    const words = content.split(' ')
+    const contentWithLinks = words.map((word, index) => {
+      if (word.startsWith('§')) {
+        const keyword = word.substring(1)
+
+        return `<a href=/channels/${keyword} class="text-blue-500 hover:underline">§${keyword}</a>`
+      }
+      return word
+    })
+
+    return contentWithLinks.join(' ')
+  }
 
   function increaseViews () {
     updateView(post?.id)
   }
-
   var color = null
 
   switch (post.categoria) {
@@ -46,7 +63,7 @@ export default function PostCard ({ post, children }) {
             <Link href={`/profiles/${post?.username}`}>
               <span className='font-semibold hover:underline cursor-pointer '>
                 {post?.username}
-              </span>{' '}
+              </span>
               shared a squeal
             </Link>
           </p>
@@ -57,7 +74,13 @@ export default function PostCard ({ post, children }) {
       </div>
 
       <div className='my-4'>
-        <PostContent callbackFn={increaseViews}>{post?.content}</PostContent>
+        <PostContent callbackFn={increaseViews}>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: createMentions(postContent)
+            }}
+          ></div>
+        </PostContent>
 
         {uploads?.length > 0 && (
           <div

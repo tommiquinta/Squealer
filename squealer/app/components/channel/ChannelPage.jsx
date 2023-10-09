@@ -4,7 +4,7 @@ import { cookies } from 'next/headers'
 import Reaction from '../reaction/Reaction'
 import PublicChannelsPost from '../media/PublicChannelsPost'
 import PublicPostFormCard from '../moderators/PublicPostFormCard'
-import {checkElon, checkKitty} from '../../../helper/automaticMessages.js'
+import { checkElon, checkKitty } from '../../../helper/automaticMessages.js'
 
 export default async function ChannelPage ({
   channelId,
@@ -35,24 +35,23 @@ export default async function ChannelPage ({
       .select('*, channels(handle)')
       .eq('id', channelId)
   }
- 
+
   isSubscribed = isSubscribed?.data.length > 0 ? true : false
 
-
-  if(!isPrivate){
+  if (!isPrivate) {
     //inserisci controllo: se l'handle è dei gattini o elonmusk e l'ultimo post di questi canali ha più di 24 ore, fai una chiamata
 
-    var channelHandle = channelInfo?.data[0]?.channels.handle;
-    if(channelHandle == 'ELONTWEET'){
-      const result = await checkElon();
-      if(!result){
-        alert('Something went wrong');
+    var channelHandle = channelInfo?.data[0]?.channels.handle
+    if (channelHandle == 'ELONTWEET') {
+      const result = await checkElon()
+      if (!result) {
+        alert('Something went wrong')
       }
     }
   }
 
   if (user_uuid) {
-    if(channelHandle == 'CONTROVERSIAL'){
+    if (channelHandle == 'CONTROVERSIAL') {
       squeals = await supabase.rpc('get_controversial_with_user', {
         user_uuid: user_uuid
       })
@@ -62,25 +61,21 @@ export default async function ChannelPage ({
         user_uuid: user_uuid
       })
     }
-    
+
     const existModerator = await supabase
       .from('moderators')
       .select('*')
       .eq('id', user_uuid)
     isModerator = existModerator?.data.length > 0 ? true : false
-
   } else {
-    if(channelHandle == 'CONTROVERSIAL'){
-      squeals = await supabase.rpc('get_controversial_general');
+    if (channelHandle == 'CONTROVERSIAL') {
+      squeals = await supabase.rpc('get_controversial_general')
     } else {
       squeals = await supabase.rpc('get_single_channel', {
         id_channel: channelId
       })
     }
-    
   }
-
-
 
   return (
     <div className='w-[85%]'>
@@ -101,7 +96,7 @@ export default async function ChannelPage ({
                   post={publicPost}
                   disableReaction={true}
                 />
-              ))}
+              ))}ƒ
             </ChannelContainer>
           )
         }

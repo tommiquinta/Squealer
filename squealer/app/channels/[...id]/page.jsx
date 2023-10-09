@@ -4,9 +4,16 @@ import ChannelPage from '../../components/channel/ChannelPage'
 import NavigationBar from '../../components/layout/Navbar'
 
 export default async function Channel ({ params }) {
-  const channelId = params?.id[0]
-
   const supabase = createServerComponentClient({ cookies })
+
+  var channelId = params?.id[0]
+  if (typeof channelId != 'number') {
+    channelId = await supabase
+      .from('channels')
+      .select('id')
+      .eq('handle', channelId)
+    channelId = channelId.data[0].id
+  }
 
   const {
     data: { session }

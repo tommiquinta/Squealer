@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Avatar from '../Avatar'
 import { comment, getComments } from '../../../helper/squealsServerActions'
 import CommentCard from './CommentCard'
+
 export default function CommentsSection ({ profile, id }) {
   const [content, setContent] = useState('')
   const [comments, setComments] = useState([]) // Stato per memorizzare i commenti
@@ -45,7 +46,12 @@ export default function CommentsSection ({ profile, id }) {
           onChange={e => setContent(e.target.value)}
         />
         <div className='text-right'>
-          <button className='bg-blue-500 text-white px-2 py-1 rounded-md' onClick={handleComment}>Share</button>
+          <button
+            className='bg-blue-500 text-white px-2 py-1 rounded-md'
+            onClick={handleComment}
+          >
+            Share
+          </button>
         </div>
       </div>
 

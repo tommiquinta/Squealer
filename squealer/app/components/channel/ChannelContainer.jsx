@@ -13,12 +13,12 @@ export default function ChannelContainer ({
   squeals,
   isPublic,
   isSubscribed,
+  profile,
   children
 }) {
   return (
     <div className='ml-8 left-1/4 relative'>
       <Card noPadding={true}>
-        {/* banner */}
         <div className='h-40 overflow-hidden flex justify-center items-center rounded-md'>
           <img src={channelInfo?.banner} />
         </div>
@@ -69,6 +69,7 @@ export default function ChannelContainer ({
                       hasDisliked={post.hasdisliked}
                       disable={false}
                       views={post.views}
+                      profile={profile}
                     />
                   </PostCard>
                 ))}
