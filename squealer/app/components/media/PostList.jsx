@@ -6,9 +6,6 @@ import Reaction from '../reaction/Reaction';
 export default function PostList({squeals, loggedUser, hasFilter, filterByChannel, filterByContent}){
     
 
-    console.log(filterByChannel);
-    console.log(filterByContent);
-
     if(hasFilter){
         return(
             <div>
@@ -23,7 +20,7 @@ export default function PostList({squeals, loggedUser, hasFilter, filterByChanne
                    return post.content.toLowerCase().includes(filterByContent.toLowerCase()) && post.channel_id == filterByChannel;
 
                 }).map(post =>
-                    post.channel_id ? (
+                    post.channel_id != null && post.channel_name != null ? (
                     <PublicChannelsPost
                         key={post.id}
                         post={post}
@@ -56,7 +53,7 @@ export default function PostList({squeals, loggedUser, hasFilter, filterByChanne
     return (
         <div>
             {squeals?.map(post =>
-                post.channel_id ? (
+                post.channel_id != null && post.channel_name != null ? (
                 <PublicChannelsPost
                     key={post.id}
                     post={post}
