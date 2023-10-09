@@ -31,7 +31,6 @@ export default function AddChannel ({ pvt }) {
         alert('Something went wrong')
       }
     } else {
-   
       const result = await insertPrivateChannel(
         name,
         descr,

@@ -1,43 +1,44 @@
 'use client'
 
 import { useState } from 'react'
-import { checkAndInsertPublic, createPost } from '../../../helper/squealsServerActions'
+import {
+  checkAndInsertPublic,
+  createPost
+} from '../../../helper/squealsServerActions'
 import { createDirectMessage } from '../../../helper/squealsServerActions'
 import { createPrivateChannelSqueal } from '../../../helper/squealsServerActions'
 
 function Squeal ({ content, photos, DM_receiver, disabled, sendTo }) {
-
-  async function analyzeReceivers(){
-    const destinatari = sendTo.split(',');
+  async function analyzeReceivers () {
+    const destinatari = sendTo.split(',')
     if (!content && photos.length <= 0) {
       alert("A squeal with no content is a little useless, isn't it?")
-      return;
+      return
     }
-    
-    const promises = []; // Creare un array per tenere traccia delle promesse create nel ciclo.
+
+    const promises = [] // Creare un array per tenere traccia delle promesse create nel ciclo.
 
     for (var receiver of destinatari) {
-      const promise = createSqueal(receiver);
-      promises.push(promise);
+      const promise = createSqueal(receiver)
+      promises.push(promise)
     }
 
     // Attendere che tutte le promesse nel ciclo siano state risolte.
-    await Promise.all(promises);
+    await Promise.all(promises)
 
     // Ora puoi eseguire il reload.
-    location.reload();
-
+    location.reload()
   }
 
   async function createSqueal (destinatario) {
     if (destinatario.includes('@') || DM_receiver) {
-      console.log('destinatario for DM '+ destinatario)
+      console.log('destinatario for DM ' + destinatario)
       await createDM(destinatario)
     } else if (destinatario.includes('§')) {
-      console.log('destinatario for chanel '+ destinatario)
+      console.log('destinatario for chanel ' + destinatario)
       await createChannelPost(destinatario)
     } else {
-      console.log('destinatario for everybody '+ destinatario)
+      console.log('destinatario for everybody ' + destinatario)
       await createGenericSqueal()
     }
   }
@@ -79,7 +80,7 @@ function Squeal ({ content, photos, DM_receiver, disabled, sendTo }) {
     } else {
       const regex = /§(\w+)/
       const match = regex.exec(receiver)
-      
+
       if (match) {
         const receiverHandle = match[1]
         if (
@@ -89,30 +90,40 @@ function Squeal ({ content, photos, DM_receiver, disabled, sendTo }) {
           alert("A squeal with no content is a little useless, isn't it?")
           return
         } else {
-          isSub = await createPrivateChannelSqueal(content, photos, receiverHandle);
-          
-          if (!isSub) {
-            const result = await checkAndInsertPublic(content, photos, receiverHandle);
+          isSub = await createPrivateChannelSqueal(
+            content,
+            photos,
+            receiverHandle
+          )
 
-            result ? console.log(result) : alert(
-              `Subscribe to this channel (${receiver}) to be able to share squeals in it.`
+          if (!isSub) {
+            const result = await checkAndInsertPublic(
+              content,
+              photos,
+              receiverHandle
             )
-          } 
+
+            result
+              ? console.log(result)
+              : alert(
+                  `Subscribe to this channel (${receiver}) to be able to share squeals in it.`
+                )
+          }
         }
       }
     }
   }
 
   async function createGenericSqueal () {
-    const done =  await createPost(content, photos);
-    return done;
+    const done = await createPost(content, photos)
+    return done
   }
 
   return (
     <form
       onSubmit={e => {
         e.preventDefault()
-        analyzeReceivers();
+        analyzeReceivers()
       }}
     >
       {disabled >= 0 ? (
