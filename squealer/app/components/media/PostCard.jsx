@@ -8,8 +8,6 @@ import Link from 'next/link'
 import Media from './Media'
 import PostContent from './PostContent'
 import { updateView } from '../../../helper/squealsServerActions'
-import { useState, useEffect } from 'react'
-import { getChannelInfo } from '../../../helper/channelServerAction'
 
 export default function PostCard ({ post, children }) {
   const uploads = post?.photos

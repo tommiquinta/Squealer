@@ -1,11 +1,13 @@
-
 import Card from '../Card'
 import moment from 'moment'
 import Avatar from '../Avatar'
 import Reaction from '../reaction/Reaction'
 import DeleteBtn from '../moderators/DeleteBtn'
 import PostContent from './PostContent'
-import { getChannelInfo, updateView } from '../../../helper/squealsServerActions'
+import {
+  getChannelInfo,
+  updateView
+} from '../../../helper/squealsServerActions'
 import Link from 'next/link'
 
 export default async function PublicChannelsPost ({
@@ -15,37 +17,33 @@ export default async function PublicChannelsPost ({
   profile,
   children
 }) {
-
   //se è un canale, metto le info del canale
   var info = null
+
   if (post.channel_id == null) {
     info = { username: post.username, avatar: post.avatar }
   } else {
-    info = {username : post.channel_name, avatar: post.channel_avatar}
+    info = { username: post.channel_name, avatar: post.channel_avatar }
   }
 
   return (
     <Card>
       <div className='flex gap-3'>
         <div>
-        <Link href={'/channels/' + post.channel_id}>
-           
-          <span className='cursor-pointer'>
-            <Avatar url={info?.avatar} />
-          </span>
-        </Link>
-          
+          <Link href={'/channels/' + post.channel_id}>
+            <span className='cursor-pointer'>
+              <Avatar url={info?.avatar} />
+            </span>
+          </Link>
         </div>
         <div className='flex flex-col'>
           <p>
             <Link href={'/channels/' + post.channel_id}>
-             
-            <span className='font-semibold hover:underline cursor-pointer '>
-              {info?.name ? info?.name : info?.username}
-            </span>{' '}
-            shared a squeal
+              <span className='font-semibold hover:underline cursor-pointer '>
+                {info?.name ? info?.name : info?.username}
+              </span>{' '}
+              shared a squeal
             </Link>
-            
           </p>
           <p className='text-gray-500 text-sm'>
             {moment(post.created_at).fromNow()}
@@ -54,7 +52,9 @@ export default async function PublicChannelsPost ({
       </div>
 
       <div className='my-4'>
-        <PostContent callbackFn={updateView} postId={post.id}>{post.content}</PostContent>
+        <PostContent callbackFn={updateView} postId={post.id}>
+          {post.content}
+        </PostContent>
 
         <div className=''>
           {post.photos?.length > 0 && (

@@ -3,8 +3,9 @@ import AllSqueals from './AllSqueals'
 import Card from '../Card'
 import Settings from '../profile/Settings'
 import ModeratorBtn from '../profile/ModeratorBtn'
+import AddChannel from '../moderators/AddChannel'
 
-export default function DestinationRoutes({ user, squeals, isMyUser }) {
+export default function DestinationRoutes ({ user, squeals, isMyUser }) {
   return (
     <Routes>
       <Route
@@ -12,10 +13,7 @@ export default function DestinationRoutes({ user, squeals, isMyUser }) {
         path={user + `/allsqueals`}
         element={<AllSqueals squeals={squeals} />}
       />
-      <Route
-        path={user + `/channels`}
-        element={'Tommi devi inserire la gestione dei canali privati qui'}
-      />
+      <Route path={user + `/channels`} element={<AddChannel pvt={true} />} />
       {isMyUser && (
         <Route
           path={user + `/settings`}

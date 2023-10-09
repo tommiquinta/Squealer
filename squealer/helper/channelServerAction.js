@@ -58,3 +58,75 @@ export async function getChannelInfo (channel_handle) {
   }
   return null
 }
+
+export async function insertPrivateChannel (
+  newName,
+  newDescription,
+  newHandle,
+  newAvatar,
+  newBanner
+) {
+  const supabase = createServerComponentClient({ cookies })
+  const {
+    data: { session }
+  } = await supabase.auth.getSession()
+
+  const { data, error } = await supabase
+    .from('channels')
+    .insert({ id: undefined, handle: newHandle })
+    .select()
+
+  if (error) {
+    console.log(error)
+    return false
+  } else {
+    var id = data[0].id
+    await insertPrivateChannelReal(
+      id,
+      newName,
+      newDescription,
+      newAvatar,
+      newBanner
+    )
+  }
+
+  return true
+}
+
+export async function insertPrivateChannelReal (
+  id,
+  newName,
+  newDescription,
+  newAvatar,
+  newBanner
+) {
+  const supabase = createServerComponentClient({ cookies })
+  const {
+    data: { session }
+  } = await supabase.auth.getSession()
+
+  var profile = await supabase
+    .from('profiles')
+    .select('username')
+    .eq('id', session.user.id)
+
+  profile = profile.data[0].username
+  const { datapub, errorPub } = await supabase.from('private_channels').insert({
+    id: id,
+    name: newName,
+    description: newDescription,
+    avatar: newAvatar,
+    banner: newBanner,
+    creator: profile
+  })
+  console.log(datapub)
+
+  if (errorPub) {
+    console.log(error)
+    return false
+  } else {
+    await subscribe(id)
+  }
+
+  return true
+}

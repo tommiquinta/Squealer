@@ -1,10 +1,12 @@
+'use client'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import PrivateMessageContainer from './PrivateMessageContainer'
-import { cookies } from 'next/headers'
+import { cookies } from 'next/navigation'
 import PostFormCard from '../media/PostFormCard'
 import Card from '../Card'
 import Avatar from '../Avatar'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 export default async function PrivateMessagePage ({
   user_uuid,
@@ -15,7 +17,17 @@ export default async function PrivateMessagePage ({
 }) {
   const supabase = createClientComponentClient({ cookies })
 
+  useEffect(() => {
+    const elementToScrollTo = document.getElementById('end')
+    elementToScrollTo.scrollIntoView({
+      behavior: 'auto',
+      block: 'end',
+      inline: 'nearest'
+    })
+  }, [])
+
   var squeals = null
+
   squeals = await supabase.rpc('get_private_messages', {
     author_uuid: user_uuid,
     receiver_uuid: reveiver_uuid
@@ -53,15 +65,19 @@ export default async function PrivateMessagePage ({
           className='flex-col ml-8 left-1/4 relative mb-5'
           style={{ height: '400px', overflowY: 'auto' }}
         >
-          <div className='h-300 overscroll-auto '>
+          <div className='h-300 overscroll-auto'>
             <p className='pb-2 mb-3 font-sans text-sm text-center text-gray-400'>
               This is the beginning of your conversation with{' '}
               {recevier_info[0].username}.
             </p>
-            <PrivateMessageContainer
-              squeals={squeals}
-              author_uuid={user_uuid}
-            ></PrivateMessageContainer>
+
+            <div id='squeals'>
+              <PrivateMessageContainer
+                squeals={squeals}
+                author_uuid={user_uuid}
+              ></PrivateMessageContainer>
+              <div id='end' />
+            </div>
           </div>
         </div>
       ) : (

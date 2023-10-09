@@ -23,8 +23,8 @@ export default async function Home () {
   const hasLoggedIn = session ? true : false
   var userObj = null //oggetto per passare le informazioni dell'user ai figli della home
 
-  var squeals = null;
-  var channels = null;
+  var squeals = null
+  var channels = null
 
   const publicChannelsList = await supabase.rpc('get_public_list')
 
@@ -41,49 +41,47 @@ export default async function Home () {
     squeals = await supabase.rpc('get_all_posts', {
       user_uuid: user.id
     })
-    channels = await supabase.rpc('get_channels_list', {user_uuid: user.id});
+    channels = await supabase.rpc('get_channels_list', { user_uuid: user.id })
   }
 
   return (
-    <>
-      <Suspense fallback={<Preloader />}>
-        <NavigationBar
-          hasLoggedIn={hasLoggedIn}
-          sessionUsername={
-            hasLoggedIn
-              ? userObj.data
-                ? userObj.data[0].username
-                : null
-              : null
-          }
-        />
+    <Suspense fallback={<Preloader />}>
+      <NavigationBar
+        hasLoggedIn={hasLoggedIn}
+        sessionUsername={
+          hasLoggedIn ? (userObj.data ? userObj.data[0].username : null) : null
+        }
+      />
 
-        {/* questi non vanno qui <AuthButtonServer /> */}
-        <div className=' ml-6 max-w-4xl gap-4 left-1/4 relative md:ml-0 md:flex md:w-10/12 lg:w-6/12 '>
-          <div className={'mx-2 relative top-36 md:top-0 md:mx-0 md:w-full'}>
-            {!hasLoggedIn &&
-              squeals?.data?.map(publicPost => (
-                <PublicChannelsPost
-                  key={publicPost.id}
-                  post={publicPost}
-                  disableReaction={true}
-                />
-              ))}
+      {/* questi non vanno qui <AuthButtonServer /> */}
+      <div className=' ml-6 max-w-4xl gap-4 left-1/4 relative md:ml-0 md:flex md:w-10/12 lg:w-6/12 '>
+        <div className={'mx-2 relative top-36 md:top-0 md:mx-0 md:w-full'}>
+          {!hasLoggedIn &&
+            squeals?.data?.map(publicPost => (
+              <PublicChannelsPost
+                key={publicPost.id}
+                post={publicPost}
+                disableReaction={true}
+              />
+            ))}
 
-            {hasLoggedIn && userObj.data && (
-              <div>
+          {hasLoggedIn && userObj.data && (
+            <div>
               <PostFormCard profile={userObj.data[0]} />
               <hr className='mb-5' />
 
-              <PostFilterContainer allSqueals={squeals?.data} loggedUser={userObj.data[0]} channels={channels.data}/>
+              <PostFilterContainer
+                allSqueals={squeals?.data}
+                loggedUser={userObj.data[0]}
+                channels={channels.data}
+              />
             </div>
-            )}
-          </div>
+          )}
         </div>
-        <div className='left-1/4 relative ml-2'>
-          <SideWidget publicChannels={publicChannelsList.data} />
-        </div>
-      </Suspense>
-    </>
+      </div>
+      <div className='left-1/4 relative ml-2'>
+        <SideWidget publicChannels={publicChannelsList.data} />
+      </div>
+    </Suspense>
   )
 }

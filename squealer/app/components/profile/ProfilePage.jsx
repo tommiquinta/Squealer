@@ -4,8 +4,7 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import ProfileContainer from './ProfileContainer'
 
-
-export default async function ProfilePage({ children, profile, isMyUser }) {
+export default async function ProfilePage ({ children, profile, isMyUser }) {
   const supabase = createServerComponentClient({ cookies })
   const {
     data: { session }
@@ -32,11 +31,13 @@ export default async function ProfilePage({ children, profile, isMyUser }) {
     profile_username: user?.username
   })
 
-
-  var moderator = false;
+  var moderator = false
   if (isMyUser) {
-    const exist = await supabase.from('moderators').select('*').eq('username', user.username);
-    moderator = exist.data?.length > 0 ? true :false;
+    const exist = await supabase
+      .from('moderators')
+      .select('*')
+      .eq('username', user.username)
+    moderator = exist.data?.length > 0 ? true : false
   }
 
   return (
@@ -47,8 +48,7 @@ export default async function ProfilePage({ children, profile, isMyUser }) {
         user={user}
         isMyUser={isMyUser}
         isModerator={moderator}
-      >
-      </ProfileContainer>
+      ></ProfileContainer>
     </div>
   )
 }
