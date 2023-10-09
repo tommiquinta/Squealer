@@ -1,12 +1,11 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
+
 import Card from '../Card'
 import moment from 'moment'
 import Avatar from '../Avatar'
 import Reaction from '../reaction/Reaction'
 import DeleteBtn from '../moderators/DeleteBtn'
 import PostContent from './PostContent'
-import { updateView } from '../../../helper/squealsServerActions'
+import { getChannelInfo, updateView } from '../../../helper/squealsServerActions'
 import Link from 'next/link'
 
 export default async function PublicChannelsPost ({
@@ -16,23 +15,13 @@ export default async function PublicChannelsPost ({
   profile,
   children
 }) {
-  const supabase = createServerComponentClient({ cookies })
 
   //se è un canale, metto le info del canale
   var info = null
   if (post.channel_id == null) {
     info = { username: post.username, avatar: post.avatar }
   } else {
-    info = await supabase
-      .from('public_channels')
-      .select('name, avatar')
-      .eq('id', post.channel_id)
-    info = info.data[0]
-  }
-
-  async function increaseViews () {
-    'use server'
-    updateView(post?.id)
+    info = {username : post.channel_name, avatar: post.channel_avatar}
   }
 
   return (
@@ -65,7 +54,7 @@ export default async function PublicChannelsPost ({
       </div>
 
       <div className='my-4'>
-        <PostContent callbackFn={increaseViews}>{post.content}</PostContent>
+        <PostContent callbackFn={updateView} postId={post.id}>{post.content}</PostContent>
 
         <div className=''>
           {post.photos?.length > 0 && (

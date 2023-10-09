@@ -8,11 +8,10 @@ import SideWidget from './components/layout/SideWidget'
 import PostFormCard from './components/media/PostFormCard'
 import { Suspense } from 'react'
 import Preloader from './components/Preloader'
-import Reaction from './components/reaction/Reaction'
+import PostFilterContainer from './components/media/PostFilterContainer'
 import 'leaflet/dist/images/marker-icon-2x.png'
 import 'leaflet/dist/images/marker-icon.png'
 import 'leaflet/dist/images/marker-shadow.png'
-import CommentsSection from './components/reaction/CommentsSection'
 
 export default async function Home () {
   const supabase = createServerComponentClient({ cookies })
@@ -24,7 +23,8 @@ export default async function Home () {
   const hasLoggedIn = session ? true : false
   var userObj = null //oggetto per passare le informazioni dell'user ai figli della home
 
-  var squeals = null
+  var squeals = null;
+  var channels = null;
 
   const publicChannelsList = await supabase.rpc('get_public_list')
 
@@ -41,6 +41,7 @@ export default async function Home () {
     squeals = await supabase.rpc('get_all_posts', {
       user_uuid: user.id
     })
+    channels = await supabase.rpc('get_channels_list', {user_uuid: user.id});
   }
 
   return (
@@ -71,35 +72,11 @@ export default async function Home () {
 
             {hasLoggedIn && userObj.data && (
               <div>
-                <PostFormCard profile={userObj.data[0]} />
-                <hr className='mb-5' />
+              <PostFormCard profile={userObj.data[0]} />
+              <hr className='mb-5' />
 
-                {squeals?.data?.map(post =>
-                  post.channel_id ? (
-                    <PublicChannelsPost
-                      key={post.id}
-                      post={post}
-                      disableReaction={false}
-                      profile={userObj.data[0]}
-                    ></PublicChannelsPost>
-                  ) : (
-                    <PostCard key={post.id} post={post}>
-                      <Reaction
-                        id={post.id}
-                        numLikes={post.likes}
-                        numDislikes={post.dislikes}
-                        hasLiked={post.hasliked}
-                        hasDisliked={post.hasdisliked}
-                        disable={false}
-                        views={post.views}
-                        profile={userObj.data[0]}
-                      />
-
-                      <hr />
-                    </PostCard>
-                  )
-                )}
-              </div>
+              <PostFilterContainer allSqueals={squeals?.data} loggedUser={userObj.data[0]} channels={channels.data}/>
+            </div>
             )}
           </div>
         </div>

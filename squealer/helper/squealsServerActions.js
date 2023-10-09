@@ -195,3 +195,11 @@ export async function checkAndInsertPublic(content,
 
     return false;
   }
+
+
+  export async function getChannelInfo(channel_id){
+    const supabase = createServerComponentClient({ cookies })
+   const result = await supabase.from('public_channels').select('name, avatar').eq('id', channel_id);
+
+   return result.data[0];
+  }
