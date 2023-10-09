@@ -7,6 +7,7 @@ import Reaction from '../reaction/Reaction'
 import DeleteBtn from '../moderators/DeleteBtn'
 import PostContent from './PostContent'
 import { updateView } from '../../../helper/squealsServerActions'
+import Link from 'next/link'
 
 export default async function PublicChannelsPost ({
   post,
@@ -38,24 +39,24 @@ export default async function PublicChannelsPost ({
     <Card>
       <div className='flex gap-3'>
         <div>
-          {/*           <Link href={'/profile/' + authorProfiles?.id}>
-           */}{' '}
+        <Link href={'/channels/' + post.channel_id}>
+           
           <span className='cursor-pointer'>
             <Avatar url={info?.avatar} />
           </span>
-          {/*           </Link>
-           */}{' '}
+        </Link>
+          
         </div>
         <div className='flex flex-col'>
           <p>
-            {/*             <Link href={'/profile/' + authorProfiles?.id}>
-             */}{' '}
+            <Link href={'/channels/' + post.channel_id}>
+             
             <span className='font-semibold hover:underline cursor-pointer '>
               {info?.name ? info?.name : info?.username}
             </span>{' '}
             shared a squeal
-            {/*             </Link>
-             */}{' '}
+            </Link>
+            
           </p>
           <p className='text-gray-500 text-sm'>
             {moment(post.created_at).fromNow()}

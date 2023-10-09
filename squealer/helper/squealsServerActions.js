@@ -71,7 +71,8 @@ export async function createPrivateChannelSqueal (
   isSub = isSub.data ? true : false
 
   if (!isSub) {
-    return false
+    return false;
+
   } else {
     const { data, error } = await supabase.rpc(
       'create_private_channel_squeal',
@@ -161,3 +162,36 @@ export async function updateView (postId) {
     return true
   }
 }
+
+
+export async function checkAndInsertPublic(content,
+  photos,
+  receiver_channel
+  ){
+    const supabase = createServerComponentClient({ cookies })
+    const {
+      data: { session }
+    } = await supabase.auth.getSession();
+
+    const isPublic = await supabase.from('public_channels').select('id, channels!inner(id)').eq('channels.handle', receiver_channel);
+    
+    if(isPublic.data?.length > 0){
+      const isModerator = await supabase.from('moderators').select('id').eq('id', session.user.id);
+      
+      if(isModerator.data?.length > 0){
+          const inserted = await supabase.from('posts').insert({
+              author : session.user.id,
+              content: content,
+              photos: photos,
+              channel_id : isPublic?.data[0].id
+          })
+          if(inserted.error){
+            console.log(inserted.error);
+          }
+          return true;
+      } 
+
+    } 
+
+    return false;
+  }
