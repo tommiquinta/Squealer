@@ -4,7 +4,7 @@ import Card from '../Card';
 
 export default function Square( {name, url, description }){
     url = url ? url : '/';
-    console.log(url);
+   
     return(
         <Link href={url} className='min-h-full'>
             <Card add={'min-h-full'}>

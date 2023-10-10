@@ -5,10 +5,13 @@ import ChannelInfo from './ChannelInfo'
 import ChannelProps from './ChannelProps'
 import Link from 'next/link'
 import {
-  updatePublicChannel,
+  updatePrivateChannel,
   deleteChannel
 } from '../../../helper/moderatorServerActions.js'
 import { useRouter } from 'next/navigation'
+import ChannelsFilterContainer from '../channel/ChannelsFilterContainer'
+import PrivateChannelProps from './PrivateChannelProps'
+import Avatar from '../Avatar'
 
 export default function PrivateChannelView ({ channel }) {
   const router = useRouter()
@@ -17,9 +20,15 @@ export default function PrivateChannelView ({ channel }) {
   const buttonClasses =
     'text-white flex gap-2 py-1 px-2 md:px-4 mt-3 bg-socialBlue hover:bg-opacity-20 hover:text-black rounded-md hover:shadow-md shadow-gray-300 transition-all'
 
-  async function saveProps (newName, newDescr) {
+  async function saveProps (e, newName, newCreator) {
+    e.preventDefault;
+    
     setEdit(false)
-    const result = await updatePublicChannel(channel.id, newName, newDescr)
+    const result = await updatePrivateChannel(channel.id, newName, newCreator)
+    if(result == 400){
+      alert('This username does not correspond to any of our users, plase check and try again');
+      return;
+    }
     if (result) {
       alert('Updated Successfully!')
     } else {
@@ -27,6 +36,7 @@ export default function PrivateChannelView ({ channel }) {
     }
   }
 
+  //da tenere?
   async function deletingChannel () {
     const result = await deleteChannel(channel.id)
     if (result) {
@@ -40,19 +50,12 @@ export default function PrivateChannelView ({ channel }) {
 
   return (
     <Card>
-      <ChannelInfo
-        avatar={channel.avatar}
-        banner={channel.banner}
-        editable={edit}
-      >
-        <ChannelProps
-          channelName={channel.name}
-          channelDescription={channel.description}
-          handle={channel.channels.handle}
-          editable={edit}
-          save={saveProps}
-        />
-      </ChannelInfo>
+      <div className='flex gap-8 items-center justify-center'>
+        <Avatar url={channel.avatar} size={'big'}/>
+        <PrivateChannelProps channelName={channel.name} channelCreator={channel.creator} 
+      handle={channel.handle} numPost={channel.num} editable={edit} save={saveProps}/>
+      </div>
+     
       <hr className='my-3' />
 
       <div className='flex w-full gap-8 justify-center'>

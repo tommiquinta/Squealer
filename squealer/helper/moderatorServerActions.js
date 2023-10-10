@@ -176,3 +176,26 @@ export async function updateDefaultValue (newQuota) {
 
   return true
 }
+
+
+export async function updatePrivateChannel (channel_id, newName, newCreator) {
+  const supabase = createServerComponentClient({ cookies });
+
+  const isUser = await supabase.from('profiles').select('username').eq('username', newCreator);
+
+  if(isUser.data.length == 0){
+    return 400;
+  }
+
+  const { error } = await supabase
+    .from('private_channels')
+    .update({ name: newName, creator: newCreator })
+    .eq('id', channel_id)
+
+  if (error) {
+    console.log(error)
+    return false
+  }
+
+  return true
+}
