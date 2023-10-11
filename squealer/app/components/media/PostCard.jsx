@@ -62,11 +62,11 @@ export default function PostCard ({ post, children }) {
         </div>
         <div className='flex flex-col'>
           <p>
-            <Link href={`/profiles/${post?.username}`}>
-              <span className='font-semibold hover:underline cursor-pointer '>
+            <Link href={`/profiles/${post?.username}`} >
+              <span className='font-semibold hover:underline cursor-pointer mr-1'>
                 {post?.username}
               </span>
-              shared a squeal
+               shared a squeal
             </Link>
           </p>
           <p className='text-gray-500 text-sm'>

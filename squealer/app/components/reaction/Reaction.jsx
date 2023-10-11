@@ -117,8 +117,8 @@ function Reaction ({
           </svg>
           <p className='ml-1'>{views}</p>
         </div>
-        <div>
-          <button onClick={handleComments}>
+        <div className='h-[20px]'>
+          <button onClick={handleComments} >
             <svg
               width='20'
               height='20'

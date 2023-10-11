@@ -1,3 +1,4 @@
+'use client'
 import Card from '../Card'
 import moment from 'moment'
 import Avatar from '../Avatar'
@@ -5,10 +6,10 @@ import Reaction from '../reaction/Reaction'
 import DeleteBtn from '../moderators/DeleteBtn'
 import PostContent from './PostContent'
 import {
-  getChannelInfo,
   updateView
 } from '../../../helper/squealsServerActions'
 import Link from 'next/link'
+import Media from './Media'
 
 export default async function PublicChannelsPost ({
   post,
@@ -26,8 +27,26 @@ export default async function PublicChannelsPost ({
     info = { username: post.channel_name, avatar: post.channel_avatar }
   }
 
+  const uploads = post?.photos;
+
+  var color = null
+
+  switch (post.categoria) {
+    case 'pop':
+      color = 'border-2 border-teal-700/50'
+      break
+    case 'unpop':
+      color = 'border-2 border-red-800/50 '
+      break
+    case 'contr':
+      color = 'border-2 border-blue-600/50'
+      break
+    default:
+      color = null
+  }
+
   return (
-    <Card>
+    <Card add={color}>
       <div className='flex gap-3'>
         <div>
           <Link href={'/channels/' + post.channel_id}>
@@ -55,62 +74,19 @@ export default async function PublicChannelsPost ({
         <PostContent callbackFn={updateView} postId={post.id}>
           {post.content}
         </PostContent>
-
-        <div className=''>
-          {post.photos?.length > 0 && (
-            <div className='mt-4 flex justify-center items-center'>
-              {post.photos.length === 4 ? (
-                <table className='w-full'>
-                  <tbody>
-                    <tr>
-                      <td className='p-2'>
-                        <img
-                          src={photos[0]}
-                          className='w-full h-auto rounded-md object-cover'
-                          alt=''
-                        />
-                      </td>
-                      <td className='p-2'>
-                        <img
-                          src={photos[1]}
-                          className='w-full h-auto rounded-md object-cover'
-                          alt=''
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className='p-2'>
-                        <img
-                          src={photos[2]}
-                          className='w-full h-auto rounded-md object-cover'
-                          alt=''
-                        />
-                      </td>
-                      <td className='p-2'>
-                        <img
-                          src={photos[3]}
-                          className='w-full h-auto rounded-md object-cover'
-                          alt=''
-                        />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              ) : (
-                <div className='flex gap-2.5'>
-                  <div className='flex justify-center items-center'>
-                    <img
-                      src={post.photos[0]}
-                      className='w-auto rounded-md object-cover'
-                      alt=''
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
       </div>
+
+        {uploads?.length > 0 && (
+          <div
+            style={{
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: 'container'
+            }}
+            className='w-full h-full rounded-2xl bg-center'
+          >
+            <Media uploads={uploads} />
+          </div>
+        )}
 
       <div className='flex'>
         <Reaction

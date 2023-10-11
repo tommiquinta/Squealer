@@ -35,7 +35,7 @@ export default function CommentsSection ({ profile, id }) {
   }
 
   return (
-    <di style={{ width: '100%' }}>
+    <div style={{ width: '100%' }}>
       <hr />
       <div className='flex gap-3 p-3'>
         {profile && <Avatar size='small' url={profile.avatar} />}
@@ -64,6 +64,6 @@ export default function CommentsSection ({ profile, id }) {
           avatar={comment.avatar}
         ></CommentCard>
       ))}
-    </di>
+    </div>
   )
 }

@@ -199,3 +199,17 @@ export async function updatePrivateChannel (channel_id, newName, newCreator) {
 
   return true
 }
+
+
+export async function addReceiver(postId, receiverId){
+  const supabase = createServerComponentClient({ cookies });
+
+  const { error } = await supabase.rpc('add_receiver', { post_id : postId, new_channel_id : receiverId});
+
+  if (error) {
+    console.log(error)
+    return false
+  }
+
+  return true
+}

@@ -6,6 +6,8 @@ import PostCard from '../../components/media/PostCard';
 import Reaction from '../../components/reaction/Reaction';
 import NavigationBar from '../../components/layout/Navbar';
 import Link from 'next/link';
+import PublicChannelsPost from '../../components/media/PublicChannelsPost'
+
 
 export default async function Trends(){
     const supabase = createServerComponentClient({cookies});
@@ -21,6 +23,8 @@ export default async function Trends(){
     const moderator = await supabase.rpc("get_moderator", {
       user_uuid: session?.user.id
     });
+
+    console.log(moderator);
     
     if(! moderator.data){
       redirect("/");
@@ -31,6 +35,7 @@ export default async function Trends(){
         user_uuid : session?.user.id
     });
     const popular = popularPost.data;
+
 
     const unpopularPost = await supabase.rpc('get_unpopular_posts', {
         user_uuid : session?.user.id
@@ -54,7 +59,16 @@ export default async function Trends(){
                         <path d="M9.5 3.5h4v4"/><path d="M13.5 3.5L7.85 9.15a.5.5 0 0 1-.7 0l-2.3-2.3a.5.5 0 0 0-.7 0L.5 10.5"/>
                         </g></svg></p>
                 {popular && (
-                    popular.map(pop => <PostCard key={pop.id} post={pop}>
+                    popular.map(pop => 
+                    pop.channel_id != null && pop.channel_name != null ? (
+                        <PublicChannelsPost
+                            key={pop.id}
+                            post={pop}
+                            disableReaction={false}
+                            profile={moderator.data[0]}
+                        ></PublicChannelsPost>
+                    ) : (
+                    <PostCard key={pop.id} post={pop}>
                         <Reaction
                         id={pop.id}
                         numLikes={pop.likes}
@@ -63,7 +77,7 @@ export default async function Trends(){
                         hasDisliked={pop.hasdisliked}
                         disable={false}
                         views={pop.views} />
-                    </PostCard>)
+                    </PostCard>))
                 )}
             </div>
             <hr className='md:h-full md:w-[1px] border-x-2 rounded'/>
