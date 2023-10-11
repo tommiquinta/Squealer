@@ -25,7 +25,7 @@ export default function FowardBtn({post_id, channelList}){
             </button>
 
             {isOpen && (
-                <Card add={'flex flex-col absolute -right-1/4 -translate-y-8 items-left'}>
+                <Card add={'flex flex-col absolute -right-1/4 -translate-y-8 items-left z-30'}>
                     {channelList.map( channel =>
                         <button key={channel.id} onClick={(e) => foward(e, channel.id)}
                         className='text-left hover:bg-socialBlue/20 p-1 px-2 rounded'>§{channel.handle}</button>)}

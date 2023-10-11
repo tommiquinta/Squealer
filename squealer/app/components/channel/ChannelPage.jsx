@@ -39,7 +39,7 @@ export default async function ChannelPage ({
   isSubscribed = isSubscribed?.data.length > 0 ? true : false
 
   if (!isPrivate) {
-    //inserisci controllo: se l'handle è dei gattini o elonmusk e l'ultimo post di questi canali ha più di 24 ore, fai una chiamata
+    //inserisci controllo: se l'handle è elonmusk e l'ultimo post di questi canali ha più di 24 ore, fai una chiamata
 
     var channelHandle = channelInfo?.data[0]?.channels.handle
     if (channelHandle == 'ELONTWEET') {
