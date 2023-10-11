@@ -20,8 +20,10 @@ export default function PostFormCard ({ profile, onPost, isDM, DM_receiver }) {
   const supabase = createClientComponentClient({ cookies })
 
   useEffect(() => {
-    setDaily_quota(profile.daily_quota)
-  }, [profile])
+    if (!isDM) {
+      setDaily_quota(profile.daily_quota)
+    }
+  }, [])
 
   async function addPhotos (ev) {
     try {
@@ -243,7 +245,7 @@ export default function PostFormCard ({ profile, onPost, isDM, DM_receiver }) {
             content={content}
             photos={uploads}
             DM_receiver={DM_receiver}
-            disabled={daily_quota}
+            disabled={!DM_receiver ? daily_quota : null}
             sendTo={destinatari}
           >
             Squeal

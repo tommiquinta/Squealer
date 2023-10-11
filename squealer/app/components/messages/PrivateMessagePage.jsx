@@ -8,7 +8,7 @@ import Avatar from '../Avatar'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
-export default async function PrivateMessagePage ({
+export default function PrivateMessagePage ({
   user_uuid,
   reveiver_uuid,
   receiver_handle,
@@ -17,27 +17,48 @@ export default async function PrivateMessagePage ({
 }) {
   const supabase = createClientComponentClient({ cookies })
 
+  const [squeals, setSqueals] = useState([])
+  const [userObj, setUserObj] = useState([])
+
   useEffect(() => {
-    const elementToScrollTo = document.getElementById('end')
+    /*  const elementToScrollTo = document.getElementById('end')
     elementToScrollTo.scrollIntoView({
       behavior: 'auto',
       block: 'end',
       inline: 'nearest'
-    })
+    }) */
+
+    if (squeals.length === 0) {
+      supabase
+        .rpc('get_private_messages', {
+          author_uuid: user_uuid,
+          receiver_uuid: reveiver_uuid
+        })
+        .then(data => {
+          setSqueals(data)
+        })
+    }
+
+    if (userObj.length === 0) {
+      supabase
+        .rpc('get_logged_user', {
+          user_uuid: user_uuid
+        })
+        .then(data => {
+          setUserObj(data)
+        })
+    }
+
+    supabase
+      .rpc('delete_notifications', {
+        receiver_uuid: user_uuid,
+        author_uuid: reveiver_uuid
+      })
+      .then(response => {})
+      .catch(error => {
+        console.error('Errore nella chiamata a supabase.rpc:', error)
+      })
   }, [])
-
-  var squeals = null
-
-  squeals = await supabase.rpc('get_private_messages', {
-    author_uuid: user_uuid,
-    receiver_uuid: reveiver_uuid
-  })
-
-  var userObj = null
-  userObj = await supabase.rpc('get_logged_user', {
-    user_uuid: user_uuid
-  })
-
   return (
     <div className='w-[85%]'>
       {children}
@@ -96,7 +117,7 @@ export default async function PrivateMessagePage ({
         <hr />
         <div className='bottom-0 mt-5 ml-30 flex-col relative'>
           <PostFormCard
-            profile={userObj.data[0]}
+            profile={userObj?.data?.[0]}
             isDM={true}
             DM_receiver={receiver_handle}
           />
