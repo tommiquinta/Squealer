@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 
-export default function NavigationBar({
+export default function NavigationBar ({
   hasLoggedIn,
   hidden,
   sessionUsername,
@@ -13,7 +13,7 @@ export default function NavigationBar({
 }) {
   var userpage = `/profiles/${sessionUsername}`
 
-  function handleClick() {
+  function handleClick () {
     redirect('/')
   }
 
@@ -21,14 +21,20 @@ export default function NavigationBar({
     return <div></div>
   }
 
-  move = move ? 'md:left-[7%]' : '';
+  move = move ? 'md:left-[7%]' : ''
 
   return (
     <Card isNavbar={true} add={move}>
       <div className='px-4 py-2 w-screen md:w-fit '>
         <div className='flex gap-2 leading-9 justify-center mb-3'>
           <Link href='/'>
-            <Image src='/yoshi-logo-empty.png' alt='logo' className='w-8 h-8' width="300" height="300" />
+            <Image
+              src='/yoshi-logo-empty.png'
+              alt='logo'
+              className='w-8 h-8'
+              width='300'
+              height='300'
+            />
           </Link>
 
           <h2 className='text-gray-400 text-center text-3xl'>Squealer</h2>
@@ -78,7 +84,6 @@ export default function NavigationBar({
                   </svg>
                 }
               />
-
               <NavbarButton
                 name={'Your Profile'}
                 url={userpage}
@@ -99,7 +104,6 @@ export default function NavigationBar({
                   </svg>
                 }
               />
-
               <NavbarButton
                 name={'Explore'}
                 url={'/explore'}
@@ -120,11 +124,10 @@ export default function NavigationBar({
                   </svg>
                 }
               />
-
-              {/* <NavbarButton
+              <NavbarButton
                 name={'Notifications'}
                 url={'/notifications'}
-                children={
+                icon={
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
                     fill='none'
@@ -136,29 +139,31 @@ export default function NavigationBar({
                     <path
                       strokeLinecap='round'
                       strokeLinejoin='round'
-                      d='M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 
-                    01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0'
+                      d='M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0'
                     />
                   </svg>
                 }
               />
- */}
-              <NavbarButton name={'Logout'} url={'/logout'}>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  fill='none'
-                  viewBox='0 0 24 24'
-                  strokeWidth={1.5}
-                  stroke='currentColor'
-                  className='w-6 h-6'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    d='M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25'
-                  />
-                </svg>
-              </NavbarButton>
+              <NavbarButton
+                name={'Logout'}
+                url={'/logout'}
+                icon={
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    stroke-width='1.5'
+                    stroke='currentColor'
+                    class='w-6 h-6'
+                  >
+                    <path
+                      stroke-linecap='round'
+                      stroke-linejoin='round'
+                      d='M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75'
+                    />
+                  </svg>
+                }
+              />
             </div>
           )}
 
