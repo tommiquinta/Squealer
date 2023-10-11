@@ -39,12 +39,15 @@ export default function ChannelContainer ({
           {channelInfo?.description}
         </div>
         <div className='text-center'>
+        { !isPublic && (
           <SubscribeButton
             channel_id={channelInfo.id}
             isSubscribed={isSubscribed}
           >
             Subscribe
-          </SubscribeButton>
+          </SubscribeButton> )
+        }
+          
         </div>
       </Card>
 
