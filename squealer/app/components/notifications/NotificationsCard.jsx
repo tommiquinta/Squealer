@@ -59,7 +59,7 @@ export default function NotificationsCard ({
   }
 
   return (
-    <div className=' hover:shadow'>
+    <div className='hover:shadow'>
       <Card>
         <div>
           <div className='flex' onClick={openNotification}>
@@ -73,21 +73,17 @@ export default function NotificationsCard ({
             )}
             {isDm && <p> &#160;sent you a direct message.</p>}
 
-            {/* notifica richiesta ingresso canale */}
-            {sub_request && (
-              <Link href={'/profiles/' + author.username}>
-                <p className='text-blue-500 hover:underline font-semibold'>
-                  {author.username}
-                </p>
-              </Link>
-            )}
-            {sub_request && (
-              <div>
-                <p>
-                  &#160;would like to be part of your channel
-                  <a> §{channel_info.channels.handle}</a>.
-                </p>
+            {/* notifica richiesta inesso canale */}
 
+            {sub_request && (
+              <div className='flex items-center'>
+                <Link href={'/profiles/' + author.username}>
+                  <p className='text-blue-500 hover:underline font-semibold'>
+                    {author.username}
+                  </p>
+                </Link>
+                &#160;would like to be part of your channel&#160;
+                <a> §{channel_info.channels.handle}</a>.
                 <div className='flex'>
                   <button
                     className='rounded-full w-8 h-8 bg-green-500 flex m-2 items-center justify-center text-white'
