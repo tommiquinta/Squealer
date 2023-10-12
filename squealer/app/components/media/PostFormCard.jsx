@@ -28,9 +28,11 @@ export default function PostFormCard({ profile, onPost, isDM, DM_receiver, chang
     if (!isDM) {
       setDaily_quota(profile.daily_quota)
     }
-    if (position.lat != 51.505 && position.lng != -0.09) {
-      setUploads(prevUploads => [...prevUploads, position])
-    }
+     console.log(position, "posizione in PostFormCard");
+     if (position.lat != 51.505 && position.lng != -0.09) {
+       console.log(position, "nuova posizione aggiunta");
+       setUploads(prevUploads => [...prevUploads, position])
+     }
   }, [position])
 
 
@@ -165,7 +167,7 @@ export default function PostFormCard({ profile, onPost, isDM, DM_receiver, chang
           Video
         </label>
 
-        <button className='flex gap-1'
+        <button className='flex gap-1 w-fit'
           onClick={() => {
             changeMap()
           }}>
@@ -200,7 +202,7 @@ export default function PostFormCard({ profile, onPost, isDM, DM_receiver, chang
         <div className='grow text-right'>
           <Squeal
             content={content}
-            uploads={uploads}
+            photos={uploads}
             DM_receiver={DM_receiver}
             disabled={!DM_receiver ? daily_quota : null}
             sendTo={destinatari}

@@ -8,9 +8,8 @@ import { createPrivateChannelSqueal } from '../../../helper/squealsServerActions
 
 function Squeal({ content, photos, DM_receiver, disabled, sendTo }) {
 
-  // const { position } = useMapContext();
 
-  // useEffect(() => { console.log('last position saved', position); }, [position]);
+  console.log(photos, "photos in Squeal");
 
   async function analyzeReceivers() {
     const destinatari = sendTo.split(',');
@@ -119,7 +118,10 @@ function Squeal({ content, photos, DM_receiver, disabled, sendTo }) {
   }
 
   async function createGenericSqueal() {
-    const done = await createPost(content, photos)
+    console.log(photos, "squeal creato con queste foto");
+    console.log(content, "squeal creato con questo contenuto");
+    await createPost(content, photos)
+    const done = false;
     return done
   }
 

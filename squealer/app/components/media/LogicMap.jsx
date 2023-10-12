@@ -104,7 +104,7 @@ const LogicMap = ({ flag }) => {
     )
 
     const handleSavePosition = () => {
-        console.log("position saved", markerPosition)
+        // console.log("position saved", markerPosition)
         setPosition(markerPosition)
         alert("Posizione salvata")
     }
