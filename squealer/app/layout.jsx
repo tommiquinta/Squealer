@@ -10,21 +10,11 @@ export const metadata = {
 export default function RootLayout ({ children }) {
   return (
     <html lang='en'>
-      {/*   {}
-      <head /> */}
-      <body className='md:mx-[15%] 2xl:mx-[20%] flex mt-4 gap-9'>
+      
+      <body className='mx-0 md:mx-[15%] 2xl:mx-[20%] flex flex-col md:flex-row mt-4 gap-9'>
         {children}
       </body>
     </html>
   )
 }
 
-/* old layout code, may be useful to restore layout graphics
-export default function RootLayout (
-  return (
-    <html>
-      <div className='md:mx-[15%] 2xl:mx-[20%] flex mt-4 gap-9'>{children}</div>
-    </html>
-  )
-}
- */

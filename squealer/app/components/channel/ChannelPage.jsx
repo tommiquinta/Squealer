@@ -83,7 +83,7 @@ export default async function ChannelPage ({
     .eq('channel', channelId)
 
   return (
-    <div className='w-[85%]'>
+    <div className='md:w-[85%]'>
       {children}
       <div className='flex-col'>
         {
@@ -102,7 +102,6 @@ export default async function ChannelPage ({
                   disableReaction={true}
                 />
               ))}
-              ƒ
             </ChannelContainer>
           )
         }

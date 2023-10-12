@@ -40,8 +40,8 @@ export default async function Home () {
       user_uuid: user.id
     })
 
-    if (!userObj?.data[0].username) {
-      return <NewUsernameForm id={userObj.data[0].id} />
+    if (!userObj.data || !userObj?.data[0].username) {
+      //return <NewUsernameForm id={userObj.data[0].id} />
     }
 
     squeals = await supabase.rpc('get_all_posts', {
@@ -64,8 +64,8 @@ export default async function Home () {
       />
 
     
-      <div className=' ml-6 max-w-4xl gap-4 left-1/4 relative md:ml-0 md:flex md:w-10/12 lg:w-6/12 '>
-        <div className={'mx-2 relative top-36 md:top-0 md:mx-0 md:w-full'}>
+      <div className=' ml-6 w-11/12 md:max-w-4xl gap-4 md:left-1/4 relative md:ml-0 md:flex md:w-11/12 lg:w-6/12 '>
+        <div className={'mx-2 relative top-20 md:top-0 md:mx-0 w-full'}>
           {!hasLoggedIn &&
             squeals?.data?.map(publicPost => (
               <PublicChannelsPost
@@ -89,7 +89,7 @@ export default async function Home () {
           )}
         </div>
       </div>
-      <div className='left-1/4 relative ml-2'>
+      <div className='absolute right-0 md:left-1/4 md:relative ml-2 mt-32 md:mt-2'>
         <SideWidget publicChannels={publicChannelsList.data} />
       </div>
     </Suspense>

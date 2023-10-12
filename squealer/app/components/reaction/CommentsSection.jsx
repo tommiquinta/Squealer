@@ -6,6 +6,7 @@ import { comment, getComments } from '../../../helper/squealsServerActions'
 import CommentCard from './CommentCard'
 
 export default function CommentsSection ({ profile, id }) {
+  
   const [content, setContent] = useState('')
   const [comments, setComments] = useState([]) // Stato per memorizzare i commenti
 
@@ -49,6 +50,7 @@ export default function CommentsSection ({ profile, id }) {
           <button
             className='bg-blue-500 text-white px-2 py-1 rounded-md'
             onClick={handleComment}
+            disabled={!profile}
           >
             Share
           </button>

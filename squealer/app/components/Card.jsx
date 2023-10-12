@@ -4,7 +4,7 @@ export default function Card({ children, noPadding, isNavbar, add }) {
         classes += ' p-4';
     }
     if (isNavbar) {
-        classes += ' fixed';
+        classes += ' md:fixed';
     }
     return (
         <div className={`${classes} ${add}`}>{children}</  div>

@@ -13,10 +13,6 @@ export default function NavigationBar ({
 }) {
   var userpage = `/profiles/${sessionUsername}`
 
-  function handleClick () {
-    redirect('/')
-  }
-
   if (hidden) {
     return <div></div>
   }
@@ -24,8 +20,8 @@ export default function NavigationBar ({
   move = move ? 'md:left-[7%]' : ''
 
   return (
-    <Card isNavbar={true} add={move}>
-      <div className='px-4 py-2 w-screen md:w-fit '>
+    <Card isNavbar={true} add={`${move} w-full md:w-fit -mt-3 md:mt-0`}>
+      <div className='px-4 py-2 w-full md:w-fit '>
         <div className='flex md:flex-row flex-colgap-2 leading-9 justify-center mb-3'>
           <Link href='/'>
             <Image

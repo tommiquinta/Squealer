@@ -17,8 +17,11 @@ export default function ChannelContainer ({
   subCounter,
   children
 }) {
+
+
+  
   return (
-    <div className='ml-8 left-1/4 relative'>
+    <div className=' ml-2 mr-2 md:ml-8 md:left-1/4 relative'>
       <Card noPadding={true}>
         <div className='h-40 overflow-hidden flex justify-center items-center rounded-md'>
           <img src={channelInfo?.banner} />
