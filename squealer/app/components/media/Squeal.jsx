@@ -30,14 +30,15 @@ function Squeal ({ content, photos, DM_receiver, disabled, sendTo }) {
   }
 
   async function createSqueal (destinatario) {
+    document.getElementById('button').setAttribute('disabled', true)
+
     if (destinatario.includes('@') || DM_receiver) {
-      console.log('destinatario for DM ' + destinatario)
       await createDM(destinatario)
     } else if (destinatario.includes('§')) {
-      console.log('destinatario for chanel ' + destinatario)
+      //console.log('destinatario for chanel ' + destinatario)
       await createChannelPost(destinatario)
     } else {
-      console.log('destinatario for everybody ' + destinatario)
+      //console.log('destinatario for everybody ' + destinatario)
       await createGenericSqueal()
     }
   }
@@ -129,6 +130,7 @@ function Squeal ({ content, photos, DM_receiver, disabled, sendTo }) {
         <button
           type='submit'
           className='bg-blue-500 text-white px-6 py-1 rounded-md'
+          id='button'
         >
           Squeal
         </button>
