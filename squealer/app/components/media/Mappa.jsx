@@ -10,22 +10,8 @@ const Mappa = ({ lat, lng, stile }) => {
 
   const MapContainer = dynamic(() => import('react-leaflet').then((mod) => mod.MapContainer), { ssr: false })
   const { position: center } = useMapContext()
-  let coords = []
-  if (lat && lng) {
-    coords = [lat, lng]
-  } else {
-    coords = center
-
-  }
-
   const style = stile ? 'w-full h-full' : 'map-container w-96 h-96'
-
-  useEffect(() => {
-    if (!stile) {
-      console.log(coords, "coords");
-      console.log(center, "center");
-    }
-  }, [coords])
+  let coords = lat && lng ? [lat, lng] : center
 
   return (
     <div className={style}>

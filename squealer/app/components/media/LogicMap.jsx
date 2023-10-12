@@ -80,8 +80,7 @@ const LogicMap = ({ flag, sup }) => {
         click() {
             if (flag) {
                 map.locate()
-            }
-            if (!flag) {
+            } else {
                 map.flyTo(markerPosition, map.getZoom())
             }
         },
@@ -90,6 +89,9 @@ const LogicMap = ({ flag, sup }) => {
                 map.flyTo(e.latlng, map.getZoom())
                 setMarkerPosition(e.latlng)
             }
+        },
+        locationerror() {
+            alert("Impossibile trovare la posizione, attiva la geolocalizzazione del tuo dispositivo")
         }
     })
 

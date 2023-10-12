@@ -1,13 +1,11 @@
+"use client"
+
 import React, { useState, useEffect } from 'react'
 import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs'
 import { RxDotFilled } from 'react-icons/rx'
 import { MapProvider, useMapContext } from '../../context/MapContext'
 import dynamic from 'next/dynamic'
 
-/*** 
- *  Ricordati che questa componente prende in ingresso un array di URL di immagini e video, non di file
- *  quindi per mostrare un file devi trovare un modo per convertire la struttura ad accettare anche i file
- */
 export default function Media({ media, hideMap }) {
     const Mappa = dynamic(() => import('./Mappa'), { ssr: false })
     const [currentIndex, setCurrentIndex] = useState(0)
@@ -15,7 +13,6 @@ export default function Media({ media, hideMap }) {
     const slides =
         (media?.map((item, index) => {
             if (item.lat && item.lng) {
-                console.log(item, "item");
                 return {
                     coords: item,
                     id: index,
@@ -33,14 +30,7 @@ export default function Media({ media, hideMap }) {
 
         }))
 
-    useEffect(() => {
-        setCurrentIndex(0)
-        if (hideMap) {
-            console.log(slides, "slides");
-        }
-    }, [])
-
-
+    useEffect(() => { setCurrentIndex(0) }, [])
 
     const prevSlide = () => {
         const isFirstSlide = currentIndex === 0
