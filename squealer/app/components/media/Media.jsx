@@ -15,6 +15,7 @@ export default function Media({ media, hideMap }) {
     const slides =
         (media?.map((item, index) => {
             if (item.lat && item.lng) {
+                console.log(item, "item");
                 return {
                     coords: item,
                     id: index,
@@ -76,7 +77,7 @@ export default function Media({ media, hideMap }) {
                 />
             ) : slides[currentIndex]?.type === 'map' && !hideMap ? (
                 <MapProvider>
-                    <Mappa position={slides[currentIndex]?.coords} stile={!hideMap} />
+                    <Mappa lat={slides[currentIndex]?.coords.lat} lng={slides[currentIndex]?.coords.lng} stile={!hideMap} />
                 </MapProvider>
             ) : null
             }

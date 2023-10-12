@@ -20,6 +20,7 @@ export default function PostFormCard({ profile, onPost, isDM, DM_receiver, chang
   const [content, setContent] = useState('')
   const [disabled, setDisabled] = useState(false)
   const [destinatari, setDestinatari] = useState('')
+  const [addedMap, setAddedMap] = useState(true)
   const { position } = useMapContext()
 
   const supabase = createClientComponentClient({ cookies })
@@ -28,11 +29,13 @@ export default function PostFormCard({ profile, onPost, isDM, DM_receiver, chang
     if (!isDM) {
       setDaily_quota(profile.daily_quota)
     }
-     console.log(position, "posizione in PostFormCard");
-     if (position.lat != 51.505 && position.lng != -0.09) {
-       console.log(position, "nuova posizione aggiunta");
-       setUploads(prevUploads => [...prevUploads, position])
-     }
+    if (position.lat != 51.505 && position.lng != -0.09) {
+      if (addedMap) {
+        console.log(position, "nuova posizione aggiunta");
+        setUploads(prevUploads => [...prevUploads, position])
+        setAddedMap(!addedMap)
+      }
+    }
   }, [position])
 
 

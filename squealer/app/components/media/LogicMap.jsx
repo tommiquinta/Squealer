@@ -70,11 +70,11 @@ const tiles = [
     }
 ]
 
-const LogicMap = ({ flag }) => {
+const LogicMap = ({ flag, sup }) => {
 
     const markerRef = useRef(null)
     const { position: contextPosition, setPosition } = useMapContext()
-    const [markerPosition, setMarkerPosition] = useState(contextPosition) // Stato per la posizione del marker
+    const [markerPosition, setMarkerPosition] = useState(sup ? sup : contextPosition) // Stato per la posizione del marker
 
     const map = useMapEvents({
         click() {

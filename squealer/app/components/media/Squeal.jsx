@@ -1,15 +1,10 @@
 'use client'
 
-// import { useEffect } from 'react'
 import { checkAndInsertPublic, createPost } from '../../../helper/squealsServerActions'
 import { createDirectMessage } from '../../../helper/squealsServerActions'
 import { createPrivateChannelSqueal } from '../../../helper/squealsServerActions'
-// import { useMapContext } from '../../context/MapContext';
 
 function Squeal({ content, photos, DM_receiver, disabled, sendTo }) {
-
-
-  console.log(photos, "photos in Squeal");
 
   async function analyzeReceivers() {
     const destinatari = sendTo.split(',');
@@ -118,8 +113,6 @@ function Squeal({ content, photos, DM_receiver, disabled, sendTo }) {
   }
 
   async function createGenericSqueal() {
-    console.log(photos, "squeal creato con queste foto");
-    console.log(content, "squeal creato con questo contenuto");
     await createPost(content, photos)
     const done = false;
     return done
