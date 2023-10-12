@@ -77,6 +77,11 @@ export default async function ChannelPage ({
     }
   }
 
+  const subCounter = await supabase
+    .from('private_channel_subscription')
+    .select('count')
+    .eq('channel', channelId)
+
   return (
     <div className='w-[85%]'>
       {children}
@@ -96,7 +101,8 @@ export default async function ChannelPage ({
                   post={publicPost}
                   disableReaction={true}
                 />
-              ))}ƒ
+              ))}
+              ƒ
             </ChannelContainer>
           )
         }
@@ -132,18 +138,24 @@ export default async function ChannelPage ({
           )
         }
 
-        {
-          //loggato e canale privato
-          user_uuid && isPrivate && (
-            <ChannelContainer
-              channelInfo={channelInfo?.data[0]}
-              channelHandle={channelInfo?.data[0]?.channels.handle}
-              squeals={squeals}
-              isPublic={!isPrivate}
-              isSubscribed={isSubscribed}
-            ></ChannelContainer>
-          )
-        }
+        {user_uuid && isPrivate && (
+          <ChannelContainer
+            channelInfo={channelInfo?.data[0]}
+            channelHandle={channelInfo?.data[0]?.channels.handle}
+            squeals={squeals}
+            isPublic={!isPrivate}
+            isSubscribed={isSubscribed}
+            subCounter={subCounter.data[0].count}
+          >
+            <div>
+              <PublicPostFormCard
+                channel={channelInfo?.data[0]}
+                handle={channelInfo?.data[0]?.channels.handle}
+              />
+              <hr className='mb-5' />
+            </div>
+          </ChannelContainer>
+        )}
       </div>
     </div>
   )

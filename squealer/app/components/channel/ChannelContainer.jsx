@@ -14,6 +14,7 @@ export default function ChannelContainer ({
   isPublic,
   isSubscribed,
   profile,
+  subCounter,
   children
 }) {
   return (
@@ -32,22 +33,21 @@ export default function ChannelContainer ({
           §{channelHandle}
         </div>
         <div className='pb-2 font-sans text-lg text-center text-gray-400'>
-          2k iscritti - still to handle
+          {subCounter} subscribers
         </div>
         <hr />
         <div className='pt-2 pb-2 font-sans text-md text-center text-gray-400'>
           {channelInfo?.description}
         </div>
         <div className='text-center'>
-        { !isPublic && (
-          <SubscribeButton
-            channel_id={channelInfo.id}
-            isSubscribed={isSubscribed}
-          >
-            Subscribe
-          </SubscribeButton> )
-        }
-          
+          {!isPublic && (
+            <SubscribeButton
+              channel_id={channelInfo.id}
+              isSubscribed={isSubscribed}
+            >
+              Subscribe
+            </SubscribeButton>
+          )}
         </div>
       </Card>
 
@@ -55,6 +55,7 @@ export default function ChannelContainer ({
         children
       ) : isSubscribed ? (
         <div>
+          {children}
           {squeals.data ? (
             <div>
               <div>
