@@ -13,6 +13,7 @@ export default function ChannelContainer ({
   squeals,
   isPublic,
   isSubscribed,
+  hasRequested,
   profile,
   subCounter,
   children
@@ -47,6 +48,7 @@ export default function ChannelContainer ({
             <SubscribeButton
               channel_id={channelInfo.id}
               isSubscribed={isSubscribed}
+              hasRequested={hasRequested}
             >
               Subscribe
             </SubscribeButton>

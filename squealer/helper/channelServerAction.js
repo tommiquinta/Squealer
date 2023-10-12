@@ -17,7 +17,23 @@ export async function subscribe (channel_id) {
     console.error('Erroreee durante la chiamata RPC:', error.message)
     return null
   }
+  return null
+}
 
+export async function request_sub (channel_id) {
+  const supabase = createServerComponentClient({ cookies })
+  const {
+    data: { session }
+  } = await supabase.auth.getSession()
+
+  const { data, error } = await supabase.rpc('request_sub', {
+    user_id: session?.user.id,
+    channel_id: channel_id
+  })
+  if (error) {
+    console.error('Erroreee durante la chiamata RPC:', error.message)
+    return null
+  }
   return null
 }
 
@@ -89,7 +105,6 @@ export async function insertPrivateChannel (
       newBanner
     )
   }
-
   return true
 }
 

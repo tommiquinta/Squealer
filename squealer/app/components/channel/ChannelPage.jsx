@@ -18,6 +18,7 @@ export default async function ChannelPage ({
   var squeals = null
   var isModerator = null
   var isSubscribed = null
+  var hasRequested = null
 
   if (isPrivate) {
     channelInfo = await supabase
@@ -29,6 +30,12 @@ export default async function ChannelPage ({
       .select('*')
       .eq('user_id', user_uuid)
       .eq('channel', channelId)
+    hasRequested = await supabase
+      .from('sub_requests')
+      .select('*')
+      .eq('user_id', user_uuid)
+      .eq('channel', channelId)
+
   } else {
     channelInfo = await supabase
       .from('public_channels')
@@ -37,6 +44,7 @@ export default async function ChannelPage ({
   }
 
   isSubscribed = isSubscribed?.data.length > 0 ? true : false
+  hasRequested = hasRequested?.data.length > 0 ? true : false
 
   if (!isPrivate) {
     //inserisci controllo: se l'handle è elonmusk e l'ultimo post di questi canali ha più di 24 ore, fai una chiamata
@@ -144,6 +152,7 @@ export default async function ChannelPage ({
             squeals={squeals}
             isPublic={!isPrivate}
             isSubscribed={isSubscribed}
+            hasRequested={hasRequested}
             subCounter={subCounter.data[0].count}
           >
             <div>
