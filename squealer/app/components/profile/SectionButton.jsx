@@ -12,7 +12,7 @@ export default function SectionButton({ name, destination, icon, isSelected }) {
         className={`flex gap-1 px-4 py-1 items-center`}
       >
         {icon}
-        {name}
+       <p className='hidden md:block'> {name} </p>
       </Link>
       <div className={isSelected ? `${selected}` : null}></div>
     </div>

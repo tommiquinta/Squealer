@@ -22,7 +22,7 @@ export default function NavigationBar ({
   return (
     <Card isNavbar={true} add={`${move} w-full md:w-fit -mt-3 md:mt-0`}>
       <div className='px-4 py-2 w-full md:w-fit '>
-        <div className='flex md:flex-row flex-colgap-2 leading-9 justify-center mb-3'>
+        <div className='flex flex-row gap-2 leading-9 justify-center mb-3'>
           <Link href='/'>
             <Image
               src='/yoshi-logo-empty.png'
@@ -59,7 +59,7 @@ export default function NavigationBar ({
           />
 
           {hasLoggedIn && (
-            <div>
+            <div className='flex md:flex-col flex row'>
               <NavbarButton
                 name={'Users'}
                 url={'/profiles'}

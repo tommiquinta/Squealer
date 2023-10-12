@@ -41,7 +41,7 @@ export default async function ProfilePage ({ children, profile, isMyUser }) {
   }
 
   return (
-    <div className='w-[85%]'>
+    <div className='md:w-[85%]'>
       {children}
       <ProfileContainer
         squeals={squeals}

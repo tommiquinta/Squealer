@@ -19,7 +19,7 @@ export default function ChannelsFilterContainer({channels}){
     }
 
     return(
-        <div className='w-full flex relative ml-[230px] flex-col gap-4'>
+        <div className='w-11/12 md:w-full flex relative mx-auto md:mx-3 md:ml-[240px] flex-col gap-4 items-center md:items-start'>
             <ChannelFilter filter={search}/>
             <ChannelsList channels={channels.data} hasFilter={hasFilter} nameFilter={name}/>
          </div>

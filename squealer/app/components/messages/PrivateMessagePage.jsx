@@ -60,9 +60,9 @@ export default function PrivateMessagePage ({
       })
   }, [])
   return (
-    <div className='w-[85%]'>
+    <div className='md:w-[85%]'>
       {children}
-      <div className='flex-col ml-8 left-1/4 relative mb-5'>
+      <div className='flex-col ml-2 md:ml-8 md:left-1/4 relative mb-5'>
         <Card>
           <div className='flex items-center'>
             <Link href={`/profiles/${recevier_info[0].username}`}>
@@ -83,7 +83,7 @@ export default function PrivateMessagePage ({
 
       {squeals.data ? (
         <div
-          className='flex-col ml-8 left-1/4 relative mb-5'
+          className='flex-col ml-2 md:ml-8 md:left-1/4 relative mb-5'
           style={{ height: '400px', overflowY: 'auto' }}
         >
           <div className='h-300 overscroll-auto'>
@@ -103,7 +103,7 @@ export default function PrivateMessagePage ({
         </div>
       ) : (
         <div
-          className='flex-col ml-8 left-1/4 relative mb-5'
+          className='flex-col ml-2 md:ml-8 md:left-1/4 relative mb-5'
           style={{ height: '400px', overflowY: 'auto' }}
         >
           <p className='pb-2 mb-3 font-sans text-sm text-center text-gray-400'>
@@ -113,7 +113,7 @@ export default function PrivateMessagePage ({
         </div>
       )}
 
-      <div className='flex-col ml-8 left-1/4 relative mb-5'>
+      <div className='flex-col ml-2 md:ml-8 md:left-1/4 relative mb-5'>
         <hr />
         <div className='bottom-0 mt-5 ml-30 flex-col relative'>
           <PostFormCard

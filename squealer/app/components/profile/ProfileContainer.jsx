@@ -17,7 +17,7 @@ export default function ProfileContainer ({
   const basename = '/profiles/' + username
 
   return (
-    <div className='ml-6 left-1/4 relative'>
+    <div className='ml-2 md:ml-6 md:left-1/4 relative'>
       <BrowserRouter>
         <Card noPadding={true}>
           <div className='relative'>

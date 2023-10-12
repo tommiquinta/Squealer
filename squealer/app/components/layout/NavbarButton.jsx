@@ -22,7 +22,7 @@ function NavbarButton ({ name, url, icon, logout }) {
 
   if (name == 'Logout') {
     return (
-      <button className='nonActivePage flex gap-2 mt-2' onClick={handleSignOut}>
+      <button className='nonActivePage flex gap-2 px-2 py-1 md:pl-0 md:mt-2' onClick={handleSignOut}>
         {icon}
         <p className='hidden md:block'>Logout</p>
       </button>
