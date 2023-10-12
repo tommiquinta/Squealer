@@ -76,8 +76,6 @@ const LogicMap = ({ flag }) => {
     const { position: contextPosition, setPosition } = useMapContext()
     const [markerPosition, setMarkerPosition] = useState(contextPosition) // Stato per la posizione del marker
 
-    console.log(contextPosition);
-
     const map = useMapEvents({
         click() {
             if (flag) {
@@ -108,6 +106,7 @@ const LogicMap = ({ flag }) => {
     const handleSavePosition = () => {
         console.log("position saved", markerPosition)
         setPosition(markerPosition)
+        alert("Posizione salvata")
     }
 
     return (

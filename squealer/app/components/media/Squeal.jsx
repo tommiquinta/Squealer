@@ -1,16 +1,16 @@
 'use client'
 
-import { useEffect } from 'react'
+// import { useEffect } from 'react'
 import { checkAndInsertPublic, createPost } from '../../../helper/squealsServerActions'
 import { createDirectMessage } from '../../../helper/squealsServerActions'
 import { createPrivateChannelSqueal } from '../../../helper/squealsServerActions'
-import { useMapContext } from '../../context/MapContext';
+// import { useMapContext } from '../../context/MapContext';
 
 function Squeal({ content, photos, DM_receiver, disabled, sendTo }) {
 
-  const { position } = useMapContext();
+  // const { position } = useMapContext();
 
-  useEffect(() => { console.log('last position saved', position); }, [position]);
+  // useEffect(() => { console.log('last position saved', position); }, [position]);
 
   async function analyzeReceivers() {
     const destinatari = sendTo.split(',');
@@ -33,7 +33,7 @@ function Squeal({ content, photos, DM_receiver, disabled, sendTo }) {
     location.reload()
   }
 
-  async function createSqueal (destinatario) {
+  async function createSqueal(destinatario) {
     document.getElementById('button').setAttribute('disabled', true)
 
     if (destinatario.includes('@') || DM_receiver) {
@@ -110,15 +110,15 @@ function Squeal({ content, photos, DM_receiver, disabled, sendTo }) {
             result
               ? console.log(result)
               : alert(
-                  `Subscribe to this channel (${receiver}) to be able to share squeals in it.`
-                )
+                `Subscribe to this channel (${receiver}) to be able to share squeals in it.`
+              )
           }
         }
       }
     }
   }
 
-  async function createGenericSqueal () {
+  async function createGenericSqueal() {
     const done = await createPost(content, photos)
     return done
   }

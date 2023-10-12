@@ -1,37 +1,47 @@
 import React, { useState, useEffect } from 'react'
 import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs'
 import { RxDotFilled } from 'react-icons/rx'
-import { MapProvider } from '../../context/MapContext'
+import { MapProvider, useMapContext } from '../../context/MapContext'
 import dynamic from 'next/dynamic'
 
 /*** 
  *  Ricordati che questa componente prende in ingresso un array di URL di immagini e video, non di file
  *  quindi per mostrare un file devi trovare un modo per convertire la struttura ad accettare anche i file
  */
-
-
-export default function Media({ media, caller }) {
+export default function Media({ media, hideMap }) {
     const Mappa = dynamic(() => import('./Mappa'), { ssr: false })
     const [currentIndex, setCurrentIndex] = useState(0)
-    useEffect(() => { setCurrentIndex(0) }, [])
 
     const slides =
         (media?.map((item, index) => {
+            if (item?.length == 2) {
+                return {
+                    coords: item,
+                    id: index,
+                    type: 'map'
+                }
+            } else if (item[0]) {
 
-            return {
-                url: item,
-                id: index,
-                type:
-                    item?.endsWith('.json') ? 'map' :
+            } else {
+                return {
+                    url: item,
+                    id: index,
+                    type:
                         item?.endsWith('.mp4') || item.endsWith('.mkv') ? 'video' :
-                            item?.endsWith('.png') || item?.endsWith('.jpg') ? 'image' :
-                                item?.endsWith('.json') ? 'map'
-                                    : (<div>
-                                        Errore nella visualizzazione di questoc contenuto
-                                    </div>)
+                            item?.endsWith('.png') || item?.endsWith('.jpg') ? 'image' : null
+                }
             }
 
         }))
+
+    useEffect(() => {
+        console.log("log in media");
+        setCurrentIndex(0)
+        if (slides?.length > 0 && slides[currentIndex]?.coords != undefined) {
+            console.log(slides[currentIndex].coords, 'coordinate in media')
+        }
+    }, [media])
+
 
 
     const prevSlide = () => {
@@ -48,12 +58,9 @@ export default function Media({ media, caller }) {
 
     const goToSlide = (slideIndex) => { setCurrentIndex(slideIndex) }
 
-
-
     return slides?.length > 0 ? (
         <div className='h-[400px] w-full m-auto py-2 px-4 relative group'>
             {/* Check se l'elemento in in preview è un'immagine o un video o una mappa */}
-
             {slides[currentIndex]?.type === 'image' ? (
                 // Mostra un elemento immagine se il tipo è 'immagine'
                 <div
@@ -70,11 +77,10 @@ export default function Media({ media, caller }) {
                     className='w-full h-full rounded-2xl bg-center bg-contain duration-500'
                     controls // Mostra i controlli del video
                 />
-            ) : slides[currentIndex]?.type === 'map' && caller === 'postcard' ? (
+            ) : slides[currentIndex]?.type === 'map' && !hideMap ? (
                 <MapProvider>
-                    <Mappa supMap={slides[currentIndex?.url]} caller={'postcard'} />
+                    <Mappa position={slides[currentIndex]?.coords} />
                 </MapProvider>
-
             ) : null
             }
 
@@ -102,5 +108,5 @@ export default function Media({ media, caller }) {
                 </div>
             )}
         </div>
-    ) : (null)
+    ) : null
 } 

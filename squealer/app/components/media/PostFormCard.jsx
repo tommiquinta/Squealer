@@ -27,10 +27,15 @@ export default function PostFormCard({ profile, onPost, isDM, DM_receiver, chang
     if (!isDM) {
       setDaily_quota(profile.daily_quota)
     }
-  }, [])
+    if (position[0] != 51.505 && position[1] != -0.09) {
+      setUploads(prevUploads => [...prevUploads, position])
+      console.log(position, "position in FormPostCard");
+    }
+  }, [position])
 
 
-  async function addUploads(ev, bucket) { 
+
+  async function addUploads(ev, bucket) {
     try {
       console.log(ev.target.files, "ev.target.files\n", bucket, "bucket")
       const files = ev.target.files
@@ -91,7 +96,7 @@ export default function PostFormCard({ profile, onPost, isDM, DM_receiver, chang
         </div>
       )}
 
-      <Media media={uploads} caller='form' />
+      <Media media={uploads} hideMap={true} />
 
       <div className='flex mt-8 gap-2 my-3 w-full items-center'>
         <label htmlFor='destinatari' className='text-sm px-0 mx-0'>

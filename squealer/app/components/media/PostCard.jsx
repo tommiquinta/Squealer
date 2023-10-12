@@ -36,14 +36,14 @@ export default function PostCard({ post, children }) {
     return contentWithLinks.join(' ')
   }
 
-  function replaceWWWLinks (content) {
+  function replaceWWWLinks(content) {
     const linkRegex = /(^|[^"'](www\..+?\..+?)(\s|$))/g
     const contentWithLinks = content.replace(linkRegex, p2 => {
       return `<a class="text-blue-500 hover:underline" href="http://${p2}" target="_blank">${p2}</a>`
     })
     return contentWithLinks
   }
-  function increaseViews () {
+  function increaseViews() {
     updateView(post?.id)
   }
   var color = null
@@ -106,7 +106,7 @@ export default function PostCard({ post, children }) {
             }}
             className='w-full h-full rounded-2xl bg-center'
           >
-            {/* <Media media={uploads} caller={'postcard'} /> */}
+            <Media media={uploads} />
           </div>
         )}
       </div>
