@@ -57,7 +57,7 @@ export default function Media({ media, hideMap }) {
 
     return slides?.length > 0 ? (
         <div className='h-[400px] w-full m-auto py-2 px-4 relative group'>
-        {/* Check se l'elemento in preview è un'immagine o un video o una mappa */}
+            {/* Check se l'elemento in preview è un'immagine o un video o una mappa */}
             {slides[currentIndex]?.type === 'image' ? (
                 // Mostra un elemento immagine se il tipo è 'immagine'
                 <div
@@ -76,7 +76,7 @@ export default function Media({ media, hideMap }) {
                 />
             ) : slides[currentIndex]?.type === 'map' && !hideMap ? (
                 <MapProvider>
-                    <Mappa position={slides[currentIndex]?.coords} />
+                    <Mappa position={slides[currentIndex]?.coords} stile={!hideMap} />
                 </MapProvider>
             ) : null
             }
