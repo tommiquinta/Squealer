@@ -14,7 +14,7 @@ export default function ChannelFilter({filter}){
         <div className=" w-10/12">
             <Card noPadding={true}>
                 <div className="flex flex-col gap-2 p-3 items-bottom">
-                    <label className="text-sm text-slate-400">Search by channel's name:</label>
+                    <label className="text-sm text-slate-400">Search by channel&apos;s name:</label>
 
                     <div className="flex  gap-2 w-12/12">
                         <input type="text" value={filterName} placeholder="Search by name" onChange={(e) => setFilterName(e.target.value)}

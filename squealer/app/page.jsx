@@ -9,6 +9,7 @@ import PostFormCard from './components/media/PostFormCard'
 import { Suspense } from 'react'
 import Preloader from './components/Preloader'
 import PostFilterContainer from './components/media/PostFilterContainer'
+import NewUsernameForm from './components/profile/NewUsernameForm'
 import 'leaflet/dist/images/marker-icon-2x.png'
 import 'leaflet/dist/images/marker-icon.png'
 import 'leaflet/dist/images/marker-shadow.png'
@@ -42,6 +43,10 @@ export default async function Home () {
       user_uuid: user.id
     })
     channels = await supabase.rpc('get_channels_list', { user_uuid: user.id })
+  }
+
+  if (!userObj.data[0].username) {
+    return <NewUsernameForm id={userObj.data[0].id} />
   }
 
   return (

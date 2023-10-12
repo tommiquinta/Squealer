@@ -36,7 +36,7 @@ export default function PostCard ({ post, children }) {
   function replaceWWWLinks (content) {
     const linkRegex = /(^|[^"'](www\..+?\..+?)(\s|$))/g
     const contentWithLinks = content.replace(linkRegex, p2 => {
-    return `<a class="text-blue-500 hover:underline" href="http://${p2}" target="_blank">${p2}</a>`;
+      return `<a class="text-blue-500 hover:underline" href="http://${p2}" target="_blank">${p2}</a>`
     })
     return contentWithLinks
   }
@@ -88,7 +88,9 @@ export default function PostCard ({ post, children }) {
         <PostContent callbackFn={increaseViews}>
           <div
             dangerouslySetInnerHTML={{
-              __html: createMentions(postContent).replace("https:/", "").replace("http", "")
+              __html: createMentions(postContent)
+                .replace('https:/', '')
+                .replace('http', '')
             }}
           ></div>
         </PostContent>
