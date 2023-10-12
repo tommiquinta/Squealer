@@ -1,5 +1,4 @@
 'use client'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 import Card from '../Card'
 import moment from 'moment'
@@ -8,15 +7,42 @@ import Link from 'next/link'
 import PostContent from './PostContent'
 import { updateView } from '../../../helper/squealsServerActions'
 import dynamic from 'next/dynamic'
+import { cookies } from 'next/navigation'
 import { useState, useEffect } from 'react'
-import { getChannelInfo } from '../../../helper/channelServerAction'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
-export default function PostCard({ post, children }) {
+export default function PostCard ({ post, children, channelId }) {
+  //console.log(post.channel_id)
+  const [channelHandle, setChannelHandle] = useState('')
+
+  useEffect(() => {
+    async function fetchChannelHandle () {
+      if (post?.channel_id) {
+        try {
+          const response = await supabase
+            .from('channels')
+            .select('handle')
+            .eq('id', post.channel_id)
+          setChannelHandle(response.data[0].handle)
+        } catch (error) {
+          console.error(
+            'Errore nel recupero delle informazioni del canale:',
+            error
+          )
+        }
+      }
+    }
+
+    fetchChannelHandle()
+  }, [post])
+
+  const supabase = createClientComponentClient({ cookies })
+
   const Media = dynamic(() => import('./Media'), { ssr: false })
   const uploads = post?.photos
   var postContent = post.content
 
-  function createMentions(content) {
+  function createMentions (content) {
     const words = content.split(' ')
     const contentWithLinks = words.map((word, index) => {
       if (word.startsWith('§')) {
@@ -36,14 +62,14 @@ export default function PostCard({ post, children }) {
     return contentWithLinks.join(' ')
   }
 
-  function replaceWWWLinks(content) {
+  function replaceWWWLinks (content) {
     const linkRegex = /(^|[^"'](www\..+?\..+?)(\s|$))/g
     const contentWithLinks = content.replace(linkRegex, p2 => {
       return `<a class="text-blue-500 hover:underline" href="http://${p2}" target="_blank">${p2}</a>`
     })
     return contentWithLinks
   }
-  function increaseViews() {
+  function increaseViews () {
     updateView(post?.id)
   }
   var color = null
@@ -80,6 +106,15 @@ export default function PostCard({ post, children }) {
               </span>
               shared a squeal
             </Link>
+            {channelHandle && (
+              <a>
+                {' '}
+                in{' '}
+                <Link href={`/channels/${channelHandle}`} className='text-blue-500 hover:underline'>
+                  §{channelHandle}
+                </Link>{' '}
+              </a>
+            )}
           </p>
           <p className='text-gray-500 text-sm'>
             {moment(post?.created_at).fromNow()}
