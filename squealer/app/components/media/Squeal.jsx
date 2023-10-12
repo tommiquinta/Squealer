@@ -10,7 +10,8 @@ function Squeal({ content, photos, DM_receiver, disabled, sendTo }) {
 
   // const { position } = useMapContext();
 
-  // useEffect(() => { console.log('last position saved', position); }, [position]);
+  console.log('squeal');
+  console.log(photos);
 
   async function analyzeReceivers() {
     const destinatari = sendTo.split(',');
@@ -119,7 +120,8 @@ function Squeal({ content, photos, DM_receiver, disabled, sendTo }) {
   }
 
   async function createGenericSqueal() {
-    const done = await createPost(content, photos)
+    console.log(photos);
+    const done = false; //await createPost(content, photos)
     return done
   }
 

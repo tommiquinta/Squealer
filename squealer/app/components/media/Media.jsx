@@ -14,14 +14,13 @@ export default function Media({ media, hideMap }) {
 
     const slides =
         (media?.map((item, index) => {
-            if (item?.length == 2) {
+            console.log(item);
+            if (item?.lat != null) {
                 return {
                     coords: item,
                     id: index,
                     type: 'map'
                 }
-            } else if (item[0]) {
-
             } else {
                 return {
                     url: item,
