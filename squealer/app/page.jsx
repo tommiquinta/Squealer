@@ -39,15 +39,20 @@ export default async function Home () {
     userObj = await supabase.rpc('get_logged_user', {
       user_uuid: user.id
     })
+
+    if (!userObj?.data[0].username) {
+      return <NewUsernameForm id={userObj.data[0].id} />
+    }
+
     squeals = await supabase.rpc('get_all_posts', {
       user_uuid: user.id
     })
     channels = await supabase.rpc('get_channels_list', { user_uuid: user.id })
+    
   }
 
-  if (!userObj.data[0].username) {
-    return <NewUsernameForm id={userObj.data[0].id} />
-  }
+
+  
 
   return (
     <Suspense fallback={<Preloader />}>
@@ -58,7 +63,7 @@ export default async function Home () {
         }
       />
 
-      {/* questi non vanno qui <AuthButtonServer /> */}
+    
       <div className=' ml-6 max-w-4xl gap-4 left-1/4 relative md:ml-0 md:flex md:w-10/12 lg:w-6/12 '>
         <div className={'mx-2 relative top-36 md:top-0 md:mx-0 md:w-full'}>
           {!hasLoggedIn &&
