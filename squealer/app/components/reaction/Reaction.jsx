@@ -78,7 +78,7 @@ function Reaction ({
   }
 
   return (
-    <div className='w-full'>
+    <div className='w-full mt-4'>
       <div className='w-full h-[30px] gap-4 flex items-center'>
         <form action={handleLike}>
           <LikeButton
@@ -118,7 +118,7 @@ function Reaction ({
           <p className='ml-1'>{views}</p>
         </div>
         <div className='h-[20px]'>
-          <button onClick={handleComments} >
+          <button onClick={handleComments}>
             <svg
               width='20'
               height='20'

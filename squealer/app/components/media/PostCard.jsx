@@ -24,6 +24,8 @@ export default function PostCard ({ post, children }) {
         const keyword = word.substring(1)
 
         return `<a href=/profiles/${keyword} class="text-blue-500 hover:underline">@${keyword}</a>`
+      } else if (word.match(/(^|[^"'])(www\..+?\..+?)(\s|$)/)) {
+        return replaceWWWLinks(word)
       }
       return word
     })
@@ -31,6 +33,13 @@ export default function PostCard ({ post, children }) {
     return contentWithLinks.join(' ')
   }
 
+  function replaceWWWLinks (content) {
+    const linkRegex = /(^|[^"'](www\..+?\..+?)(\s|$))/g
+    const contentWithLinks = content.replace(linkRegex, p2 => {
+    return `<a class="text-blue-500 hover:underline" href="http://${p2}" target="_blank">${p2}</a>`;
+    })
+    return contentWithLinks
+  }
   function increaseViews () {
     updateView(post?.id)
   }
@@ -62,11 +71,11 @@ export default function PostCard ({ post, children }) {
         </div>
         <div className='flex flex-col'>
           <p>
-            <Link href={`/profiles/${post?.username}`} >
+            <Link href={`/profiles/${post?.username}`}>
               <span className='font-semibold hover:underline cursor-pointer mr-1'>
                 {post?.username}
               </span>
-               shared a squeal
+              shared a squeal
             </Link>
           </p>
           <p className='text-gray-500 text-sm'>
@@ -79,7 +88,7 @@ export default function PostCard ({ post, children }) {
         <PostContent callbackFn={increaseViews}>
           <div
             dangerouslySetInnerHTML={{
-              __html: createMentions(postContent)
+              __html: createMentions(postContent).replace("https:/", "").replace("http", "")
             }}
           ></div>
         </PostContent>
