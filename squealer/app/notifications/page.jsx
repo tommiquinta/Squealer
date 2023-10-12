@@ -25,6 +25,7 @@ export default async function Notifications () {
     .from('notifications')
     .select('*')
     .eq('receiver', session.user.id)
+    .order('created_at', { ascending: false })
 
   return (
     <div>
@@ -33,7 +34,6 @@ export default async function Notifications () {
           hasLoggedIn={session ? true : false}
           sessionUsername={loggedUsername.data[0].username}
         />
-        
       </NotificationsPage>
     </div>
   )

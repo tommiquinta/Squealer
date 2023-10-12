@@ -66,12 +66,12 @@ export default function NotificationsCard ({
             {/* notifica messaggio diretto */}
             {isDm && (
               <Link href={'/profiles/' + author.username}>
-                <p className='text-blue-500 hover:underline font-semibold'>
+                <p className='text-blue-500 hover:underline font-semibold my-3'>
                   {author.username}
                 </p>
               </Link>
             )}
-            {isDm && <p> &#160;sent you a direct message.</p>}
+            {isDm && <p className='my-3'> &#160;sent you a direct message.</p>}
 
             {/* notifica richiesta inesso canale */}
 
