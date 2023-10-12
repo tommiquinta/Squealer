@@ -12,7 +12,7 @@ import { updateView } from '../../../helper/squealsServerActions'
 export default function PostCard ({ post, children }) {
   const uploads = post?.photos
   var postContent = post.content
-
+  
   function createMentions (content) {
     const words = content.split(' ')
     const contentWithLinks = words.map((word, index) => {
