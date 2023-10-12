@@ -3,7 +3,6 @@ import Card from '../Card'
 
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import Image from 'next/image'
 
 export default function NavigationBar ({
   hasLoggedIn,
@@ -24,13 +23,7 @@ export default function NavigationBar ({
       <div className='px-4 py-2 w-full md:w-fit '>
         <div className='flex flex-row gap-2 leading-9 justify-center mb-3'>
           <Link href='/'>
-            <Image
-              src='/yoshi-logo-empty.png'
-              alt='logo'
-              className='w-8 h-8'
-              width='300'
-              height='300'
-            />
+            <img src='/yoshi-logo-empty.png' alt='logo' className='w-8 h-8' width="300" height="300" />
           </Link>
 
           <h2 className='text-gray-400 text-center text-3xl'>Squealer</h2>

@@ -5,15 +5,18 @@ import Card from '../Card'
 import moment from 'moment'
 import Avatar from '../Avatar'
 import Link from 'next/link'
-import Media from './Media'
 import PostContent from './PostContent'
 import { updateView } from '../../../helper/squealsServerActions'
+import dynamic from 'next/dynamic'
+import { useState, useEffect } from 'react'
+import { getChannelInfo } from '../../../helper/channelServerAction'
 
-export default function PostCard ({ post, children }) {
+export default function PostCard({ post, children }) {
+  const Media = dynamic(() => import('./Media'), { ssr: false })
   const uploads = post?.photos
   var postContent = post.content
-  
-  function createMentions (content) {
+
+  function createMentions(content) {
     const words = content.split(' ')
     const contentWithLinks = words.map((word, index) => {
       if (word.startsWith('§')) {
@@ -33,14 +36,14 @@ export default function PostCard ({ post, children }) {
     return contentWithLinks.join(' ')
   }
 
-  function replaceWWWLinks (content) {
+  function replaceWWWLinks(content) {
     const linkRegex = /(^|[^"'](www\..+?\..+?)(\s|$))/g
     const contentWithLinks = content.replace(linkRegex, p2 => {
       return `<a class="text-blue-500 hover:underline" href="http://${p2}" target="_blank">${p2}</a>`
     })
     return contentWithLinks
   }
-  function increaseViews () {
+  function increaseViews() {
     updateView(post?.id)
   }
   var color = null
@@ -103,7 +106,7 @@ export default function PostCard ({ post, children }) {
             }}
             className='w-full h-full rounded-2xl bg-center'
           >
-            <Media uploads={uploads} />
+            <Media media={uploads} />
           </div>
         )}
       </div>
