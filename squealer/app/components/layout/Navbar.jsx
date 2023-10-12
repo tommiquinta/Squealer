@@ -26,7 +26,7 @@ export default function NavigationBar ({
   return (
     <Card isNavbar={true} add={move}>
       <div className='px-4 py-2 w-screen md:w-fit '>
-        <div className='flex gap-2 leading-9 justify-center mb-3'>
+        <div className='flex md:flex-row flex-colgap-2 leading-9 justify-center mb-3'>
           <Link href='/'>
             <Image
               src='/yoshi-logo-empty.png'

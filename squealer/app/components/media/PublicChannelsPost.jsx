@@ -93,6 +93,8 @@ export default async function PublicChannelsPost ({
           id={post.id}
           numLikes={post.likes}
           numDislikes={post.dislikes}
+          hasLiked={post.hasliked}
+          hasDisliked={post.hasdisliked}
           disable={disableReaction}
           views={post.views}
           profile={profile}
