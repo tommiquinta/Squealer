@@ -81,6 +81,9 @@ const LogicMap = ({ flag, sup }) => {
             if (flag) {
                 map.locate()
             }
+            if (!flag) {
+                map.flyTo(markerPosition, map.getZoom())
+            }
         },
         locationfound(e) {
             if (flag) {
