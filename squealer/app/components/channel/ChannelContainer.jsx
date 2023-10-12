@@ -85,7 +85,7 @@ export default function ChannelContainer ({
           )}
         </div>
       ) : (
-        <div className='pb-2 font-sans content-center text-sm text-center text-gray-400'>
+        <div className='pb-2 font-sans content-center text-sm text-center text-gray-400 flex-col flex items-center'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'

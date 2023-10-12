@@ -125,7 +125,7 @@ function Squeal ({ content, photos, DM_receiver, disabled, sendTo }) {
         analyzeReceivers()
       }}
     >
-      {disabled >= 0 && DM_receiver ? (
+      {disabled >= 0 || DM_receiver ? (
         <button
           type='submit'
           className='bg-blue-500 text-white px-6 py-1 rounded-md'
