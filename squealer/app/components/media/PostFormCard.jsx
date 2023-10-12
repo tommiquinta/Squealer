@@ -15,6 +15,7 @@ export default function PostFormCard({ profile, onPost, isDM, DM_receiver, chang
   const Media = dynamic(() => import('./Media'), { ssr: false })
   const [daily_quota, setDaily_quota] = useState()
   const [uploads, setUploads] = useState([])
+  const [mediaArray, setMediaArray] = useState([])
   const [isUploading, setIsUploading] = useState(false)
   const [content, setContent] = useState('')
   const [disabled, setDisabled] = useState(false)
@@ -27,9 +28,8 @@ export default function PostFormCard({ profile, onPost, isDM, DM_receiver, chang
     if (!isDM) {
       setDaily_quota(profile.daily_quota)
     }
-    if (position[0] != 51.505 && position[1] != -0.09) {
+    if (position.lat != 51.505 && position.lng != -0.09) {
       setUploads(prevUploads => [...prevUploads, position])
-      console.log(position, "position in FormPostCard");
     }
   }, [position])
 
@@ -55,6 +55,7 @@ export default function PostFormCard({ profile, onPost, isDM, DM_receiver, chang
           if (result.data) {
             const url = process.env.NEXT_PUBLIC_SUPABASE_URL + `/storage/v1/object/public/${bucket}/` + result.data.path
             setUploads(prevUploads => [...prevUploads, url])
+            setMediaArray(prevUploads => [...prevUploads, url])
           } else {
             console.log(result)
           }
@@ -96,7 +97,7 @@ export default function PostFormCard({ profile, onPost, isDM, DM_receiver, chang
         </div>
       )}
 
-      <Media media={uploads} hideMap={true} />
+      <Media media={mediaArray} hideMap={true} />
 
       <div className='flex mt-8 gap-2 my-3 w-full items-center'>
         <label htmlFor='destinatari' className='text-sm px-0 mx-0'>

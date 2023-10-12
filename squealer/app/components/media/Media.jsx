@@ -14,14 +14,12 @@ export default function Media({ media, hideMap }) {
 
     const slides =
         (media?.map((item, index) => {
-            if (item?.length == 2) {
+            if (item.lat && item.lng) {
                 return {
                     coords: item,
                     id: index,
                     type: 'map'
                 }
-            } else if (item[0]) {
-
             } else {
                 return {
                     url: item,
@@ -35,12 +33,11 @@ export default function Media({ media, hideMap }) {
         }))
 
     useEffect(() => {
-        console.log("log in media");
         setCurrentIndex(0)
-        if (slides?.length > 0 && slides[currentIndex]?.coords != undefined) {
-            console.log(slides[currentIndex].coords, 'coordinate in media')
+        if (hideMap) {
+            console.log(slides, "slides");
         }
-    }, [media])
+    }, [])
 
 
 
@@ -60,7 +57,7 @@ export default function Media({ media, hideMap }) {
 
     return slides?.length > 0 ? (
         <div className='h-[400px] w-full m-auto py-2 px-4 relative group'>
-            {/* Check se l'elemento in in preview è un'immagine o un video o una mappa */}
+        {/* Check se l'elemento in preview è un'immagine o un video o una mappa */}
             {slides[currentIndex]?.type === 'image' ? (
                 // Mostra un elemento immagine se il tipo è 'immagine'
                 <div
