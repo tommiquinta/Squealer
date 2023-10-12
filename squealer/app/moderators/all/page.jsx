@@ -1,31 +1,31 @@
 'use server';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import {cookies} from 'next/headers';
+import { cookies } from 'next/headers';
 import NavigationBar from '../../components/layout/Navbar';
 import Link from 'next/link';
 import AllPostsContainer from '../../components/moderators/AllPostsContainer';
 
 
-export default async function All(){
-    const supabase = createServerComponentClient({cookies});
-  
-    const {
-      data: { session }
-    } = await supabase.auth.getSession();
-  
-    if(!session){
-      redirect("/");
-    }
-  
-    const moderator = await supabase.rpc("get_moderator", {
-      user_uuid: session?.user.id
-    });
-    
-    if(! moderator.data){
-      redirect("/");
-    }
+export default async function All() {
+  const supabase = createServerComponentClient({ cookies });
 
-    const posts = await supabase.rpc('get_all_posts', {user_uuid : session?.user.id});
+  const {
+    data: { session }
+  } = await supabase.auth.getSession();
+
+  if (!session) {
+    redirect("/");
+  }
+
+  const moderator = await supabase.rpc("get_moderator", {
+    user_uuid: session?.user.id
+  });
+
+  if (!moderator.data) {
+    redirect("/");
+  }
+
+  const posts = await supabase.rpc('get_all_posts', { user_uuid: session?.user.id });
 
     const channels = await supabase.from('channels').select('*');
 

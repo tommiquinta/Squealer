@@ -15,7 +15,7 @@ export default function UserFilter({filter}){
         <div className="fixed right-0">
             <Card >
                 <div className="flex flex-col gap-2 p-2">
-                    <p className="text-center">Filter user&apos;s list</p>
+                    <p className="text-center">Filter user`&apos;`s list</p>
                 <label className="text-sm text-slate-400">Search by name or username:</label>
                 <input type="text" value={filterName} placeholder="Insert name" onChange={(e) => setFilterName(e.target.value)}
                 className="border-2 rounded border-slate-200 px-2"/>

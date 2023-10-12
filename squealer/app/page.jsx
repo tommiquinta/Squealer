@@ -5,7 +5,6 @@ import PostCard from './components/media/PostCard'
 import PublicChannelsPost from './components/media/PublicChannelsPost'
 import NavigationBar from './components/layout/Navbar'
 import SideWidget from './components/layout/SideWidget'
-import PostFormCard from './components/media/PostFormCard'
 import { Suspense } from 'react'
 import Preloader from './components/Preloader'
 import PostFilterContainer from './components/media/PostFilterContainer'
@@ -13,9 +12,12 @@ import NewUsernameForm from './components/profile/NewUsernameForm'
 import 'leaflet/dist/images/marker-icon-2x.png'
 import 'leaflet/dist/images/marker-icon.png'
 import 'leaflet/dist/images/marker-shadow.png'
+import Form from './components/media/Form';
+import CommentsSection from './components/reaction/CommentsSection'
 
-export default async function Home () {
-  const supabase = createServerComponentClient({ cookies })
+export default async function Home() {
+  // Crea un oggetto supabase utilizzando createServerComponentClient e passa l'oggetto cookies come argomento
+  const supabase = createServerComponentClient({ cookies });
 
   const {
     data: { session }
@@ -27,7 +29,7 @@ export default async function Home () {
   var squeals = null
   var channels = null
 
-  const publicChannelsList = await supabase.rpc('get_public_list')
+  const publicChannelsList = await supabase.rpc('get_public_list');
 
   if (!hasLoggedIn) {
     const publicSqueals = await supabase.rpc('get_public_only')
@@ -75,18 +77,14 @@ export default async function Home () {
               />
             ))}
 
-          {hasLoggedIn && userObj.data && (
-            <div>
-              <PostFormCard profile={userObj.data[0]} />
-              <hr className='mb-5' />
-
-              <PostFilterContainer
-                allSqueals={squeals?.data}
-                loggedUser={userObj.data[0]}
-                channels={channels.data}
-              />
-            </div>
-          )}
+          {hasLoggedIn && (
+            userObj.data && (
+              <div>
+                <Form profile={userObj.data[0]} />
+                <hr className='mb-5' />
+                <PostFilterContainer allSqueals={squeals?.data} loggedUser={userObj.data[0]} channels={channels.data} />
+              </div>
+            ))}
         </div>
       </div>
       <div className='absolute right-0 md:left-1/4 md:relative ml-2 mt-32 md:mt-2'>

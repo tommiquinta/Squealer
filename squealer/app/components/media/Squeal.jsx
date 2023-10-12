@@ -1,15 +1,19 @@
 'use client'
 
-import {
-  checkAndInsertPublic,
-  createPost
-} from '../../../helper/squealsServerActions'
+import { useEffect } from 'react'
+import { checkAndInsertPublic, createPost } from '../../../helper/squealsServerActions'
 import { createDirectMessage } from '../../../helper/squealsServerActions'
 import { createPrivateChannelSqueal } from '../../../helper/squealsServerActions'
+import { useMapContext } from '../../context/MapContext';
 
-function Squeal ({ content, photos, DM_receiver, disabled, sendTo }) {
-  async function analyzeReceivers () {
-    const destinatari = sendTo.split(',')
+function Squeal({ content, photos, DM_receiver, disabled, sendTo }) {
+
+  const { position } = useMapContext();
+
+  useEffect(() => { console.log('last position saved', position); }, [position]);
+
+  async function analyzeReceivers() {
+    const destinatari = sendTo.split(',');
     if (!content && photos.length <= 0) {
       alert("A squeal with no content is a little useless, isn't it?")
       return
@@ -43,7 +47,7 @@ function Squeal ({ content, photos, DM_receiver, disabled, sendTo }) {
     }
   }
 
-  async function createDM (receiver) {
+  async function createDM(receiver) {
     if (DM_receiver) {
       if (content.trim().length <= 0 && photos.length == 0) {
         alert("A squeal with no content is a little useless, isn't it?")
@@ -73,7 +77,7 @@ function Squeal ({ content, photos, DM_receiver, disabled, sendTo }) {
   }
 
   var isSub = true
-  async function createChannelPost (receiver) {
+  async function createChannelPost(receiver) {
     if (content.trim().length <= 0 && photos.length == 0) {
       alert("A squeal with no content is a little useless, isn't it?")
       return
