@@ -1,13 +1,15 @@
 'use client'
 
-import { checkAndInsertPublic, createPost } from '../../../helper/squealsServerActions'
+import {
+  checkAndInsertPublic,
+  createPost
+} from '../../../helper/squealsServerActions'
 import { createDirectMessage } from '../../../helper/squealsServerActions'
 import { createPrivateChannelSqueal } from '../../../helper/squealsServerActions'
 
-function Squeal({ content, photos, DM_receiver, disabled, sendTo }) {
-
-  async function analyzeReceivers() {
-    const destinatari = sendTo.split(',');
+function Squeal ({ content, photos, DM_receiver, disabled, sendTo }) {
+  async function analyzeReceivers () {
+    const destinatari = sendTo.split(',')
     if (!content && photos.length <= 0) {
       alert("A squeal with no content is a little useless, isn't it?")
       return
@@ -27,7 +29,7 @@ function Squeal({ content, photos, DM_receiver, disabled, sendTo }) {
     location.reload()
   }
 
-  async function createSqueal(destinatario) {
+  async function createSqueal (destinatario) {
     document.getElementById('button').setAttribute('disabled', true)
 
     if (destinatario.includes('@') || DM_receiver) {
@@ -41,7 +43,7 @@ function Squeal({ content, photos, DM_receiver, disabled, sendTo }) {
     }
   }
 
-  async function createDM(receiver) {
+  async function createDM (receiver) {
     if (DM_receiver) {
       if (content.trim().length <= 0 && photos.length == 0) {
         alert("A squeal with no content is a little useless, isn't it?")
@@ -71,7 +73,7 @@ function Squeal({ content, photos, DM_receiver, disabled, sendTo }) {
   }
 
   var isSub = true
-  async function createChannelPost(receiver) {
+  async function createChannelPost (receiver) {
     if (content.trim().length <= 0 && photos.length == 0) {
       alert("A squeal with no content is a little useless, isn't it?")
       return
@@ -104,17 +106,17 @@ function Squeal({ content, photos, DM_receiver, disabled, sendTo }) {
             result
               ? console.log(result)
               : alert(
-                `Subscribe to this channel (${receiver}) to be able to share squeals in it.`
-              )
+                  `Subscribe to this channel (${receiver}) to be able to share squeals in it.`
+                )
           }
         }
       }
     }
   }
 
-  async function createGenericSqueal() {
+  async function createGenericSqueal () {
     await createPost(content, photos)
-    const done = false;
+    const done = false
     return done
   }
 

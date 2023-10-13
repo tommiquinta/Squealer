@@ -5,9 +5,7 @@ import Avatar from '../Avatar'
 import Reaction from '../reaction/Reaction'
 import DeleteBtn from '../moderators/DeleteBtn'
 import PostContent from './PostContent'
-import {
-  updateView
-} from '../../../helper/squealsServerActions'
+import { updateView } from '../../../helper/squealsServerActions'
 import Link from 'next/link'
 import Media from './Media'
 
@@ -27,7 +25,7 @@ export default async function PublicChannelsPost ({
     info = { username: post.channel_name, avatar: post.channel_avatar }
   }
 
-  const uploads = post?.photos;
+  const uploads = post?.photos
 
   var color = null
 
@@ -76,17 +74,17 @@ export default async function PublicChannelsPost ({
         </PostContent>
       </div>
 
-        {post.photos?.length > 0 && (
-          <div
-            style={{
-              backgroundRepeat: 'no-repeat',
-              backgroundSize: 'container'
-            }}
-            className='w-full h-full rounded-2xl bg-center'
-          >
-            <Media media={post?.photos} />
-          </div>
-        )}
+      {post.photos?.length > 0 && (
+        <div
+          style={{
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'container'
+          }}
+          className='w-full h-full rounded-2xl bg-center'
+        >
+          <Media media={post?.photos} />
+        </div>
+      )}
 
       <div className='flex'>
         <Reaction

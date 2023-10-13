@@ -80,7 +80,7 @@ function Reaction ({
   }
 
   return (
-    <div className='w-full mt-4'>
+    <div className='w-full mt-3'>
       <div className='w-full h-[30px] gap-4 flex items-center'>
         <form action={handleLike}>
           <LikeButton

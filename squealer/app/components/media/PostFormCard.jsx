@@ -43,7 +43,7 @@ export default function PostFormCard ({
     }
     if (position.lat != 51.505 && position.lng != -0.09) {
       if (addedMap) {
-        console.log(position, 'nuova posizione aggiunta')
+        //console.log(position, 'nuova posizione aggiunta')
         setUploads(prevUploads => [...prevUploads, position])
         setAddedMap(!addedMap)
       }
