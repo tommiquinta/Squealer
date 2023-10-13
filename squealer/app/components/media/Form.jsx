@@ -13,7 +13,8 @@ const Form = ({
   DM_receiver,
   isPrivate,
   channel,
-  handle
+  handle,
+  isHome
 }) => {
   const Mappa = dynamic(() => import('./Mappa'), { ssr: false })
   const [showMap, setShowMap] = useState(false)
@@ -22,6 +23,25 @@ const Form = ({
     setShowMap(!showMap)
   }
 
+  if(isHome){
+    return (
+    <MapProvider>
+      <PostFormCard
+        isDM={isDM}
+        DM_receiver={DM_receiver}
+        changeMap={changeMap}
+        showMap={showMap}
+        onPost={onPost}
+        profile={profile}
+        channel={channel}
+        handle={handle}
+        isPrivate={true}
+        isHome={true}
+      />
+      {showMap ? <Mappa caller='inserimento' /> : null}
+    </MapProvider> 
+  )
+  }
   return (
     <div className='mb-5'>
       {isPrivate ? (

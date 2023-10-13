@@ -42,6 +42,7 @@ export default async function Home () {
       user_uuid: user.id
     })
 
+    console.log(userObj.data[0]);
     if (!userObj.data || !userObj?.data[0].username) {
       return <NewUsernameForm id={userObj.data[0].id} />
     }
@@ -74,7 +75,7 @@ export default async function Home () {
 
           {hasLoggedIn && userObj.data && (
             <div>
-              <Form profile={userObj.data[0]} />
+              <Form profile={userObj.data[0]} isPrivate={false} isHome={true}/>
               <hr className='mb-5' />
               <PostFilterContainer
                 allSqueals={squeals?.data}

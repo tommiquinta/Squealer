@@ -19,7 +19,8 @@ export default function PostFormCard ({
   showMap,
   isPrivate,
   channel,
-  handle
+  handle,
+  isHome
 }) {
   const Media = dynamic(() => import('./Media'), { ssr: false })
   const [daily_quota, setDaily_quota] = useState()
@@ -97,7 +98,10 @@ export default function PostFormCard ({
   return (
     <Card>
       <div className='flex gap-3 p-2'>
-        <Avatar size={'medium'} url={!isPrivate ? channel.avatar : profile.avatar} />
+        { isHome  || isDM ? 
+          <Avatar size={'medium'} url={profile?.avatar} /> :
+          <Avatar size={'medium'} url={!isPrivate ? channel?.avatar : (profile && profile?.avatar)} />
+        }
         <textarea
           value={content}
           onChange={e => {

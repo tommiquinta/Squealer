@@ -188,12 +188,6 @@ export default async function ChannelPage ({
                 channel={channel}
                 handle={handle}
               />
-              {/*  <PublicPostFormCard
-                profile={profile}
-                channel={channelInfo?.data[0]}
-                handle={channelInfo?.data[0]?.channels.handle}
-                isPrivate={true}
-              /> */}
               <hr className='mb-5' />
             </div>
           </ChannelContainer>
