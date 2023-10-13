@@ -2,7 +2,7 @@
 
 import { useSession } from '@supabase/auth-helpers-react'
 import { useState } from 'react'
-
+import {uploadPhoto} from '../../../helper/uploadOnSupabase.js'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Preloader from '../Preloader'
 
@@ -16,7 +16,7 @@ export default function UpdateImgBtn({add}) {
       const file = ev.target.files?.[0]
       if (file) {
         setIsUploading(true)
-        await uploadUserProfileImage(
+        await uploadPhoto(
           supabase,
           session.user.id,
           'avatars',

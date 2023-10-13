@@ -1,14 +1,12 @@
 'use client'
 
-import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import { useState } from 'react'
-
+import {uploadPhoto} from '../../../helper/uploadOnSupabase.js'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Preloader from '../Preloader'
 
 export default function UpdateCoverBtn () {
   const supabase = createClientComponentClient()
-  const session = useSession()
   const [isUploading, setIsUploading] = useState(false)
 
   async function updateCover (ev) {
@@ -16,14 +14,13 @@ export default function UpdateCoverBtn () {
       const file = ev.target.files?.[0]
       if (file) {
         setIsUploading(true)
-        await uploadUserProfileImage(
+        const {data, error} = await uploadPhoto(
           supabase,
-          session.user.id,
           'covers',
           'cover',
           file
         )
-        setIsUploading(false)
+        if(data) setIsUploading(false)
         if (onChange) onChange()
       }
     } catch (error) {
