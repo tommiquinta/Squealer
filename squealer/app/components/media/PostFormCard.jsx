@@ -142,7 +142,7 @@ export default function PostFormCard({ profile, onPost, isDM, DM_receiver, chang
               d='M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z'
             />
           </svg>
-          Image
+          <p className='hidden md:block'>Image</p>
         </label>
 
         <label className='flex gap-1'>
@@ -167,7 +167,7 @@ export default function PostFormCard({ profile, onPost, isDM, DM_receiver, chang
               d='M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z'
             />
           </svg>
-          Video
+          <p className='hidden md:block'>Video</p>
         </label>
 
         <button className='flex gap-1 w-fit'
@@ -193,7 +193,7 @@ export default function PostFormCard({ profile, onPost, isDM, DM_receiver, chang
               d='M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z'
             />
           </svg>
-          {showMap ? 'Hide' : 'Show'} Map
+          <p className='hidden md:block'> {showMap ? 'Hide' : 'Show'} Map </p>
         </button>
 
         {!isDM ? (

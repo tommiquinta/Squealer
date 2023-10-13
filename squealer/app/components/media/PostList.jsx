@@ -11,7 +11,7 @@ export default function PostList ({
 }) {
   if (hasFilter) {
     return (
-      <div className='w-full'>
+      <div className='w-full mt-28 md:mt-0'>
         {squeals
           ?.filter(post => {
             if (!filterByContent) {
@@ -60,7 +60,7 @@ export default function PostList ({
   }
 
   return (
-    <div className='w-full'>
+    <div className='w-full mt-28 md:mt-0'>
       {squeals?.map(post =>
         post.channel_id != null && post.channel_name != null ? (
           <PublicChannelsPost

@@ -72,9 +72,9 @@ export default async function NotificationsPage ({ notifications, children }) {
   }
 
   return (
-    <div className='w-[85%]'>
+    <div className='md:w-[85%]'>
       <div>{children}</div>
-      <div className='w-[85%] flex relative ml-[230px] flex-col'>
+      <div className='w-3/4 mx-auto md:mx-[unset] md:w-[85%] flex relative md:ml-[230px] flex-col'>
         {notifications.data.length > 0 ? (
           notifications?.data?.map(async notification => {
             const authorInfo = await getAuthor(notification.author) // Attendi la promise
