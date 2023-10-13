@@ -27,7 +27,7 @@ export default function AuthButtonClient ({ session }) {
         redirectTo: 'http://localhost:3000/auth/callback'
       } */
     })
-    router.refresh()
+    location.reload()
   }
 
   async function signUpWithEmail (email, username, password, avatar, fullname) {
