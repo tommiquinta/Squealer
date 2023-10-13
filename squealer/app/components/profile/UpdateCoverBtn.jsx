@@ -2,30 +2,28 @@
 
 import { useState } from 'react'
 import {uploadPhoto} from '../../../helper/uploadOnSupabase.js'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Preloader from '../Preloader'
 
 export default function UpdateCoverBtn () {
-  const supabase = createClientComponentClient()
   const [isUploading, setIsUploading] = useState(false)
+  const [file, setFile] = useState(null)
 
   async function updateCover (ev) {
-    try {
-      const file = ev.target.files?.[0]
-      if (file) {
-        setIsUploading(true)
-        const {data, error} = await uploadPhoto(
-          supabase,
-          'covers',
-          'cover',
-          file
-        )
-        if(data) setIsUploading(false)
-        if (onChange) onChange()
-      }
-    } catch (error) {
-      console.log(error + 'errore in updateCover')
+    ev.preventDefault
+    if (file) {
+      console.log(file);
+      setIsUploading(true);
+      const form = new FormData();
+
+      form.append("fileUpload", file);
+      const result = await uploadPhoto(
+        'covers',
+        'cover',
+        form
+      )
+      if(result) setIsUploading(false)
     }
+    setFile(null);
   }
 
   if (isUploading) {
@@ -39,9 +37,9 @@ export default function UpdateCoverBtn () {
   }
 
   return (
-    <div className='absolute right-0 bottom-0 m-2'>
+    <form className='absolute right-0 bottom-0 m-2' action={(ev) => updateCover(ev)}>
       <label className='flex items-center gap-1 bg-white py-1 px-2 rounded-md shadow-md shadow-black cursor-pointer'>
-        <input type='file' onChange={updateCover} className='hidden' />
+        <input type='file' onChange={(ev)=> { ev.preventDefault; setFile(ev.target.files?.[0])}} className='hidden' />
         <svg
           xmlns='http://www.w3.org/2000/svg'
           fill='none'
@@ -61,8 +59,9 @@ export default function UpdateCoverBtn () {
             d='M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z'
           />
         </svg>
-        Change cover image
+        <button type='submit'>Change cover image</button>
       </label>
-    </div>
+
+    </form>
   )
 }
