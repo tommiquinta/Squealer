@@ -62,9 +62,9 @@ export default function AddChannel ({ pvt }) {
           createChannel(pvt)
         }}
       >
-        <p className='text-center font-bold'> Create a new public channel</p>
+        <p className='text-center font-bold'> Create a new private channel</p>
         <label className={labelClasses} htmlFor='channelName'>
-          Insert your new channel`&apos;`s name:
+          Insert your new channel&apos;s name:
         </label>
         <input
           value={name}
