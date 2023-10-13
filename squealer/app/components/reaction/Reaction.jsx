@@ -19,7 +19,8 @@ function Reaction ({
   disable,
   views,
   profile,
-  avatar
+  avatar,
+  comment_count
 }) {
   const [isLiked, setIsLiked] = useState(hasLiked)
   const [isDisliked, setIsDisliked] = useState(hasDisliked)
@@ -77,7 +78,7 @@ function Reaction ({
   async function handleComments () {
     setShowComments(!showComments)
   }
-  
+
   return (
     <div className='w-full mt-4'>
       <div className='w-full h-[30px] gap-4 flex items-center'>
@@ -98,7 +99,7 @@ function Reaction ({
             toDisable={disable}
           />
         </form>
-        <div className='flex items-center text-gray-400 text-sm'>
+        <div className='flex items-center text-gray-400 text-m'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             width='20'
@@ -118,7 +119,7 @@ function Reaction ({
           </svg>
           <p className='ml-1'>{views}</p>
         </div>
-        <div className='h-[20px]'>
+        <div className='h-[20px] flex gap-1 items-center text-gray-400 text-m'>
           <button onClick={handleComments}>
             <svg
               width='20'
@@ -136,11 +137,16 @@ function Reaction ({
               />
             </svg>
           </button>
+          <p className='text-gray-500'>{comment_count}</p>
         </div>
       </div>
       {showComments && (
-        <div className='comments'>
-          <CommentsSection profile={profile} id={id} avatar={avatar}></CommentsSection>
+        <div className='comments flex'>
+          <CommentsSection
+            profile={profile}
+            id={id}
+            avatar={avatar}
+          ></CommentsSection>
         </div>
       )}
     </div>

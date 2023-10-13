@@ -50,8 +50,8 @@ export default function PostList ({
                   views={post.views}
                   profile={loggedUser}
                   avatar={loggedUser.avatar}
+                  comment_count={post.comment_count}
                 />
-
               </PostCard>
             )
           )}
@@ -81,6 +81,7 @@ export default function PostList ({
               views={post.views}
               profile={loggedUser}
               avatar={loggedUser.avatar}
+              comment_count={post.comment_count}
             />
           </PostCard>
         )

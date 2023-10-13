@@ -12,29 +12,6 @@ import { useState, useEffect } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 export default function PostCard ({ post, children, channelId }) {
-  //console.log(post.channel_id)
-  const [channelHandle, setChannelHandle] = useState('')
-
-  useEffect(() => {
-    async function fetchChannelHandle () {
-      if (post?.channel_id) {
-        try {
-          const response = await supabase
-            .from('channels')
-            .select('handle')
-            .eq('id', post.channel_id)
-          setChannelHandle(response.data[0].handle)
-        } catch (error) {
-          console.error(
-            'Errore nel recupero delle informazioni del canale:',
-            error
-          )
-        }
-      }
-    }
-
-    fetchChannelHandle()
-  }, [post])
 
   const supabase = createClientComponentClient({ cookies })
 
@@ -106,10 +83,10 @@ export default function PostCard ({ post, children, channelId }) {
               </span>
               shared a squeal
             </Link>
-            {channelHandle && (
+            {post?.channel_handle && (
               <span className='flex gap-1'> in
-                <Link href={`/channels/${channelHandle}`} className='text-blue-500 hover:underline'>
-                  §{channelHandle}
+                <Link href={`/channels/${post?.channel_handle}`} className='text-blue-500 hover:underline'>
+                  §{post?.channel_handle}
                 </Link>
               </span>
             )}
