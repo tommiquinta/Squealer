@@ -26,7 +26,7 @@ export default async function Message ({ params }) {
       .from('profiles')
       .select('id, username')
       .eq('id', session?.user.id)
-    loggedUserInfo = loggedUserInfo.data[0].username
+    loggedUserInfo = loggedUserInfo.data.length > 0 ? loggedUserInfo.data[0].username : null
   }
 
   var receiver_uuid = null
@@ -34,14 +34,14 @@ export default async function Message ({ params }) {
     .from('profiles')
     .select()
     .eq('username', recevierHandle)
-  receiver_uuid = recevier_info.data[0].id
+  receiver_uuid = recevier_info.data.length > 0 ? recevier_info.data[0].id : null;
 
   return (
     <PrivateMessagePage
       user_uuid={session.user.id}
       reveiver_uuid={receiver_uuid}
       receiver_handle={recevierHandle}
-      recevier_info={recevier_info.data}
+      recevier_info={recevier_info.data[0]}
     >
       <NavigationBar
         hasLoggedIn={profile ? true : false}

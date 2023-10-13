@@ -7,6 +7,7 @@ import Card from '../Card'
 import Avatar from '../Avatar'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { MapProvider } from '../../context/MapContext'
 
 export default function PrivateMessagePage ({
   user_uuid,
@@ -65,15 +66,15 @@ export default function PrivateMessagePage ({
       <div className='flex-col ml-2 md:ml-8 md:left-1/4 relative mb-5'>
         <Card>
           <div className='flex items-center'>
-            <Link href={`/profiles/${recevier_info[0].username}`}>
+            <Link href={`/profiles/${recevier_info.username}`}>
               <span className='cursor-pointer'>
-                <Avatar size={'medium'} url={recevier_info[0].avatar} />
+                <Avatar size={'medium'} url={recevier_info.avatar} />
               </span>
             </Link>
             <div>
-              <p className='text-xl ml-5 font-bold'>{recevier_info[0].name}</p>
+              <p className='text-xl ml-5 font-bold'>{recevier_info.name}</p>
               <p className='text-md ml-5 text-gray-400'>
-                @{recevier_info[0].username}
+                @{recevier_info.username}
               </p>
             </div>
           </div>
@@ -89,7 +90,7 @@ export default function PrivateMessagePage ({
           <div className='h-300 overscroll-auto'>
             <p className='pb-2 mb-3 font-sans text-sm text-center text-gray-400'>
               This is the beginning of your conversation with{' '}
-              {recevier_info[0].username}.
+              {recevier_info.username}.
             </p>
 
             <div id='squeals'>
@@ -108,7 +109,7 @@ export default function PrivateMessagePage ({
         >
           <p className='pb-2 mb-3 font-sans text-sm text-center text-gray-400'>
             Nothing happened between you and
-            {' ' + recevier_info[0].username}. So far.
+            {' ' + recevier_info.username}. So far.
           </p>
         </div>
       )}
@@ -116,11 +117,13 @@ export default function PrivateMessagePage ({
       <div className='flex-col ml-2 md:ml-8 md:left-1/4 relative mb-5'>
         <hr />
         <div className='bottom-0 mt-5 ml-30 flex-col relative'>
+        <MapProvider>
           <PostFormCard
             profile={userObj?.data?.[0]}
             isDM={true}
             DM_receiver={receiver_handle}
           />
+          </MapProvider>
         </div>
       </div>
     </div>
