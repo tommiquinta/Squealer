@@ -95,7 +95,7 @@ export default async function NotificationsPage ({ notifications, children }) {
             )
           })
         ) : (
-          <div className='w-full flex relative ml-[230px] text-gray-400 flex-col mt-10'>
+          <div className='w-full flex relative text-center md:ml-[230px] text-gray-400 flex-col mt-10'>
             <p>You are all caught up.</p>
           </div>
         )}
