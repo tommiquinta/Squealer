@@ -5,6 +5,7 @@ import Reaction from '../reaction/Reaction'
 import PublicChannelsPost from '../media/PublicChannelsPost'
 import PublicPostFormCard from '../moderators/PublicPostFormCard'
 import { checkElon, checkKitty } from '../../../helper/automaticMessages.js'
+import NotFoundPage from '../profile/noProfileAlert'
 
 export default async function ChannelPage ({
   channelId,
@@ -35,12 +36,14 @@ export default async function ChannelPage ({
       .select('*')
       .eq('user_id', user_uuid)
       .eq('channel', channelId)
-
   } else {
     channelInfo = await supabase
       .from('public_channels')
       .select('*, channels(handle)')
       .eq('id', channelId)
+  }
+  if (!channelInfo.data.length) {
+    return <NotFoundPage channel={true}></NotFoundPage>
   }
 
   isSubscribed = isSubscribed?.data.length > 0 ? true : false

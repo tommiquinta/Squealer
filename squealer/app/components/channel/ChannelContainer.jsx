@@ -18,9 +18,6 @@ export default function ChannelContainer ({
   subCounter,
   children
 }) {
-
-
-  
   return (
     <div className=' ml-2 mr-2 md:ml-8 md:left-1/4 relative'>
       <Card noPadding={true}>
@@ -37,7 +34,7 @@ export default function ChannelContainer ({
           §{channelHandle}
         </div>
         <div className='pb-2 font-sans text-lg text-center text-gray-400'>
-          {subCounter} subscribers
+          {!isPublic && `${subCounter} subscribers`}
         </div>
         <hr />
         <div className='pt-2 pb-2 font-sans text-md text-center text-gray-400'>

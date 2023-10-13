@@ -1,6 +1,7 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import NotFoundPage from '../../components/profile/noProfileAlert'
 
 import ChannelPage from '../../components/channel/ChannelPage'
 import NavigationBar from '../../components/layout/Navbar'
@@ -23,6 +24,10 @@ export default async function Channel ({ params }) {
       .from('channels')
       .select('id')
       .eq('handle', channelId)
+    if (!channelId.data[0]) {
+      return <NotFoundPage />
+    }
+
     channelId = channelId.data[0].id
   }
 

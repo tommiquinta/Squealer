@@ -1,8 +1,8 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
-
 import { redirect } from 'next/navigation'
 import ProfileContainer from './ProfileContainer'
+import NoProfileAlert from './noProfileAlert'
 
 export default async function ProfilePage ({ children, profile, isMyUser }) {
   const supabase = createServerComponentClient({ cookies })
@@ -23,7 +23,7 @@ export default async function ProfilePage ({ children, profile, isMyUser }) {
     profileDB.data && profileDB.data.length > 0 ? profileDB.data[0] : null
 
   if (!user) {
-    return <p>i`&apos;`ve got no user</p>
+    return <NoProfileAlert></NoProfileAlert>
   }
   //prendi solo gli squeals dell'utente
   var squeals = await supabase.rpc('get_user_posts', {
