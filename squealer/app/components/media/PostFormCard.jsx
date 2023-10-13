@@ -45,9 +45,10 @@ export default function PostFormCard ({
       if (addedMap) {
         console.log(position, 'nuova posizione aggiunta')
         setUploads(prevUploads => [...prevUploads, position])
+        setAddedMap(!addedMap)
       }
     }
-  }, [])
+  }, [position])
 
   async function addUploads (ev, bucket) {
     try {

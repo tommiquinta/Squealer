@@ -137,8 +137,8 @@ function Reaction ({
               />
             </svg>
           </button>
-          <p className='text-gray-500'>{comment_count}</p>
-        </div>
+{/*           <p className='text-gray-500'>{comment_count}</p>
+ */}        </div>
       </div>
       {showComments && (
         <div className='comments flex'>

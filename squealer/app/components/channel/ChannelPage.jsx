@@ -147,9 +147,10 @@ export default async function ChannelPage ({
             >
               {isModerator && (
                 <div>
-                  <PublicPostFormCard
-                    channel={channelInfo?.data[0]}
-                    handle={channelInfo?.data[0]?.channels.handle}
+                  <Form
+                    profile={userObj.data[0]}
+                    channel={channel}
+                    handle={handle}
                   />
                   <hr className='mb-5' />
                 </div>

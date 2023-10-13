@@ -12,7 +12,6 @@ import { useState, useEffect } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 export default function PostCard ({ post, children, channelId }) {
-
   const supabase = createClientComponentClient({ cookies })
 
   const Media = dynamic(() => import('./Media'), { ssr: false })
@@ -84,8 +83,13 @@ export default function PostCard ({ post, children, channelId }) {
               shared a squeal
             </Link>
             {post?.channel_handle && (
-              <span className='flex gap-1'> in
-                <Link href={`/channels/${post?.channel_handle}`} className='text-blue-500 hover:underline'>
+              <span className='flex gap-1'>
+                {' '}
+                in
+                <Link
+                  href={`/channels/${post?.channel_handle}`}
+                  className='text-blue-500 hover:underline'
+                >
                   §{post?.channel_handle}
                 </Link>
               </span>

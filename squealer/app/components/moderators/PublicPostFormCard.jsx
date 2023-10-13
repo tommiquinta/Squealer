@@ -22,16 +22,15 @@ export default function PublicPostFormCard ({
   const Media = dynamic(() => import('../media/Media'), { ssr: false })
 
   const [destinatari, setDestinatari] = useState(`§${handle}`)
-
   const [daily_quota, setDaily_quota] = useState()
   const [uploads, setUploads] = useState([])
   const [mediaArray, setMediaArray] = useState([])
   const [isUploading, setIsUploading] = useState(false)
   const [content, setContent] = useState('')
   const [disabled, setDisabled] = useState(false)
-
   const [addedMap, setAddedMap] = useState(true)
   const { position } = useMapContext()
+
   useEffect(() => {
     if (isPrivate) {
       setDaily_quota(profile.daily_quota)
