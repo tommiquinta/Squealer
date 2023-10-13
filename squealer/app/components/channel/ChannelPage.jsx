@@ -9,6 +9,7 @@ import NotFoundPage from '../profile/noProfileAlert'
 
 export default async function ChannelPage ({
   channelId,
+  loggedUserInfo,
   children,
   user_uuid,
   isPrivate
@@ -20,6 +21,7 @@ export default async function ChannelPage ({
   var isModerator = null
   var isSubscribed = null
   var hasRequested = null
+  var isOwner = null
 
   if (isPrivate) {
     channelInfo = await supabase
@@ -36,6 +38,10 @@ export default async function ChannelPage ({
       .select('*')
       .eq('user_id', user_uuid)
       .eq('channel', channelId)
+    isOwner = await supabase
+      .from('private_channels')
+      .select('*')
+      .eq('owner', loggedUserInfo)
   } else {
     channelInfo = await supabase
       .from('public_channels')
@@ -48,6 +54,7 @@ export default async function ChannelPage ({
 
   isSubscribed = isSubscribed?.data.length > 0 ? true : false
   hasRequested = hasRequested?.data.length > 0 ? true : false
+  isOwner = isOwner?.data ? true : false
 
   if (!isPrivate) {
     //inserisci controllo: se l'handle è elonmusk e l'ultimo post di questi canali ha più di 24 ore, fai una chiamata
@@ -155,6 +162,7 @@ export default async function ChannelPage ({
             squeals={squeals}
             isPublic={!isPrivate}
             isSubscribed={isSubscribed}
+            isOwner={isOwner}
             hasRequested={hasRequested}
             subCounter={subCounter.data[0].count}
           >

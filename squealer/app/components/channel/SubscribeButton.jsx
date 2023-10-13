@@ -1,10 +1,8 @@
 'use client'
 
-import { useState } from 'react'
-import { subscribe } from '../../../helper/channelServerAction'
 import { request_sub, unsubscribe } from '../../../helper/channelServerAction'
 
-function SubscribeButton ({ channel_id, isSubscribed, hasRequested }) {
+function SubscribeButton ({ channel_id, isSubscribed, hasRequested, isOwner }) {
   async function handleSubscription () {
     console.log(hasRequested)
     if (!isSubscribed) {
@@ -15,17 +13,6 @@ function SubscribeButton ({ channel_id, isSubscribed, hasRequested }) {
       location.reload()
     }
   }
-
-  /* async function handleSubscription () {
-    console.log(isSubscribed)
-    if (!isSubscribed) {
-      await subscribe(channel_id)
-      location.reload()
-    } else {
-      await unsubscribe(channel_id)
-      location.reload()
-    }
-  } */
 
   return (
     <form

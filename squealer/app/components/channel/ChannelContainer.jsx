@@ -14,6 +14,7 @@ export default function ChannelContainer ({
   isPublic,
   isSubscribed,
   hasRequested,
+  isOwner,
   profile,
   subCounter,
   children
@@ -46,6 +47,7 @@ export default function ChannelContainer ({
               channel_id={channelInfo.id}
               isSubscribed={isSubscribed}
               hasRequested={hasRequested}
+              isOwner={isOwner}
             >
               Subscribe
             </SubscribeButton>

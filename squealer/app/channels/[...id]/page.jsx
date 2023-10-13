@@ -50,6 +50,7 @@ export default async function Channel ({ params }) {
     <ChannelPage
       channelId={channelId}
       user_uuid={session?.user.id}
+      loggedUserInfo={loggedUserInfo}
       isPrivate={isPrivate.data.length > 0 ? true : false}
     >
       <NavigationBar
