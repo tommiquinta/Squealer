@@ -11,6 +11,7 @@ export default function Media({ media, hideMap }) {
     const Mappa = dynamic(() => import('./Mappa'), { ssr: false })
     const [currentIndex, setCurrentIndex] = useState(0)
 
+    
     const slides =
         (media?.map((item, index) => {
             if (item.lat && item.lng) {
@@ -25,7 +26,7 @@ export default function Media({ media, hideMap }) {
                     id: index,
                     type:
                         item?.endsWith('.mp4') || item.endsWith('.mkv') ? 'video' :
-                            item?.endsWith('.png') || item?.endsWith('.jpg') ? 'image' : null
+                            item?.includes('.png') || item?.includes('.jpg') ? 'image' : null
                 }
             }
 
@@ -50,11 +51,12 @@ export default function Media({ media, hideMap }) {
     return slides?.length > 0 ? (
         <div className='h-[400px] w-full m-auto py-2 px-4 relative group'>
             {/* Check se l'elemento in preview è un'immagine o un video o una mappa */}
+            {console.log(slides[currentIndex])}
             {slides[currentIndex]?.type === 'image' ? (
                 // Mostra un elemento immagine se il tipo è 'immagine'
                 <div
                     style={{
-                        backgroundImage: `url(${slides[currentIndex]?.url})`,
+                        backgroundImage: `url('${slides[currentIndex]?.url}')`,
                         backgroundRepeat: 'no-repeat',
                     }}
                     className='w-full h-full rounded-2xl bg-center bg-contain duration-500'

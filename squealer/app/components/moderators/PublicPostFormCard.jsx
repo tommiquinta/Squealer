@@ -8,7 +8,7 @@ import Preloader from '../Preloader'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Squeal from '../media/Squeal'
 
-export default function PublicPostFormCard ({ channel, handle, onPost}) {
+export default function PublicPostFormCard ({ channel, handle, onPost, }) {
   const [uploads, setUploads] = useState([])
   const [isUploading, setIsUploading] = useState(false)
   const [content, setContent] = useState('')
@@ -24,9 +24,7 @@ export default function PublicPostFormCard ({ channel, handle, onPost}) {
       if (files.length > 0) {
         setIsUploading(true)
 
-        // TODO aggiustare utilizzando l'helper uploadOnSupabase (ex user.js ma che potrebbe essere usata per tutti gli upldoad),
-        // il problema è la lista degli URL che non viene passata e quindi non può essere vista la preview delle foto postate
-        for (const file of files) {
+         for (const file of files) {
           const newName = Date.now() + file.name
           const result = await supabase.storage
             .from('photos')

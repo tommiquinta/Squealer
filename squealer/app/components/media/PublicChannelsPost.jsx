@@ -76,7 +76,7 @@ export default async function PublicChannelsPost ({
         </PostContent>
       </div>
 
-        {uploads?.length > 0 && (
+        {post.photos?.length > 0 && (
           <div
             style={{
               backgroundRepeat: 'no-repeat',
@@ -84,7 +84,7 @@ export default async function PublicChannelsPost ({
             }}
             className='w-full h-full rounded-2xl bg-center'
           >
-            <Media uploads={uploads} />
+            <Media media={post?.photos} />
           </div>
         )}
 

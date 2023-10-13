@@ -13,9 +13,6 @@ export default async function Channel ({ params }) {
   const {
     data: { session }
   } = await supabase.auth.getSession()
-  if (!session) {
-    redirect('/')
-  }
 
   var channelId = params?.id[0]
 
