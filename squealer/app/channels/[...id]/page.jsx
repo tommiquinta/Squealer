@@ -1,10 +1,20 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
+
 import ChannelPage from '../../components/channel/ChannelPage'
 import NavigationBar from '../../components/layout/Navbar'
 
 export default async function Channel ({ params }) {
   const supabase = createServerComponentClient({ cookies })
+
+  // Ottieni la sessione utente corrente da Supabase
+  const {
+    data: { session }
+  } = await supabase.auth.getSession()
+  if (!session) {
+    redirect('/')
+  }
 
   var channelId = params?.id[0]
 
@@ -15,10 +25,6 @@ export default async function Channel ({ params }) {
       .eq('handle', channelId)
     channelId = channelId.data[0].id
   }
-
-  const {
-    data: { session }
-  } = await supabase.auth.getSession()
 
   var loggedUserInfo = null
 
