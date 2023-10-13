@@ -99,7 +99,7 @@ export default function PostCard ({ post, children, channelId }) {
           </Link>
         </div>
         <div className='flex flex-col'>
-          <p>
+          <p className='flex gap-1'>
             <Link href={`/profiles/${post?.username}`}>
               <span className='font-semibold hover:underline cursor-pointer mr-1'>
                 {post?.username}
@@ -107,13 +107,11 @@ export default function PostCard ({ post, children, channelId }) {
               shared a squeal
             </Link>
             {channelHandle && (
-              <a>
-                {' '}
-                in{' '}
+              <span className='flex gap-1'> in
                 <Link href={`/channels/${channelHandle}`} className='text-blue-500 hover:underline'>
                   §{channelHandle}
-                </Link>{' '}
-              </a>
+                </Link>
+              </span>
             )}
           </p>
           <p className='text-gray-500 text-sm'>

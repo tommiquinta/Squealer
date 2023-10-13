@@ -26,8 +26,8 @@ export default function NotificationsCard ({
     if (isDm) {
       supabase
         .rpc('delete_notifications', {
-          receiver_uuid: receiver,
-          author_uuid: author
+          receiver_uuid: receiver.id,
+          author_uuid: author.id
         })
         .then(response => {})
         .catch(error => {
