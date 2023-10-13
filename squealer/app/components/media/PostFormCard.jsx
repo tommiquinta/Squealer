@@ -46,8 +46,6 @@ export default function PostFormCard({ profile, onPost, isDM, DM_receiver, chang
       const files = ev.target.files
       if (files.length > 0) {
         setIsUploading(true)
-        // TODO aggiustare utilizzando l'helper uploadOnSupabase (ex user.js ma che potrebbe essere usata per tutti gli upldoad),
-        // il problema è la lista degli URL che non viene passata e quindi non può essere vista la preview delle foto postate
         for (const file of files) {
           // questa roba deve avvenire dopo aver cliccato il tasto squeal
           const newName = Date.now() + file.name

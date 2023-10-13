@@ -7,6 +7,7 @@ import { MapProvider, useMapContext } from '../../context/MapContext'
 import dynamic from 'next/dynamic'
 
 export default function Media({ media, hideMap }) {
+
     const Mappa = dynamic(() => import('./Mappa'), { ssr: false })
     const [currentIndex, setCurrentIndex] = useState(0)
 

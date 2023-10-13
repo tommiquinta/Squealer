@@ -8,6 +8,7 @@ import Avatar from '../Avatar'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { MapProvider } from '../../context/MapContext'
+import Form from '../media/Form'
 
 export default function PrivateMessagePage ({
   user_uuid,
@@ -117,13 +118,8 @@ export default function PrivateMessagePage ({
       <div className='flex-col ml-2 md:ml-8 md:left-1/4 relative mb-5'>
         <hr />
         <div className='bottom-0 mt-5 ml-30 flex-col relative'>
-        <MapProvider>
-          <PostFormCard
-            profile={userObj?.data?.[0]}
-            isDM={true}
-            DM_receiver={receiver_handle}
-          />
-          </MapProvider>
+
+          <Form profile={userObj?.data?.[0]} isDM={true} DM_receiver={receiver_handle}/>
         </div>
       </div>
     </div>

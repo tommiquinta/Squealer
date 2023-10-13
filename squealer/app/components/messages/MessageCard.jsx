@@ -59,13 +59,13 @@ export default function PostCard ({ post, children, author_uuid }) {
           </span>
         </Link>
       </div>
-      <Card>
+      <Card add={'w-fit'}>
         <div
-          className={`flex gap-3 items-center ${
+          className={`flex gap-3 w-full items-center ${
             isAuthor ? 'items-end flex-row-reverse' : ''
           }`}
         >
-          <div>
+          <div className='w-full'>
             <div
               dangerouslySetInnerHTML={{
                 __html: createMentions(postContent)
@@ -74,14 +74,11 @@ export default function PostCard ({ post, children, author_uuid }) {
               }}
             ></div>
             {uploads?.length > 0 && (
+              
               <div
-                style={{
-                  backgroundRepeat: 'no-repeat',
-                  backgroundSize: 'container'
-                }}
-                className='w-full h-full rounded-2xl bg-center'
+                className='w-48 md:w-96 h-full rounded-2xl bg-center'
               >
-                <Media uploads={uploads} />
+                <Media media={uploads} />
               </div>
             )}
           </div>
