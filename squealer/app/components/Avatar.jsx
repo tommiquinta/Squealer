@@ -1,19 +1,13 @@
 import UpdateImgBtn from './profile/UpdateImgBtn'
 
-export default function Avatar ({ url, size, editable, onChange }) {
+export default function Avatar({ url, size, editable, onChange }) {
   let sizeWidth = 'w-12 h-12'
 
-  if (size === 'small') {
-    sizeWidth = 'w-8 h-8'
-  }
+  if (size === 'small') { sizeWidth = 'w-8 h-8' }
 
-  if (size === 'big') {
-    sizeWidth = 'w-24 h-24'
-  }
+  if (size === 'big') { sizeWidth = 'w-24 h-24' }
 
-  if (size === 'medium') {
-    sizeWidth = 'w-20 h-20'
-  }
+  if (size === 'medium') { sizeWidth = 'w-20 h-20' }
 
   return (
     <div className='h-30 flex justify-center items-center relative'>

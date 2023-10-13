@@ -12,27 +12,33 @@ export default function UpdateImgBtn({ add }) {
 
   async function updateAvatar(ev) {
     try {
-      const { data: { session } } = await supabase.auth.getSession()
+      const { data: { user } } = await supabase.auth.getUser()
 
       const file = ev.target.files?.[0]
       if (file) {
         setIsUploading(true)
         await uploadPhoto(
           supabase,
-          session.user.id,
+          user.id,
           'avatars',
           'avatar',
           file
         )
+        location.reload()
         setIsUploading(false)
       }
     } catch (error) {
+      setIsUploading(false)
       console.log(error + ' errore in updateAvatar')
     }
   }
 
   if (isUploading) {
-    return <Preloader />
+    return (
+      <div>
+        <Preloader />
+      </div>
+    )
   }
 
   const position =
