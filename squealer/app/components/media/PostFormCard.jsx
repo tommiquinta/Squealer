@@ -10,8 +10,17 @@ import Squeal from './Squeal'
 import dynamic from 'next/dynamic'
 import { useMapContext } from '../../context/MapContext'
 
-
-export default function PostFormCard({ profile, onPost, isDM, DM_receiver, changeMap, showMap }) {
+export default function PostFormCard ({
+  profile,
+  onPost,
+  isDM,
+  DM_receiver,
+  changeMap,
+  showMap,
+  isPrivate,
+  channel,
+  handle
+}) {
   const Media = dynamic(() => import('./Media'), { ssr: false })
   const [daily_quota, setDaily_quota] = useState()
   const [uploads, setUploads] = useState([])
@@ -29,35 +38,38 @@ export default function PostFormCard({ profile, onPost, isDM, DM_receiver, chang
     if (!isDM) {
       setDaily_quota(profile.daily_quota)
     }
+    if (channel) {
+      setDestinatari(`§${handle}`)
+    }
     if (position.lat != 51.505 && position.lng != -0.09) {
       if (addedMap) {
-        console.log(position, "nuova posizione aggiunta");
+        console.log(position, 'nuova posizione aggiunta')
         setUploads(prevUploads => [...prevUploads, position])
-        setAddedMap(!addedMap)
       }
     }
-  }, [position])
+  }, [])
 
-
-
-  async function addUploads(ev, bucket) {
+  async function addUploads (ev, bucket) {
     try {
-      console.log(ev.target.files, "ev.target.files\n", bucket, "bucket")
       const files = ev.target.files
       if (files.length > 0) {
         setIsUploading(true)
         for (const file of files) {
+          setDaily_quota(daily_quota - 125)
+
           // questa roba deve avvenire dopo aver cliccato il tasto squeal
           const newName = Date.now() + file.name
-          const result =
-            await supabase
-              .storage
-              .from(bucket)
-              .upload(newName, file)
+          const result = await supabase.storage
+            .from(bucket)
+            .upload(newName, file)
 
           if (result.data) {
-            const url = process.env.NEXT_PUBLIC_SUPABASE_URL + `/storage/v1/object/public/${bucket}/` + result.data.path
+            const url =
+              process.env.NEXT_PUBLIC_SUPABASE_URL +
+              `/storage/v1/object/public/${bucket}/` +
+              result.data.path
             setUploads(prevUploads => [...prevUploads, url])
+
             setMediaArray(prevUploads => [...prevUploads, url])
           } else {
             console.log(result)
@@ -75,6 +87,11 @@ export default function PostFormCard({ profile, onPost, isDM, DM_receiver, chang
     ? `What's on your mind, ${profile && profile.username}?`
     : `Squeal something to ${DM_receiver}!`
 
+  if (channel) {
+    placeholderText = isPrivate
+      ? `Squeals into ${channel.name}`
+      : placeholderText
+  }
   return (
     <Card>
       <div className='flex gap-3 p-2'>
@@ -116,14 +133,13 @@ export default function PostFormCard({ profile, onPost, isDM, DM_receiver, chang
       </div>
 
       <div className='flex gap-6 items-center my-3'>
-
         <label className='flex gap-1'>
           <input
             type='file'
             className='hidden'
             multiple={true}
             accept='image/*'
-            onChange={(e) => addUploads(e, "photos")}
+            onChange={e => addUploads(e, 'photos')}
             {...(daily_quota <= 0 ? disabled : null)}
           />
           <svg
@@ -149,7 +165,7 @@ export default function PostFormCard({ profile, onPost, isDM, DM_receiver, chang
             className='hidden'
             multiple
             accept='video/*'
-            onChange={(e) => addUploads(e, "videos")}
+            onChange={e => addUploads(e, 'videos')}
             {...(daily_quota <= 0 ? disabled : null)}
           />
           <svg
@@ -168,10 +184,12 @@ export default function PostFormCard({ profile, onPost, isDM, DM_receiver, chang
           <p className='hidden md:block'>Video</p>
         </label>
 
-        <button className='flex gap-1 w-fit'
+        <button
+          className='flex gap-1 w-fit'
           onClick={() => {
             changeMap()
-          }}>
+          }}
+        >
           <svg
             xmlns='http://www.w3.org/2000/svg'
             fill='none'
@@ -195,7 +213,11 @@ export default function PostFormCard({ profile, onPost, isDM, DM_receiver, chang
         </button>
 
         {!isDM ? (
-          <label className={`flex gap-1  ${daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'}`}>
+          <label
+            className={`flex gap-1  ${
+              daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'
+            }`}
+          >
             Daily Quota: {daily_quota}
           </label>
         ) : null}

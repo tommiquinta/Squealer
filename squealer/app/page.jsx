@@ -43,7 +43,7 @@ export default async function Home () {
     })
 
     if (!userObj.data || !userObj?.data[0].username) {
-      //return <NewUsernameForm id={userObj.data[0].id} />
+      return <NewUsernameForm id={userObj.data[0].id} />
     }
 
     squeals = await supabase.rpc('get_all_posts', {

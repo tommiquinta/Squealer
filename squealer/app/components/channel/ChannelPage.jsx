@@ -6,6 +6,7 @@ import PublicChannelsPost from '../media/PublicChannelsPost'
 import PublicPostFormCard from '../moderators/PublicPostFormCard'
 import { checkElon, checkKitty } from '../../../helper/automaticMessages.js'
 import NotFoundPage from '../profile/noProfileAlert'
+import Form from '../media/Form'
 
 export default async function ChannelPage ({
   channelId,
@@ -16,6 +17,10 @@ export default async function ChannelPage ({
   userAvatar
 }) {
   const supabase = createClientComponentClient({ cookies })
+  var userObj = await supabase.rpc('get_logged_user', {
+    user_uuid: user_uuid
+  })
+  var profile = userObj.data[0]
 
   var channelInfo = null
   var squeals = null
@@ -49,7 +54,7 @@ export default async function ChannelPage ({
       .select('*, channels(handle)')
       .eq('id', channelId)
   }
-  
+
   if (!channelInfo.data.length) {
     return <NotFoundPage channel={true}></NotFoundPage>
   }
@@ -101,6 +106,9 @@ export default async function ChannelPage ({
     .from('private_channel_subscription')
     .select('count')
     .eq('channel', channelId)
+
+  var channel = channelInfo?.data[0]
+  var handle = channelInfo?.data[0]?.channels.handle
 
   return (
     <div className='md:w-[85%]'>
@@ -173,10 +181,17 @@ export default async function ChannelPage ({
             profile={user_uuid}
           >
             <div>
-              <PublicPostFormCard
+              <Form
+                profile={userObj.data[0]}
+                channel={channel}
+                handle={handle}
+              />
+              {/*  <PublicPostFormCard
+                profile={profile}
                 channel={channelInfo?.data[0]}
                 handle={channelInfo?.data[0]?.channels.handle}
-              />
+                isPrivate={true}
+              /> */}
               <hr className='mb-5' />
             </div>
           </ChannelContainer>

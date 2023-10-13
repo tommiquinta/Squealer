@@ -2,29 +2,35 @@
 
 import { useSession } from '@supabase/auth-helpers-react'
 import { useState } from 'react'
-import {uploadPhoto} from '../../../helper/uploadOnSupabase.js'
+import { uploadPhoto } from '../../../helper/uploadOnSupabase.js'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Preloader from '../Preloader'
+import { cookies } from 'next/navigation'
 
-export default function UpdateImgBtn({add}) {
-  const supabase = createClientComponentClient()
-  const session = useSession()
+export default function UpdateImgBtn ({ add }) {
+  const supabase = createClientComponentClient({ cookies })
+
   const [isUploading, setIsUploading] = useState(false)
 
-  async function updateAvatar(ev) {
+  async function updateAvatar (ev) {
     try {
+      const {
+        data: { session }
+      } = await supabase.auth.getSession()
+
       const file = ev.target.files?.[0]
       if (file) {
         setIsUploading(true)
-        await uploadPhoto(
-          supabase,
-          session.user.id,
-          'avatars',
-          'avatar',
-          file
-        )
-        setIsUploading(false)
-        if (onChange) onChange()
+
+        const reader = new FileReader()
+        reader.onload = async e => {
+          const fileData = new Uint8Array(e.target.result)
+          await uploadPhoto('avatars', 'avatar', fileData, session.user.id)
+          setIsUploading(false)
+          if (onChange) onChange()
+        }
+
+        reader.readAsArrayBuffer(file)
       }
     } catch (error) {
       console.log(error + ' errore in updateAvatar')
@@ -41,7 +47,8 @@ export default function UpdateImgBtn({add}) {
     )
   }
 
-  const position = 'bg-white rounded-full absolute right-0 p-2 bottom-0 shadow-black shadow-md cursor-pointer';
+  const position =
+    'bg-white rounded-full absolute right-0 p-2 bottom-0 shadow-black shadow-md cursor-pointer'
 
   return (
     <label className={`${position} ${add}`}>

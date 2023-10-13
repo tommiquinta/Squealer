@@ -1,22 +1,42 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { cookies } from 'next/navigation'
 import Avatar from '../Avatar'
 import Card from '../Card'
 import Preloader from '../Preloader'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Squeal from '../media/Squeal'
+import dynamic from 'next/dynamic'
+import { useMapContext } from '../../context/MapContext'
 
-export default function PublicPostFormCard ({ channel, handle, onPost, }) {
-  const [uploads, setUploads] = useState([])
-  const [isUploading, setIsUploading] = useState(false)
-  const [content, setContent] = useState('')
+export default function PublicPostFormCard ({
+  profile,
+  channel,
+  handle,
+  onPost,
+  isPrivate,
+  changeMap,
+  showMap
+}) {
+  const Media = dynamic(() => import('../media/Media'), { ssr: false })
+
   const [destinatari, setDestinatari] = useState(`§${handle}`)
 
+  const [daily_quota, setDaily_quota] = useState()
+  const [uploads, setUploads] = useState([])
+  const [mediaArray, setMediaArray] = useState([])
+  const [isUploading, setIsUploading] = useState(false)
+  const [content, setContent] = useState('')
+  const [disabled, setDisabled] = useState(false)
 
-  const supabase = createClientComponentClient({ cookies })
-
+  const [addedMap, setAddedMap] = useState(true)
+  const { position } = useMapContext()
+  useEffect(() => {
+    if (isPrivate) {
+      setDaily_quota(profile.daily_quota)
+    }
+  }, [])
 
   async function addPhotos (ev) {
     try {
@@ -24,7 +44,9 @@ export default function PublicPostFormCard ({ channel, handle, onPost, }) {
       if (files.length > 0) {
         setIsUploading(true)
 
-         for (const file of files) {
+        for (const file of files) {
+          setDaily_quota(daily_quota - 125)
+
           const newName = Date.now() + file.name
           const result = await supabase.storage
             .from('photos')
@@ -47,19 +69,22 @@ export default function PublicPostFormCard ({ channel, handle, onPost, }) {
     }
   }
 
-  // placeholder condition wether it's in homepage or in DM page
   let placeholderText = `Squeals into ${channel.name}`
 
   return (
     <div className='mb-5'>
       <Card>
         <div className='flex gap-3 p-2'>
-          {channel && <Avatar size={'medium'} url={channel.avatar} />}
+          {profile && <Avatar size={'medium'} url={profile.avatar} />}
           <textarea
             value={content}
             onChange={e => {
               const newValue = e.target.value
               setContent(newValue)
+              if (isPrivate) {
+                const charDifference = newValue.length - content.length
+                setDaily_quota(daily_quota - charDifference)
+              }
             }}
             className='grow p-3 h-18 resize-none'
             placeholder={placeholderText}
@@ -129,19 +154,18 @@ export default function PublicPostFormCard ({ channel, handle, onPost, }) {
           </div>
         )}
 
-
-          <div className='flex gap-2 my-3 w-full items-center'>
-              <label htmlFor='destinatari' className='text-sm px-0 mx-0'>
-                Send to:
-              </label>
-              <input
-                type='text'
-                placeholder="Insert §<channels' handle>  or @<username>, separe with comma"
-                className='w-10/12 text-xs py-2'
-                value={destinatari}
-                onChange={e => setDestinatari(e.target.value)}
-              />
-            </div>
+        <div className='flex gap-2 my-3 w-full items-center'>
+          <label htmlFor='destinatari' className='text-sm px-0 mx-0'>
+            Send to:
+          </label>
+          <input
+            type='text'
+            placeholder="Insert §<channels' handle>  or @<username>, separe with comma"
+            className='w-10/12 text-xs py-2'
+            value={destinatari}
+            onChange={e => setDestinatari(e.target.value)}
+          />
+        </div>
 
         <div className='flex gap-6 items-center my-3'>
           <div>
@@ -210,12 +234,24 @@ export default function PublicPostFormCard ({ channel, handle, onPost, }) {
             </svg>
             Location
           </button>
-
         </div>
+        {isPrivate ? (
+          <label
+            className={`flex gap-1  ${
+              daily_quota < 0 ? 'text-red-500 font-semibold' : 'text-gray-400'
+            }`}
+          >
+            Daily Quota: {daily_quota}
+          </label>
+        ) : null}
+
         <div className='grow text-right'>
-          <Squeal content={content} photos={uploads}
-          disabled={false}
-          sendTo={destinatari}>
+          <Squeal
+            content={content}
+            photos={uploads}
+            disabled={false}
+            sendTo={destinatari}
+          >
             Squeal
           </Squeal>
         </div>
