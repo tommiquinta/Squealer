@@ -49,9 +49,9 @@ export default function PostList ({
                   disable={false}
                   views={post.views}
                   profile={loggedUser}
+                  avatar={loggedUser.avatar}
                 />
 
-                <hr />
               </PostCard>
             )
           )}
@@ -80,9 +80,8 @@ export default function PostList ({
               disable={false}
               views={post.views}
               profile={loggedUser}
+              avatar={loggedUser.avatar}
             />
-
-            <hr />
           </PostCard>
         )
       )}

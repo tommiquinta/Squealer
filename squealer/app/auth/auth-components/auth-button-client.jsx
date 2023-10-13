@@ -19,16 +19,16 @@ export default function AuthButtonClient ({ session }) {
 
   const handleProviderSignIn = async provider => {
     const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: provider
+      provider: provider,
       /* options: {
         redirectTo: 'https://squealer-asq.vercel.app/'
       } */
 
       /*       use this when developing with localhost
        */
-      /* options: {
+      options: {
         redirectTo: 'http://localhost:3000/auth/callback'
-      } */
+      }
     })
 
     if (error) {

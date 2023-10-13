@@ -49,6 +49,7 @@ export default async function ChannelPage ({
       .select('*, channels(handle)')
       .eq('id', channelId)
   }
+  
   if (!channelInfo.data.length) {
     return <NotFoundPage channel={true}></NotFoundPage>
   }
