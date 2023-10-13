@@ -66,8 +66,8 @@ export default async function Home() {
       />
 
     
-      <div className=' ml-6 w-11/12 md:max-w-4xl gap-4 md:left-1/4 relative md:ml-0 md:flex md:w-11/12 lg:w-6/12 '>
-        <div className={'mx-2 relative top-20 md:top-0 md:mx-0 w-full'}>
+      <div className=' md:ml-6 w-11/12 md:max-w-4xl gap-4 md:left-1/4 relative md:ml-0 md:flex md:w-11/12 lg:w-6/12 '>
+        <div className={'mx-2 relative top-24 md:top-0 md:mx-0 w-full'}>
           {!hasLoggedIn &&
             squeals?.data?.map(publicPost => (
               <PublicChannelsPost
