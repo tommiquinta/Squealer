@@ -12,7 +12,8 @@ export default async function ChannelPage ({
   loggedUserInfo,
   children,
   user_uuid,
-  isPrivate
+  isPrivate,
+  userAvatar
 }) {
   const supabase = createClientComponentClient({ cookies })
 
@@ -132,6 +133,8 @@ export default async function ChannelPage ({
               channelHandle={channelInfo?.data[0]?.channels.handle}
               squeals={squeals}
               isPublic={!isPrivate}
+              userAvatar={userAvatar}
+              profile={user_uuid}
             >
               {isModerator && (
                 <div>
@@ -165,6 +168,8 @@ export default async function ChannelPage ({
             isOwner={isOwner}
             hasRequested={hasRequested}
             subCounter={subCounter.data[0].count}
+            userAvatar={userAvatar}
+            profile={user_uuid}
           >
             <div>
               <PublicPostFormCard

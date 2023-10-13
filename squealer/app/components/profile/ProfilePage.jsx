@@ -48,6 +48,7 @@ export default async function ProfilePage ({ children, profile, isMyUser }) {
         user={user}
         isMyUser={isMyUser}
         isModerator={moderator}
+        profile={profile}
       ></ProfileContainer>
     </div>
   )

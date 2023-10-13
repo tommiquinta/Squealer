@@ -18,7 +18,8 @@ function Reaction ({
   hasDisliked,
   disable,
   views,
-  profile
+  profile,
+  avatar
 }) {
   const [isLiked, setIsLiked] = useState(hasLiked)
   const [isDisliked, setIsDisliked] = useState(hasDisliked)
@@ -76,7 +77,7 @@ function Reaction ({
   async function handleComments () {
     setShowComments(!showComments)
   }
-
+  
   return (
     <div className='w-full mt-4'>
       <div className='w-full h-[30px] gap-4 flex items-center'>
@@ -139,7 +140,7 @@ function Reaction ({
       </div>
       {showComments && (
         <div className='comments'>
-          <CommentsSection profile={profile} id={id}></CommentsSection>
+          <CommentsSection profile={profile} id={id} avatar={avatar}></CommentsSection>
         </div>
       )}
     </div>

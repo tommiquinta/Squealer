@@ -9,12 +9,14 @@ import { BrowserRouter } from 'react-router-dom'
 
 export default function ProfileContainer ({
   squeals,
+  profile,
   user,
   isMyUser,
   isModerator
 }) {
   const username = user?.username
   const basename = '/profiles/' + username
+  const avatar = user?.avatar
 
   return (
     <div className='ml-2 md:ml-6 md:left-1/4 relative'>
@@ -171,6 +173,8 @@ export default function ProfileContainer ({
           user={basename}
           squeals={squeals.data}
           isMyUser={isMyUser}
+          profile={profile}
+          avatar={avatar}
         />
       </BrowserRouter>
     </div>

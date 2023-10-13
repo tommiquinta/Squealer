@@ -5,8 +5,7 @@ import Avatar from '../Avatar'
 import { comment, getComments } from '../../../helper/squealsServerActions'
 import CommentCard from './CommentCard'
 
-export default function CommentsSection ({ profile, id }) {
-  
+export default function CommentsSection ({ profile, id, avatar }) {
   const [content, setContent] = useState('')
   const [comments, setComments] = useState([]) // Stato per memorizzare i commenti
 
@@ -39,7 +38,7 @@ export default function CommentsSection ({ profile, id }) {
     <div style={{ width: '100%' }}>
       <hr />
       <div className='flex gap-3 p-3'>
-        {profile && <Avatar size='small' url={profile.avatar} />}
+        {profile && <Avatar size='small' url={avatar} />}
         <textarea
           placeholder='Answer this Squeal!'
           className='grow resize-none'

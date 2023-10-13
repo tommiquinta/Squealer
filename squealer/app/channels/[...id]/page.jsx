@@ -32,12 +32,14 @@ export default async function Channel ({ params }) {
   }
 
   var loggedUserInfo = null
+  var userAvatar = null
 
   if (session) {
     loggedUserInfo = await supabase
       .from('profiles')
-      .select('id, username')
+      .select('id, username, avatar')
       .eq('id', session.user.id)
+    userAvatar = loggedUserInfo.data[0].avatar
     loggedUserInfo = loggedUserInfo.data[0].username
   }
 
@@ -52,6 +54,7 @@ export default async function Channel ({ params }) {
       user_uuid={session?.user.id}
       loggedUserInfo={loggedUserInfo}
       isPrivate={isPrivate.data.length > 0 ? true : false}
+      userAvatar={userAvatar}
     >
       <NavigationBar
         hasLoggedIn={session ? true : false}

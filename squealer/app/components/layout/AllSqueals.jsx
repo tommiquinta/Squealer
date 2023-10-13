@@ -1,7 +1,8 @@
 import PostCard from '../media/PostCard'
 import Reaction from '../reaction/Reaction'
 
-export default function AllSqueals ({ squeals }) {
+export default function AllSqueals ({ squeals, profile, avatar }) {
+
   return (
     <div className='my-8'>
       {squeals?.length > 0 &&
@@ -15,6 +16,8 @@ export default function AllSqueals ({ squeals }) {
               hasDisliked={post.hasdisliked}
               disable={false}
               views={post.views}
+              profile={profile}
+              avatar={avatar}
             />
           </PostCard>
         ))}

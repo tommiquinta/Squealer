@@ -17,6 +17,7 @@ export default function ChannelContainer ({
   isOwner,
   profile,
   subCounter,
+  userAvatar,
   children
 }) {
   return (
@@ -78,6 +79,7 @@ export default function ChannelContainer ({
                       disable={false}
                       views={post.views}
                       profile={profile}
+                      avatar={userAvatar}
                     />
                   </PostCard>
                 ))}
