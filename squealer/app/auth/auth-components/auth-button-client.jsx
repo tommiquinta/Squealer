@@ -21,9 +21,13 @@ export default function AuthButtonClient ({ session }) {
     await supabase.auth.signInWithOAuth({
       provider: provider,
       options: {
-        redirectTo: 'http://localhost:3000/auth/callback'
+        redirectTo: 'https://squealer-asq.vercel.app/auth/callback'
       }
+      /* options: {
+        redirectTo: 'http://localhost:3000/auth/callback'
+      } */
     })
+    router.refresh()
   }
 
   async function signUpWithEmail (email, username, password, avatar, fullname) {
@@ -98,7 +102,7 @@ export default function AuthButtonClient ({ session }) {
     })
 
     router.refresh()
-    router.push('/moderators');
+    router.push('/moderators')
 
     if (error) {
       alert(error)
