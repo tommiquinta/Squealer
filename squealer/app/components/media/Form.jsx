@@ -47,7 +47,7 @@ const Form = ({
             profile={profile}
             channel={channel}
             handle={handle}
-            isPrivate={true}
+            isPrivate={false}
           />
           {showMap ? <Mappa caller='inserimento' /> : null}
         </MapProvider>

@@ -151,6 +151,7 @@ export default async function ChannelPage ({
                     profile={userObj.data[0]}
                     channel={channel}
                     handle={handle}
+                    isPrivate={false}
                   />
                   <hr className='mb-5' />
                 </div>

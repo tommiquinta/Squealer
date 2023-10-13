@@ -43,7 +43,7 @@ export default function PostFormCard ({
     }
     if (position.lat != 51.505 && position.lng != -0.09) {
       if (addedMap) {
-        //console.log(position, 'nuova posizione aggiunta')
+        setDaily_quota(daily_quota - 125)
         setUploads(prevUploads => [...prevUploads, position])
         setAddedMap(!addedMap)
       }
@@ -93,10 +93,11 @@ export default function PostFormCard ({
       ? `Squeals into ${channel.name}`
       : placeholderText
   }
+
   return (
     <Card>
       <div className='flex gap-3 p-2'>
-        {profile && <Avatar size={'medium'} url={profile.avatar} />}
+        <Avatar size={'medium'} url={!isPrivate ? channel.avatar : profile.avatar} />
         <textarea
           value={content}
           onChange={e => {
