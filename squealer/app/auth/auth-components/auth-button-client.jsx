@@ -24,10 +24,13 @@ export default function AuthButtonClient ({ session }) {
         redirectTo: 'https://squealer-asq.vercel.app/auth/callback'
       }
       /* options: {
-        redirectTo: 'http://localhost:3000/auth/callback'
-      } */
+      redirectTo: 'http://localhost:3000/auth/callback'
+    } */
     })
-    router.refresh()
+
+    setTimeout(() => {
+      router.refresh()
+    }, 2000)
   }
 
   async function signUpWithEmail (email, username, password, avatar, fullname) {
