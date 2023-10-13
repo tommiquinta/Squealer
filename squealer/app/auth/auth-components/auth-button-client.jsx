@@ -34,8 +34,6 @@ export default function AuthButtonClient ({ session }) {
     if (error) {
       alert(error)
     }
-    router.refresh()
-    router.push("/")
   }
 
   async function signUpWithEmail (email, username, password, avatar, fullname) {
@@ -74,8 +72,8 @@ export default function AuthButtonClient ({ session }) {
       alert(error)
     }
 
-    if(data){
-      alert('A confirmation request has been sent to your email address');
+    if (data) {
+      alert('A confirmation request has been sent to your email address')
     }
   }
 
