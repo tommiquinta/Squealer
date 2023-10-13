@@ -35,6 +35,7 @@ export default function AuthButtonClient ({ session }) {
       alert(error)
     }
     router.refresh()
+    router.push("/")
   }
 
   async function signUpWithEmail (email, username, password, avatar, fullname) {
