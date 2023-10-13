@@ -78,7 +78,13 @@ export default function Media({ media, hideMap }) {
                 <img src={slides[currentIndex]?.url}
                     className='w-full h-full rounded-2xl bg-center bg-contain duration-500 object-cover'
                 />
-            ) : null
+            ) : <div
+                    style={{
+                        backgroundImage: `url('${slides[currentIndex]?.url}')`,
+                        backgroundRepeat: 'no-repeat',
+                    }}
+                    className='w-full h-full rounded-2xl bg-center bg-contain duration-500'
+                ></div>
             }
 
             {slides?.length > 1 && (
