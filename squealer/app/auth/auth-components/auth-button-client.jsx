@@ -72,6 +72,10 @@ export default function AuthButtonClient ({ session }) {
     if (error) {
       alert(error)
     }
+
+    if(data){
+      alert('A confirmation request has been sent to your email address');
+    }
   }
 
   async function login (email, pw) {
