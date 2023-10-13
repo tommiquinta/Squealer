@@ -5,7 +5,7 @@ export default function PrivChannelsList({channels, hasFilter, byName, byPosts})
 
     if(hasFilter){
         return(
-            <div className='w-9/12'>
+            <div className='md:w-9/12 mt-64 md:mt-0'>
                 {channels.filter( channel => {
                     if(byName && byPosts){
                         return channel.creator.toLowerCase().includes(byName.toLowerCase) && channel.num >= byPosts;
@@ -23,7 +23,7 @@ export default function PrivChannelsList({channels, hasFilter, byName, byPosts})
     }
 
     return(
-        <div className='w-9/12'>
+        <div className='md:w-9/12 mt-64 md:mt-0'>
         {channels.map( channel => (<PrivateChannelView key={channel.id} channel={channel}/>))}
         </div>
     );

@@ -12,11 +12,11 @@ export default function PrivChannelsFilter({filter}){
     }
 
     return(
-        <div className="fixed right-4 w-2/12">
+        <div className="absolute top-0 w-full md:fixed md:right-4 md:w-2/12 md:top-4">
             <Card >
                 <div className="flex flex-col gap-2 p-2">
-                    <p className="text-center">Filter channel`&apos;`s list</p>
-                <label className="text-sm text-slate-400">Search by creator`&apos;`s username:</label>
+                    <p className="text-center">Filter channel&apos;s list</p>
+                <label className="text-sm text-slate-400">Search by creator&apos;s username:</label>
                 <input type="text" value={filterByUsername} placeholder="Insert name" onChange={(e) => setByUsername(e.target.value)}
                 className="border-2 rounded border-slate-200 px-2"/>
                 

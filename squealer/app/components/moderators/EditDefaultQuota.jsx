@@ -23,7 +23,7 @@ export default function EditDefaultQuota({value}){
 
 
     return (
-        <div className="fixed right-2 top-72">
+        <div className="md:fixed right-2 top-72">
             <Card>
                 <form className="flex flex-col gap-2" action={update}>
                     <label htmlFor="quotaInput">Default quota value:</label>

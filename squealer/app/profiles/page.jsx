@@ -39,7 +39,9 @@ export default async function UsersListPage () {
           hasLoggedIn={true}
           sessionUsername={username?.data[0].username}
         />
+        <div className='md:relative md:left-1/4'>
         <UsersList profiles={profiles.data} />
+        </div>
       </Suspense>
     </>
   )

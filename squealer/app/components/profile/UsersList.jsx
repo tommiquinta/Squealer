@@ -28,7 +28,7 @@ export default function UsersList({profiles, add, hasFilters, byName, isModerato
   }
 
     return( 
-    <div className={`grid grid-cols-3 items-baseline gap-x-4 items-center px-4 py-2 md:left-1/4 relative ${add}`}>
+    <div className={`grid grid-cols-3 items-baseline gap-x-4 items-center px-4 py-2 relative ${add}`}>
       {profiles?.map( profile => (
           <UsersCard key={profile.username} {...profile} />
         ))}

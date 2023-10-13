@@ -17,7 +17,7 @@ export default function PostList ({
 
   if (hasFilter) {
     return (
-      <div>
+      <div className='mt-80 md:mt-0'>
         {squeals
           ?.filter(post => {
             var c = new Date(post.created_at);
@@ -66,7 +66,7 @@ export default function PostList ({
   }
 
   return (
-    <div>
+    <div className='mt-80 md:mt-0'>
       {squeals?.map(post =>
         post.channel_id != null && post.channel_name != null ? (
         <PublicChannelsPost

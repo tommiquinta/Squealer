@@ -25,7 +25,7 @@ export default function PrivateChannelContainer ({
   }
 
   return (
-    <div className='flex w-full'>
+    <div className='flex w-full flex-col md:flex-row'>
       <PrivChannelsList channels={channels.data} hasFilter={withFilter} byName={byCreator} byPosts={byPostsNum}/>
       <PrivChannelsFilter filter={filters} />
     </div>

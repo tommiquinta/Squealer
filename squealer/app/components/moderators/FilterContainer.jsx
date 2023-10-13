@@ -24,8 +24,8 @@ export default function FilterContainer({profiles}){
 
 
     return(
-        <div className='w-10/12 flex '>
-            <UsersList profiles={profiles.data} add={'left-8'} 
+        <div className=' w-full md:w-10/12 flex md:flex-row flex-col'>
+            <UsersList profiles={profiles.data} add={'w-full mt-48 md:mt-0 md:left-8'} 
             hasFilters={hasFilter} byName={name} isModerator={moderator}/>
 
             <UserFilter filter={search}/>

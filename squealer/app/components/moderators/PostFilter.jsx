@@ -16,7 +16,7 @@ export default function PostFilter({insertFilters, channelsList}){
     }
 
     return(
-        <Card add={'fixed left-3/4'}>
+        <Card add={'absolute w-full md:w-fit md:fixed md:left-3/4'}>
         <form action={sendFilters} className="flex flex-col gap-2 text-slate-500">
             <label htmlFor="content">Search by sender:</label>
             <input type="text" id="sender" value={sender} placeholder="Insert sender username" onChange={(e) => setSender(e.target.value)}

@@ -34,7 +34,7 @@ export default function AllPostsContainer({posts, username, channels}){
     }
 
     return(
-        <div className='flex flex-col gap-2 relative w-8/12 mx-auto'>
+        <div className='flex flex-col gap-2 relative md:w-8/12 mx-auto'>
             <PostList squeals={posts} loggedUser={username} hasFilter={useFilter} filterBySender={sender} filterByChannel={channel} filterDate={date} allChannels={channels}/>
             <PostFilter insertFilters={filters} channelsList={channels}/>
         </div>
