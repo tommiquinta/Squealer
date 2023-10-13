@@ -1,42 +1,28 @@
-'use server'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
-
-export async function uploadPhoto (
+'use client'
+export async function uploadPhoto(
+  supabase,
+  user,
   bucket,
   profileColumn,
-  formFile
+  file
 ) {
-  const supabase = createServerComponentClient({ cookies })
-  const file = formFile.get('fileUpload');
-  console.log('file')
-  console.log(file)
-  const {
-    data: { session }
-  } = await supabase.auth.getSession()
-  const newName = Date.now() + file.name
-  const { data, error } = await supabase.storage.from(bucket).upload(newName)
-    
-  
-   
-  console.log('data')
-  console.log(data)
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL +
-        `/storage/v1/object/public/${bucket}/` +
-        data.path
-      
+  try {
 
-  await supabase
-        .from('profiles')
-        .update({
-          [profileColumn]: url
-        })
-        .eq('id', session.user.id)
-        .then(result => {
-          if (!result.error) {
-            return true;
-          } else {
-            console.log(error);
-          }
-        })
+    let url = ''
+    const newName = Date.now() + file.name
+
+
+    const result = await supabase.storage.from(bucket).upload(newName, file)
+
+
+    if (result?.data) { url = process.env.NEXT_PUBLIC_SUPABASE_URL + `/storage/v1/object/public/${bucket}/` + result?.data.path }
+
+    await supabase
+      .from('profiles')
+      .update({ [profileColumn]: url })
+      .eq('id', user)
+
+  } catch (error) {
+    console.log(error, 'error in uploadPhoto')
+  }
 }

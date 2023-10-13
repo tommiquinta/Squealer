@@ -1,36 +1,30 @@
 'use client'
 
-import { useSession } from '@supabase/auth-helpers-react'
-import { useState } from 'react'
-import { uploadPhoto } from '../../../helper/uploadOnSupabase.js'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import Preloader from '../Preloader'
-import { cookies } from 'next/navigation'
+import { uploadPhoto } from '../../../helper/uploadOnSupabase.js'
+import { cookies } from 'next/navigation';
+import { useState } from 'react'
+import Preloader from '../Preloader.jsx';
 
-export default function UpdateImgBtn ({ add }) {
+export default function UpdateImgBtn({ add }) {
   const supabase = createClientComponentClient({ cookies })
-
   const [isUploading, setIsUploading] = useState(false)
 
-  async function updateAvatar (ev) {
+  async function updateAvatar(ev) {
     try {
-      const {
-        data: { session }
-      } = await supabase.auth.getSession()
+      const { data: { session } } = await supabase.auth.getSession()
 
       const file = ev.target.files?.[0]
       if (file) {
         setIsUploading(true)
-
-        const reader = new FileReader()
-        reader.onload = async e => {
-          const fileData = new Uint8Array(e.target.result)
-          await uploadPhoto('avatars', 'avatar', fileData, session.user.id)
-          setIsUploading(false)
-          if (onChange) onChange()
-        }
-
-        reader.readAsArrayBuffer(file)
+        await uploadPhoto(
+          supabase,
+          session.user.id,
+          'avatars',
+          'avatar',
+          file
+        )
+        setIsUploading(false)
       }
     } catch (error) {
       console.log(error + ' errore in updateAvatar')
@@ -38,13 +32,7 @@ export default function UpdateImgBtn ({ add }) {
   }
 
   if (isUploading) {
-    return (
-      <div className='absolute inset-0 flex items-center bg-white bg-opacity-50 rounded-full'>
-        <div className='inline-block mx-auto'>
-          <Preloader />
-        </div>
-      </div>
-    )
+    return <Preloader />
   }
 
   const position =
@@ -52,7 +40,7 @@ export default function UpdateImgBtn ({ add }) {
 
   return (
     <label className={`${position} ${add}`}>
-      <input type='file' className='hidden' onChange={updateAvatar} />
+      <input type='file' className='hidden' onChange={(ev) => updateAvatar(ev)} />
       <svg
         xmlns='http://www.w3.org/2000/svg'
         viewBox='0 0 20 20'
