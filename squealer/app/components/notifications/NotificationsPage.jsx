@@ -67,6 +67,7 @@ export default async function NotificationsPage ({ notifications, children }) {
         return null
       }
       const info = data[0]
+      console.log(info)
       return info.channel
     }
   }

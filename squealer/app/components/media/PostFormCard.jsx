@@ -94,14 +94,15 @@ export default function PostFormCard ({
       ? `Squeals into ${channel.name}`
       : placeholderText
   }
-
+  console.log(isPrivate)
   return (
     <Card>
       <div className='flex gap-3 p-2'>
-        { isHome  || isDM ? 
-          <Avatar size={'medium'} url={profile?.avatar} /> :
-          <Avatar size={'medium'} url={!isPrivate ? channel?.avatar : (profile && profile?.avatar)} />
-        }
+        {isHome || isDM || isPrivate ? (
+          <Avatar size={'medium'} url={profile?.avatar} />
+        ) : (
+          <Avatar size={'medium'} url={channel?.avatar} />
+        )}
         <textarea
           value={content}
           onChange={e => {

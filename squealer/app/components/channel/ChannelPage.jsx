@@ -20,8 +20,8 @@ export default async function ChannelPage ({
   var userObj = await supabase.rpc('get_logged_user', {
     user_uuid: user_uuid
   })
-  var profile = userObj.data[0]
-
+  /*   var profile = userObj?.data[0]
+   */
   var channelInfo = null
   var squeals = null
   var isModerator = null
@@ -187,6 +187,7 @@ export default async function ChannelPage ({
                 profile={userObj.data[0]}
                 channel={channel}
                 handle={handle}
+                isPrivate={true}
               />
               <hr className='mb-5' />
             </div>

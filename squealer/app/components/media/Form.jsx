@@ -23,25 +23,26 @@ const Form = ({
     setShowMap(!showMap)
   }
 
-  if(isHome){
+  if (isHome) {
     return (
-    <MapProvider>
-      <PostFormCard
-        isDM={isDM}
-        DM_receiver={DM_receiver}
-        changeMap={changeMap}
-        showMap={showMap}
-        onPost={onPost}
-        profile={profile}
-        channel={channel}
-        handle={handle}
-        isPrivate={true}
-        isHome={true}
-      />
-      {showMap ? <Mappa caller='inserimento' /> : null}
-    </MapProvider> 
-  )
+      <MapProvider>
+        <PostFormCard
+          isDM={isDM}
+          DM_receiver={DM_receiver}
+          changeMap={changeMap}
+          showMap={showMap}
+          onPost={onPost}
+          profile={profile}
+          channel={channel}
+          handle={handle}
+          isPrivate={true}
+          isHome={true}
+        />
+        {showMap ? <Mappa caller='inserimento' /> : null}
+      </MapProvider>
+    )
   }
+
   return (
     <div className='mb-5'>
       {isPrivate ? (
@@ -53,6 +54,7 @@ const Form = ({
             changeMap={changeMap}
             showMap={showMap}
             onPost={onPost}
+            isPrivate={true}
           />
           {showMap ? <Mappa caller='inserimento' /> : null}
         </MapProvider>
