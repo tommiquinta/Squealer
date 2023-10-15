@@ -1,6 +1,5 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
 import NotFoundPage from '../../components/profile/noProfileAlert'
 
 import ChannelPage from '../../components/channel/ChannelPage'

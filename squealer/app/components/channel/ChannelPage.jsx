@@ -1,10 +1,9 @@
+'use server';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import ChannelContainer from './ChannelContainer'
 import { cookies } from 'next/headers'
-import Reaction from '../reaction/Reaction'
 import PublicChannelsPost from '../media/PublicChannelsPost'
-import PublicPostFormCard from '../moderators/PublicPostFormCard'
-import { checkElon, checkKitty } from '../../../helper/automaticMessages.js'
+import { checkElon} from '../../../helper/automaticMessages.js'
 import NotFoundPage from '../profile/noProfileAlert'
 import Form from '../media/Form'
 
@@ -17,11 +16,14 @@ export default async function ChannelPage ({
   userAvatar
 }) {
   const supabase = createClientComponentClient({ cookies })
-  var userObj = await supabase.rpc('get_logged_user', {
-    user_uuid: user_uuid
-  })
-  /*   var profile = userObj?.data[0]
-   */
+
+  var userObj = null;
+  if(user_uuid){
+    userObj = await supabase.rpc('get_logged_user', {
+      user_uuid: user_uuid
+    })
+  }
+
   var channelInfo = null
   var squeals = null
   var isModerator = null
@@ -29,7 +31,7 @@ export default async function ChannelPage ({
   var hasRequested = null
   var isOwner = null
 
-  if (isPrivate) {
+  if (isPrivate && user_uuid) {
     channelInfo = await supabase
       .from('private_channels')
       .select('*, channels(handle)')
@@ -148,7 +150,7 @@ export default async function ChannelPage ({
               {isModerator && (
                 <div>
                   <Form
-                    profile={userObj.data[0]}
+                    profile={userObj.data ? userObj.data[0] : null}
                     channel={channel}
                     handle={handle}
                     isPrivate={false}
@@ -169,7 +171,8 @@ export default async function ChannelPage ({
           )
         }
 
-        {user_uuid && isPrivate && (
+        { //loggato e privato
+         user_uuid && isPrivate && (
           <ChannelContainer
             channelInfo={channelInfo?.data[0]}
             channelHandle={channelInfo?.data[0]?.channels.handle}
@@ -178,13 +181,13 @@ export default async function ChannelPage ({
             isSubscribed={isSubscribed}
             isOwner={isOwner}
             hasRequested={hasRequested}
-            subCounter={subCounter.data[0].count}
+            subCounter={subCounter?.data[0].count}
             userAvatar={userAvatar}
             profile={user_uuid}
           >
             <div>
               <Form
-                profile={userObj.data[0]}
+                profile={userObj.data ? userObj.data[0] : null}
                 channel={channel}
                 handle={handle}
                 isPrivate={true}
