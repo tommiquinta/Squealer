@@ -4,6 +4,7 @@ import NotFoundPage from '../../components/profile/noProfileAlert'
 
 import ChannelPage from '../../components/channel/ChannelPage'
 import NavigationBar from '../../components/layout/Navbar'
+import { redirect } from 'next/navigation'
 
 export default async function Channel ({ params }) {
   const supabase = createServerComponentClient({ cookies })
@@ -43,6 +44,13 @@ export default async function Channel ({ params }) {
     .from('private_channels')
     .select('id')
     .eq('id', channelId)
+
+  var isPrivateBool = null
+  isPrivateBool = isPrivate?.data.length > 0 ? true : false
+
+  if (isPrivateBool && !session) {
+    redirect('/')
+  }
 
   return (
     <ChannelPage

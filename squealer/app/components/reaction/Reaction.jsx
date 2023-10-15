@@ -10,6 +10,7 @@ import {
   removeDislike
 } from '../../../helper/reactionServerActions.js'
 import CommentsSection from './CommentsSection.jsx'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 function Reaction ({
   id,
   numLikes,
@@ -22,11 +23,27 @@ function Reaction ({
   avatar,
   comment_count
 }) {
+
   const [isLiked, setIsLiked] = useState(hasLiked)
   const [isDisliked, setIsDisliked] = useState(hasDisliked)
   const [counterLikes, setCounterLikes] = useState(numLikes)
   const [counterDislikes, setCounterDislikes] = useState(numDislikes)
   const [showComments, setShowComments] = useState(false)
+  const supabase = createClientComponentClient({})
+  const [logged, setLogged] = useState(false)
+
+  useEffect(() => {
+    async function getSession () {
+      const {
+        data: { session }
+      } = await supabase.auth.getSession()
+
+      if (session) {
+        setLogged(true)
+      }
+    }
+    getSession()
+  }, [])
 
   //like
   async function handleLike (toLike) {
@@ -137,8 +154,7 @@ function Reaction ({
               />
             </svg>
           </button>
-{/*           <p className='text-gray-500'>{comment_count}</p>
- */}        </div>
+        </div>
       </div>
       {showComments && (
         <div className='comments flex'>
@@ -146,6 +162,7 @@ function Reaction ({
             profile={profile}
             id={id}
             avatar={avatar}
+            isLogged={logged}
           ></CommentsSection>
         </div>
       )}

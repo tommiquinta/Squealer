@@ -21,7 +21,13 @@ function SubscribeButton ({ channel_id, isSubscribed, hasRequested, isOwner }) {
         handleSubscription()
       }}
     >
-      {isSubscribed === true ? (
+      {isOwner ? (
+        <div>
+          <p className='pt-2 pb-2 font-sans text-sm text-center text-gray-400'>
+            You are the owner of this channel.
+          </p>
+        </div>
+      ) : isSubscribed ? (
         <div>
           <button
             type='submit'
@@ -31,7 +37,7 @@ function SubscribeButton ({ channel_id, isSubscribed, hasRequested, isOwner }) {
           </button>
           <p className='pt-2 pb-2 font-sans text-sm text-center text-gray-400' />
         </div>
-      ) : hasRequested === true ? (
+      ) : hasRequested ? (
         <div>
           <p className='pt-2 pb-2 font-sans text-sm text-center text-gray-400'>
             Your subscription request is pending approval.

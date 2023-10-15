@@ -14,6 +14,7 @@ export default async function PublicChannelsPost ({
   disableReaction,
   moderator,
   profile,
+  userAvatar,
   children
 }) {
   //se è un canale, metto le info del canale
@@ -96,6 +97,7 @@ export default async function PublicChannelsPost ({
           disable={disableReaction}
           views={post.views}
           profile={profile}
+          avatar={userAvatar}
         />
         {moderator && <DeleteBtn id={post.id} />}
       </div>

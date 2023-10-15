@@ -54,6 +54,8 @@ const Form = ({
             changeMap={changeMap}
             showMap={showMap}
             onPost={onPost}
+            channel={channel}
+            handle={handle}
             isPrivate={true}
           />
           {showMap ? <Mappa caller='inserimento' /> : null}

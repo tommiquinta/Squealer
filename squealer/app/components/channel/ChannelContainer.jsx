@@ -20,7 +20,6 @@ export default function ChannelContainer ({
   userAvatar,
   children
 }) {
-  console.log(userAvatar)
   return (
     <div className=' ml-2 mr-2 md:ml-8 md:left-1/4 relative'>
       <Card noPadding={true}>

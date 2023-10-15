@@ -34,7 +34,7 @@ export default function PostFormCard ({
   const { position } = useMapContext()
 
   const supabase = createClientComponentClient({ cookies })
-
+  console.log(channel)
   useEffect(() => {
     if (!isDM) {
       setDaily_quota(profile.daily_quota)

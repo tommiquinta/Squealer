@@ -36,7 +36,8 @@ export default function PostList ({
                 key={post.id}
                 post={post}
                 disableReaction={false}
-                profile={loggedUser}
+                profile={loggedUser.id}
+                userAvatar={loggedUser.avatar}
               ></PublicChannelsPost>
             ) : (
               <PostCard key={post.id} post={post}>
@@ -48,7 +49,7 @@ export default function PostList ({
                   hasDisliked={post.hasdisliked}
                   disable={false}
                   views={post.views}
-                  profile={loggedUser}
+                  profile={loggedUser.id}
                   avatar={loggedUser.avatar}
                   comment_count={post.comment_count}
                 />
@@ -58,7 +59,6 @@ export default function PostList ({
       </div>
     )
   }
-
   return (
     <div className='w-full mt-28 md:mt-0'>
       {squeals?.map(post =>
@@ -67,7 +67,8 @@ export default function PostList ({
             key={post.id}
             post={post}
             disableReaction={false}
-            profile={loggedUser}
+            profile={loggedUser.id}
+            userAvatar={loggedUser.avatar}
           ></PublicChannelsPost>
         ) : (
           <PostCard key={post.id} post={post}>

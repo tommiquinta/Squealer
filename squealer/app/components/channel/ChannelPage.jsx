@@ -1,9 +1,9 @@
-'use server';
+'use server'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import ChannelContainer from './ChannelContainer'
 import { cookies } from 'next/headers'
 import PublicChannelsPost from '../media/PublicChannelsPost'
-import { checkElon} from '../../../helper/automaticMessages.js'
+import { checkElon } from '../../../helper/automaticMessages.js'
 import NotFoundPage from '../profile/noProfileAlert'
 import Form from '../media/Form'
 
@@ -17,8 +17,8 @@ export default async function ChannelPage ({
 }) {
   const supabase = createClientComponentClient({ cookies })
 
-  var userObj = null;
-  if(user_uuid){
+  var userObj = null
+  if (user_uuid) {
     userObj = await supabase.rpc('get_logged_user', {
       user_uuid: user_uuid
     })
@@ -49,7 +49,7 @@ export default async function ChannelPage ({
     isOwner = await supabase
       .from('private_channels')
       .select('*')
-      .eq('owner', loggedUserInfo)
+      .eq('creator', loggedUserInfo)
   } else {
     channelInfo = await supabase
       .from('public_channels')
@@ -63,11 +63,9 @@ export default async function ChannelPage ({
 
   isSubscribed = isSubscribed?.data.length > 0 ? true : false
   hasRequested = hasRequested?.data.length > 0 ? true : false
-  isOwner = isOwner?.data ? true : false
+  isOwner = isOwner?.data.length ? true : false
 
   if (!isPrivate) {
-    //inserisci controllo: se l'handle è elonmusk e l'ultimo post di questi canali ha più di 24 ore, fai una chiamata
-
     var channelHandle = channelInfo?.data[0]?.channels.handle
     if (channelHandle == 'ELONTWEET') {
       const result = await checkElon()
@@ -165,37 +163,41 @@ export default async function ChannelPage ({
                   post={publicPost}
                   disableReaction={false}
                   moderator={isModerator}
+                  userAvatar={userAvatar}
+                  profile={user_uuid}
                 />
               ))}
             </ChannelContainer>
           )
         }
 
-        { //loggato e privato
-         user_uuid && isPrivate && (
-          <ChannelContainer
-            channelInfo={channelInfo?.data[0]}
-            channelHandle={channelInfo?.data[0]?.channels.handle}
-            squeals={squeals}
-            isPublic={!isPrivate}
-            isSubscribed={isSubscribed}
-            isOwner={isOwner}
-            hasRequested={hasRequested}
-            subCounter={subCounter?.data[0].count}
-            userAvatar={userAvatar}
-            profile={user_uuid}
-          >
-            <div>
-              <Form
-                profile={userObj.data ? userObj.data[0] : null}
-                channel={channel}
-                handle={handle}
-                isPrivate={true}
-              />
-              <hr className='mb-5' />
-            </div>
-          </ChannelContainer>
-        )}
+        {
+          //loggato e privato
+          user_uuid && isPrivate && (
+            <ChannelContainer
+              channelInfo={channelInfo?.data[0]}
+              channelHandle={channelInfo?.data[0]?.channels.handle}
+              squeals={squeals}
+              isPublic={!isPrivate}
+              isSubscribed={isSubscribed}
+              isOwner={isOwner}
+              hasRequested={hasRequested}
+              subCounter={subCounter?.data[0].count}
+              userAvatar={userAvatar}
+              profile={user_uuid}
+            >
+              <div>
+                <Form
+                  profile={userObj.data ? userObj.data[0] : null}
+                  channel={channel}
+                  handle={handle}
+                  isPrivate={true}
+                />
+                <hr className='mb-5' />
+              </div>
+            </ChannelContainer>
+          )
+        }
       </div>
     </div>
   )

@@ -5,7 +5,7 @@ import Avatar from '../Avatar'
 import { comment, getComments } from '../../../helper/squealsServerActions'
 import CommentCard from './CommentCard'
 
-export default function CommentsSection ({ profile, id, avatar }) {
+export default function CommentsSection ({ profile, id, avatar, isLogged }) {
   const [content, setContent] = useState('')
   const [comments, setComments] = useState([]) // Stato per memorizzare i commenti
 
@@ -33,28 +33,31 @@ export default function CommentsSection ({ profile, id, avatar }) {
       setComments(newCommentsData)
     }
   }
-
   return (
     <div style={{ width: '100%' }}>
-      <hr />
-      <div className='flex gap-3 p-3'>
-        {profile && <Avatar size='small' url={avatar} />}
-        <textarea
-          placeholder='Answer this Squeal!'
-          className='grow resize-none'
-          value={content}
-          onChange={e => setContent(e.target.value)}
-        />
-        <div className='text-right'>
-          <button
-            className='bg-blue-500 text-white px-2 py-1 rounded-md'
-            onClick={handleComment}
-            disabled={!profile}
-          >
-            Share
-          </button>
-        </div>
-      </div>
+      {isLogged ? (
+        <>
+          <hr />
+          <div className='flex gap-3 p-3'>
+            {profile && <Avatar size='small' url={avatar} />}
+            <textarea
+              placeholder='Answer this Squeal!'
+              className='grow resize-none'
+              value={content}
+              onChange={e => setContent(e.target.value)}
+            />
+            <div className='text-right'>
+              <button
+                className='bg-blue-500 text-white px-2 py-1 rounded-md'
+                onClick={handleComment}
+                disabled={!profile}
+              >
+                Share
+              </button>
+            </div>
+          </div>
+        </>
+      ) : null}
 
       <hr />
       {comments.map(comment => (
@@ -63,6 +66,7 @@ export default function CommentsSection ({ profile, id, avatar }) {
           content={comment.comment_text}
           name={comment.name}
           avatar={comment.avatar}
+          handle={comment.handle}
         ></CommentCard>
       ))}
     </div>
